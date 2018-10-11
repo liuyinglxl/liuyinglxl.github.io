@@ -89,7 +89,7 @@
 <meta property="og:site_name" content="liuyinglxl">
 <meta property="og:description" content="1. 生成式模型与判别式模型生成式模型生成式模型会对 x 和 y 的联合分布 p(x, y) 进行建模，然后通过贝叶斯公式来求得 p(y|x) ，最后选取使得 p(y|x) 最大的 y. 比如朴素贝叶斯 生成式模型可以理解成生成数据分布的模型； 判别式模型判别式模型直接对 P(y|x) 进行建模；比如 LR， SVM，把测试用例往里面一丢，label 就出来了 判别式模型可以理解成判别数据最后输出">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-10-11T08:47:39.814Z">
+<meta property="og:updated_time" content="2018-10-11T08:50:27.363Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="机器学习常见问题">
 <meta name="twitter:description" content="1. 生成式模型与判别式模型生成式模型生成式模型会对 x 和 y 的联合分布 p(x, y) 进行建模，然后通过贝叶斯公式来求得 p(y|x) ，最后选取使得 p(y|x) 最大的 y. 比如朴素贝叶斯 生成式模型可以理解成生成数据分布的模型； 判别式模型判别式模型直接对 P(y|x) 进行建模；比如 LR， SVM，把测试用例往里面一丢，label 就出来了 判别式模型可以理解成判别数据最后输出">
@@ -396,11 +396,9 @@
 <h2 id="4-常见的损失函数"><a href="#4-常见的损失函数" class="headerlink" title="4. 常见的损失函数"></a>4. 常见的损失函数</h2><ul>
 <li><p>0-1 损失函数</p>
 <p>用于分类问题，衡量误分类的数量。但是函数不可导，所以很少用</p>
-<p>预测值于目标值不相等，则为 1，否则为 0<br>$$<br>L(y, y’) = \begin{cases}<br>1&amp; y = y’\<br>0&amp; y != y’<br>\end{cases}<br>$$<br>该损失函数的意思是：当预测错误的时候，损失函数为 1，预测正确的时候，损失函数值为 0. 该损失函数不考虑预测值和真实值的误差程度，也就是只要预测错误，预测错误和预测差很多是一样的。所以说这个定义太严格了，讲道理，如果真实值是 1，预测值是 0.9999 的话，可以认为是预测争取的，但是 0-1 损失函数会认为它是错的，所以对此进行改进，就有了 Preceptron Loss .</p>
+<p>预测值于目标值不相等，则为 1，否则为 0<br>$$<br>L(y, y’) = \begin{cases}<br>1&amp; \text{y = y’}\<br>0&amp; \text{y != y’}<br>\end{cases}<br>$$<br>该损失函数的意思是：当预测错误的时候，损失函数为 1，预测正确的时候，损失函数值为 0. 该损失函数不考虑预测值和真实值的误差程度，也就是只要预测错误，预测错误和预测差很多是一样的。所以说这个定义太严格了，讲道理，如果真实值是 1，预测值是 0.9999 的话，可以认为是预测争取的，但是 0-1 损失函数会认为它是错的，所以对此进行改进，就有了 Preceptron Loss .</p>
 </li>
-<li><p>Preceptron Loss（感知损失）</p>
-<p>$$ L(y, y’) = \left{<br>\begin{array}{rcl}<br>1    &amp;    &amp; {|y-y’| &lt; t}\<br>0    &amp;    &amp; {|y-y’| \ge t}<br>\end{array} \right$$</p>
-<p>其中，t 是一个超参数.</p>
+<li><p>Preceptron Loss（感知损失）<br>$$<br>L(y, y’) = \begin{cases}<br>1&amp; \text{|y-y’| &lt; t}\<br>0&amp; \text{|y-y’| \ge t}<br>\end{cases}<br>$$<br>其中，t 是一个超参数.</p>
 </li>
 <li><p>Log Loss（对数损失函数 ）</p>
 <p>在最大化似然函数时，是连乘的形式，但是为了便于处理，一般会套上 log，这样便可以将连乘转换为求和，由于 log 函数是单调递增函数，因此不会改变优化结果<br>$$<br>L(y, y’) = y \cdot \log y’ + (1-y) \cdot \log(1-y’), y \in {0,1}<br>$$<br>规定：<br>$$<br>0 \cdot \log 0 = 0<br>$$</p>
