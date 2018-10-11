@@ -727,8 +727,7 @@
       
         
           
-            <p># </p>
-<h1 id="特征工程"><a href="#特征工程" class="headerlink" title="特征工程"></a>特征工程</h1><h2 id="1-特征构造"><a href="#1-特征构造" class="headerlink" title="1. 特征构造"></a>1. 特征构造</h2><p>提取相关信息出来，再人工构造一些特征</p>
+            <h1 id="特征工程"><a href="#特征工程" class="headerlink" title="特征工程"></a>特征工程</h1><h2 id="1-特征构造"><a href="#1-特征构造" class="headerlink" title="1. 特征构造"></a>1. 特征构造</h2><p>提取相关信息出来，再人工构造一些特征</p>
 <h2 id="2-特征清洗"><a href="#2-特征清洗" class="headerlink" title="2. 特征清洗"></a>2. 特征清洗</h2><h3 id="2-1-异常值检测"><a href="#2-1-异常值检测" class="headerlink" title="2.1 异常值检测"></a>2.1 异常值检测</h3><h4 id="1-基于统计的检测"><a href="#1-基于统计的检测" class="headerlink" title="1. 基于统计的检测"></a>1. 基于统计的检测</h4><p>四分位数间距，箱形图</p>
 <h4 id="2-基于距离的检测"><a href="#2-基于距离的检测" class="headerlink" title="2. 基于距离的检测"></a>2. 基于距离的检测</h4><ul>
 <li>K-means，得到聚类结果之后，然后选出每个簇中，大于阈值的点，即为离群点</li>
@@ -924,6 +923,277 @@
 
 
     
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/08/LR面试问题汇总/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="liuyinglxl">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="liuyinglxl">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/06/08/LR面试问题汇总/" itemprop="url">LR逻辑斯蒂回归面试整理</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-08T16:03:33+08:00">
+                2018-06-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/机器学习/" itemprop="url" rel="index">
+                    <span itemprop="name">机器学习</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/06/08/LR面试问题汇总/" class="leancloud_visitors" data-flag-title="LR逻辑斯蒂回归面试整理">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="LR面试问题汇总"><a href="#LR面试问题汇总" class="headerlink" title="LR面试问题汇总"></a>LR面试问题汇总</h1><p>###简单介绍 LR 模型</p>
+<p>LR 是一个经典的分类算法，LR 是假设输入数据（标签）是服从伯努利分布的。LR 的形式就是 $P(Y=1 | x) = \frac {\exp (w \cdot x)}{1 + \exp {w \cdot x}}$.</p>
+<p>可以从三个方面来理解 LR：</p>
+<ol>
+<li><p>可以将 LR 看作是<strong>参数化的逻辑斯蒂分布</strong></p>
+<p>逻辑斯蒂分布是指</p>
+<p>分布函数为 $ F(x) = \frac {1}{1 + e^{-(x-\mu)/ \gamma}}$，它的曲线就是像 sigmoid 那样的一条 S 型曲线    </p>
+<p>密度函数为 $f(x) = \frac {e^{-(x-\mu)/\gamma}}{1 + e^{-(x-\mu)/\gamma}}$, 它的曲线就是像正态分布那样的曲线</p>
+<p>LR 就是参数化的逻辑斯蒂分布，这里参数化是指：利用 $w \cdot x + b$ 来代替 $-(x - \mu) / \gamma$ .</p>
+<p>所以 LR 为（b 合并在了 w 中）：</p>
+<p> $P(Y=1 | x) = \frac {e^{ w \cdot x}}{1 + e ^ {w \cdot x}}$</p>
+<p> $P(Y=0 | x) = \frac {1}{1 + e^ {w \cdot x}}$</p>
+</li>
+<li><p>LR 是将线性分类函数转换为概率</p>
+<p>一个事件的几率是该事件发生的概率与不发生的概率的比值：$p/(1-p)$ ，对数几率为: $\log\frac p {1-p}$</p>
+<p>对于 LR 模型，对数几率为 $\log \frac{P(Y=1|x)}{1-P(Y=1|x)} = w \cdot x$ </p>
+<p>也就是说，在 LR模型中，输出 Y=1 的对数几率是输入 x 的线性函数，这也是为啥说 LR 也是个对数线性模型的原因。</p>
+<p>所以，针对对输入 x 进行分类的线性函数，可以通过 LR ，模型将其转换为概率： $P(Y=1 | x) = \frac {\exp(w\cdot x + b)}{1 + \exp(w \cdot x + b)}$ . </p>
+</li>
+<li><p>线性模型在分类问题上面的推广</p>
+<p>如果想要用线性模型进行分类任务，就找一个单调可微的函数将分类任务的真实标记与线性回归模型的预测值联系起来。</p>
+<p>对于二分类的话，输出值是 0 或者 1，而线性模型的输出是实值范围，最直接的想法是利用分段函数，比如 &gt;=0 时候为 1，&lt;0 的时候为 1。但是分段函数不可导，所以利用 sigmoid 函数来进行代替，将连续值转换成概率值。</p>
+</li>
+</ol>
+<p>LR 的学习过程是利用极大化似然函数，利用 SGD 来求解。</p>
+<p>LR 的主要优点就是实现很简单，具有可解释性，分类速度也快，也不是很占资源，而且最后可以方便对输出结果进行调整。缺点的话是只能用于原始的 LR 只能用于线性问题，只能处理二分类问题。</p>
+<h3 id="1-介绍-LR"><a href="#1-介绍-LR" class="headerlink" title="1. 介绍 LR"></a>1. 介绍 LR</h3><p><strong>LR 是假设数据服从伯努利分布，通过极大化似然函数的方法，运用梯度下降来求解参数，来达到将数据二分类的目的。</strong></p>
+<p>在这句话中，包含了5个点：1. LR 的假设；2. LR 的损失函数； 3. LR 的求解方法；4. LR 的目的； 5. LR 如何分类。具体的如下：</p>
+<h5 id="1-LR-的基本假设："><a href="#1-LR-的基本假设：" class="headerlink" title="1. LR 的基本假设："></a>1. LR 的基本假设：</h5><p>任何模型都有自己的假设，在这个假设下这个模型才是成立的。</p>
+<p>LR 的第一个假设是<strong>假设数据服从伯努利分布（二项分布）</strong>，也就是二项分布，比如抛硬币，正面的概率是 p，反面是 1-p. 在 LR 中，正类是 p，负类则为 1-p.</p>
+<p>LR 的第二个假设是<strong>假设样本为正类的概率</strong>是: $p = \frac {\exp{(wx)}} {1 + \exp{(wx)}}$</p>
+<p>所以 LR 的最终形式为：  $h_w(x;w) = \frac {\exp{(wx)}} {1 + \exp{(wx)}}$</p>
+<h5 id="2-LR-的损失函数"><a href="#2-LR-的损失函数" class="headerlink" title="2. LR 的损失函数"></a>2. LR 的损失函数</h5><p>LR 的损失函数是它的<strong>极大似然函数</strong>：</p>
+<p>设 $P(Y=1 | x) = \pi(x), P(Y=0 | x) = 1 - \pi(x)$</p>
+<p>则似然函数为：$\prod _{i=1}^N [\pi(x_i)]^{y_i} [1 - \pi(x_i)]^{1-y_i}$ </p>
+<h5 id="3-LR-的求解方法"><a href="#3-LR-的求解方法" class="headerlink" title="3. LR 的求解方法"></a>3. LR 的求解方法</h5><p>该极大似然函数无法直接求解，所以一般通过函数进行梯度下降来不断逼近最优解。</p>
+<p>这里可能会问梯度下降有哪些：随机梯度下降、批量梯度下降、small batch 梯度下降；以及这三种方式的优劣和如何选择最合适的梯度下降方式。</p>
+<ul>
+<li>批量梯度下降的优点是会获得全局最优解，缺点是在更新每个参数的时候需要遍历所有的数据，计算量会很大，并且有很多冗余计算，所以当数据集大的时候，每个参数都会更新很慢。</li>
+<li>随机梯度下降法以高方差频繁更新，优点是 sgd 会跳到新的和潜在更好的区域最优解，缺点是使得收敛到局部最优解的过程更加的复杂。</li>
+<li>小批量梯度下降结合了 sgd 和 batch gd 的优点，每次更新的时候使用 n 个样本。减少了参数更新的次数，可以达到稳定收敛结果，一般在深度学习中采用这种方式。</li>
+</ul>
+<h5 id="4-LR-的目的"><a href="#4-LR-的目的" class="headerlink" title="4. LR 的目的"></a>4. LR 的目的</h5><p>将数据二分类，提高准确率</p>
+<h5 id="5-LR-如何进行分类"><a href="#5-LR-如何进行分类" class="headerlink" title="5. LR 如何进行分类"></a>5. LR 如何进行分类</h5><p>划定一个阈值，y 大于这个阈值的是一类，小于这个阈值的是另一类。阈值根据实际情况选择，一般是 0.5。</p>
+<h3 id="2-LR-为什么要使用极大似然函数作为损失函数"><a href="#2-LR-为什么要使用极大似然函数作为损失函数" class="headerlink" title="2. LR 为什么要使用极大似然函数作为损失函数"></a>2. LR 为什么要使用<strong>极大似然函数</strong>作为损失函数</h3><ol>
+<li>因为我们想要让每一个样本的预测都要得到最大的概率，也就是将所有样本预测后得到概率进行相乘之后是最大的，也就是极大似然函数</li>
+<li>对极大似然函数取对数之后，相当于对数损失函数，对数损失函数的训练求解参数的速度是比较快的，而且更新速度只与 x，y 有关（与 sigmoid 无关），比较稳定</li>
+</ol>
+<p><strong>为什么不用平方损失函数？</strong></p>
+<ol start="3">
+<li>如果使用平方损失函数，梯度更新的速度会和 sigmoid 函数的梯度相关，sigmoid 函数的梯度比较小，导致训练速度比较慢。</li>
+</ol>
+<h3 id="3-LR-为什么要用-sigmoid"><a href="#3-LR-为什么要用-sigmoid" class="headerlink" title="3. LR 为什么要用 sigmoid"></a>3. LR 为什么要用 sigmoid</h3><p>利用最大熵分布，$max(\sum_{v=1}^k\sum_{i=1}^m \pi(x(i))_v \log (\pi(x(i))_v)$ ，求出熵最大的时候的 $\pi$ ，这个时候 $\pi$ 就是 sigmoid 函数。</p>
+<p>二就是利用 sigmoid 比较符合概率分布的定义。</p>
+<h3 id="4-LR-在训练的过程中，如果有很多的特征高度相关或者说有一个特征重复了100遍，会造成怎样的影响？"><a href="#4-LR-在训练的过程中，如果有很多的特征高度相关或者说有一个特征重复了100遍，会造成怎样的影响？" class="headerlink" title="4. LR 在训练的过程中，如果有很多的特征高度相关或者说有一个特征重复了100遍，会造成怎样的影响？"></a>4. LR 在训练的过程中，如果有很多的特征高度相关或者说有一个<strong>特征</strong>重复了100遍，会造成怎样的影响？</h3><ul>
+<li><p>如果在损失函数收敛的情况下，就算有很多特征高度相关也不会影响分类器的结果</p>
+</li>
+<li><p>对特征本身来讲，假设只有一个特征，在不考虑采样的情况下，将它重复100遍。训练完以后，数据还是这么多，但是这个特征本身重复了100遍，实际上将原来的特征分成了100份，每个特征都是原来权重的百分之一</p>
+</li>
+<li><p>如果在随机采样的情况下，其实训练收敛以后，还是可以认为这100个特征和原来那个特征扮演的效果一样，只是可能中间很多特征值正负抵消了。 </p>
+</li>
+</ul>
+<h3 id="5-为什么在训练的过程中，会将高度相关的特征去掉？"><a href="#5-为什么在训练的过程中，会将高度相关的特征去掉？" class="headerlink" title="5. 为什么在训练的过程中，会将高度相关的特征去掉？"></a>5. 为什么在训练的过程中，会将高度相关的特征去掉？</h3><ul>
+<li>去掉高度相关的特征可以让模型具有更好的解释性</li>
+<li>可以大大提高训练速度。如果模型当中有很多特征高度相关的话，就算损失函数本身收敛了，但实际上参数是没有收敛的，这样会拉低训练的速度。其次就是特征多了，本身也会增大训练时间。</li>
+</ul>
+<h3 id="6-LR-如何对非线性可分的数据做分类？"><a href="#6-LR-如何对非线性可分的数据做分类？" class="headerlink" title="6. LR 如何对非线性可分的数据做分类？"></a>6. LR 如何对非线性可分的数据做分类？</h3><p>利用核函数，也就是将线性不可分的数据映射到高维空间中，让它们在高维空间中线性可分。</p>
+<p>其实核技巧不是 SVM 专有的，只要满足 Repersenter Theorem 这个定理就可以使用核技巧，这个定理是说，对于任意的 $L_2$ 正则化的线性模型，目标函数为 $\min_w \frac {\lambda}{N}w^Tw + \frac 1 N \sum _{n=1} ^ N err(y_n, w^Tz_n)$, 均有最优的参数 $w_* = \sum \beta _n z_n$.</p>
+<p>而只要满足这种形式的最优解，都可以用核技巧，所以带 L2 正则的 LR 是可以用核技巧的</p>
+<h3 id="7-LR-如何做多分类？"><a href="#7-LR-如何做多分类？" class="headerlink" title="7. LR 如何做多分类？"></a>7. LR 如何做多分类？</h3><p>有两种方式</p>
+<ol>
+<li><p>对每个类别训练一个二元分类器</p>
+<p>这个时候是当 K 个类别不是互斥的时候，也就是说，可以属于好几个类别（比如预测用户可能购买的商品类别），用这种方式比较合适</p>
+</li>
+<li><p>利用 softmax</p>
+<p>当 K 个类是互斥的，也就是只能属于一个类别，这个时候用 softmax 比较合适，</p>
+<p>公式为：$P(y = i | x, \theta) = \frac {\exp(\theta _i ^T x)}{\sum _j ^k \exp(\theta_j ^T x)}$</p>
+<p>决策函数为：$y^* = \arg\max_iP(y=i|x,\theta)$</p>
+<p>对应的损失函数为：$J(\theta) - \frac 1 N \sum_i^N \sum_j^K 1[y_i = j] \log \frac {\exp(\theta_i^tx)}{\sum\exp(\theta_k^Tx)}$ </p>
+</li>
+</ol>
+<h3 id="8-LR-的优点"><a href="#8-LR-的优点" class="headerlink" title="8.  LR 的优点"></a>8.  LR 的优点</h3><ul>
+<li>实现简单</li>
+<li>形式简单，模型的<strong>可解释性非常好</strong>。从特征的权重可以看到不同的特征对最后结果的影响，某个特征的权重值比较高，那么这个特征对最后的结果的影响会比较大</li>
+<li>模型的效果不错。如果特征工程做得好，最后的效果都不会太差</li>
+<li>训练速度快。分类的时候，计算量仅仅和特征的数目相关</li>
+<li>资源占用小，尤其是内存。因为只需要存储各个维度的特征值</li>
+<li>方便输出结果调整。LR 可以方便的得到最后分类的结果，因为输出的是每个样本的概率分数，我们可以很容易的对这些概率分数进行阈值划分，然后归属到对应的类别中。</li>
+</ul>
+<h3 id="9-LR-的缺点"><a href="#9-LR-的缺点" class="headerlink" title="9.  LR 的缺点"></a>9.  LR 的缺点</h3><ul>
+<li>很难处理数据不平衡的问题。比如：假如正负样本比为：10000:1，我们把所有样本的都预测为正的话，也能让损失函数的值很小。但是作为一个分类器，它对正负样本的区分能力不会很好。</li>
+<li>处理非线性数据比较麻烦。LR 在不引入其他方法的情况下，只能处理线性可分的数据（或者进一步说，只能处理二分类的问题）。</li>
+<li>LR 本身无法进行特征筛选。所有有的时候会利用 GBDT 来选择特征，然后在利用 LR 来进行分类。</li>
+<li>原始的 LR 只能处理二分类问题</li>
+</ul>
+<p>容易过拟合，一般准确性不高，原始的 LR 只能处理二分类问题， 只能用于线性问题</p>
+<h3 id="10-为什么-LR-把特征离散后效果更好？"><a href="#10-为什么-LR-把特征离散后效果更好？" class="headerlink" title="10. 为什么 LR 把特征离散后效果更好？"></a>10. 为什么 LR 把特征离散后效果更好？</h3><p><strong>总结：计算简单、简化模型、增强模型的泛化能力</strong></p>
+<p>在工业上，很少直接将特征输入到 LR，而是将连续特征离散化为一系列的0、1特征，然后再交给 LR 模型，这样做的优势有以下几点：</p>
+<ol>
+<li><p>稀疏向量内积乘法<strong>运算速度</strong>更快，计算结果方便存储，容易扩展；</p>
+</li>
+<li><p>离散化后的特征对异常数据有很强的<strong>鲁棒性</strong>：比如一个特征是年龄&gt;30是1，否则为0。如果特征没有离散化的话，一个异常数据 “年龄300岁”会给模型造成很大的干扰；</p>
+</li>
+<li><p>LR 输入广义线性模型，表达能力受限；单变量离散化为 N 个之后（比如one-hot），每个变量有单独的权重，相当于为模型<strong>引入非线性</strong>，能够提升模型的表达能力，提高拟合能力；</p>
+</li>
+<li><p>离散化之后可以进行特征交叉，由 M+N 个变量，进一步<strong>引入非线性</strong>，提升表达能力；</p>
+</li>
+<li><p>特征离散化后，模型会更加稳定，比如如果对用户年龄离散化，20～30为一个区间，不会因为一个用户年龄长了一岁，就变成一个完全不同的人。（处于区间相邻处的样本就会刚好相反，所以怎么划分区间是一门学问）</p>
+<p><strong>模型是使用离散特征还是连续特征，其实是一个 “海量离散特征+简单模型” 同 “少量连续特征+复杂模型” 的权衡</strong>。既可以离散化用线性模型，也可以用连续特征加深度学习。</p>
+</li>
+</ol>
+<p>##Reference</p>
+<p><a href="https://www.cnblogs.com/ModifyRong/p/7739955.html" target="_blank" rel="noopener">https://www.cnblogs.com/ModifyRong/p/7739955.html</a></p>
+<p><a href="https://blog.csdn.net/yang090510118/article/details/39478033" target="_blank" rel="noopener">https://blog.csdn.net/yang090510118/article/details/39478033</a> （解释LR特征离散）</p>
+<p><a href="https://hyzhan.github.io/2017/05/23/2017-05-23-%E9%80%BB%E8%BE%91%E5%9B%9E%E5%BD%92LR%E6%8E%A8%E5%AF%BC%EF%BC%88sigmoid%EF%BC%8C%E6%8D%9F%E5%A4%B1%E5%87%BD%E6%95%B0%EF%BC%8C%E6%A2%AF%E5%BA%A6%EF%BC%8C%E5%8F%82%E6%95%B0%E6%9B%B4%E6%96%B0%E5%85%AC%E5%BC%8F%EF%BC%89/" target="_blank" rel="noopener">https://hyzhan.github.io/2017/05/23/2017-05-23-%E9%80%BB%E8%BE%91%E5%9B%9E%E5%BD%92LR%E6%8E%A8%E5%AF%BC%EF%BC%88sigmoid%EF%BC%8C%E6%8D%9F%E5%A4%B1%E5%87%BD%E6%95%B0%EF%BC%8C%E6%A2%AF%E5%BA%A6%EF%BC%8C%E5%8F%82%E6%95%B0%E6%9B%B4%E6%96%B0%E5%85%AC%E5%BC%8F%EF%BC%89/</a> (解释LR要采用sigmoid)</p>
+<p><a href="http://shomy.top/2017/03/07/kernel-lr/" target="_blank" rel="noopener">http://shomy.top/2017/03/07/kernel-lr/</a> （Kernel LR）</p>
+<p><a href="https://tech.meituan.com/intro_to_logistic_regression.html" target="_blank" rel="noopener">https://tech.meituan.com/intro_to_logistic_regression.html</a> （美团介绍 LR）</p>
+<p><a href="http://izhaoyi.top/2017/07/08/lr/#%E8%A7%92%E5%BA%A6%E4%BA%8C%EF%BC%9ALR%E6%A8%A1%E5%9E%8B%E5%B0%86%E7%BA%BF%E6%80%A7%E5%88%86%E7%B1%BB%E5%87%BD%E6%95%B0%E8%BD%AC%E6%8D%A2%E4%B8%BA%EF%BC%88%E6%9D%A1%E4%BB%B6%EF%BC%89%E6%A6%82%E7%8E%87" target="_blank" rel="noopener">http://izhaoyi.top/2017/07/08/lr/#%E8%A7%92%E5%BA%A6%E4%BA%8C%EF%BC%9ALR%E6%A8%A1%E5%9E%8B%E5%B0%86%E7%BA%BF%E6%80%A7%E5%88%86%E7%B1%BB%E5%87%BD%E6%95%B0%E8%BD%AC%E6%8D%A2%E4%B8%BA%EF%BC%88%E6%9D%A1%E4%BB%B6%EF%BC%89%E6%A6%82%E7%8E%87</a> （LR 的三种理解形式）</p>
+<p><a href="https://hyzhan.github.io/2017/05/23/2017-05-23-%E9%80%BB%E8%BE%91%E5%9B%9E%E5%BD%92LR%E6%8E%A8%E5%AF%BC%EF%BC%88sigmoid%EF%BC%8C%E6%8D%9F%E5%A4%B1%E5%87%BD%E6%95%B0%EF%BC%8C%E6%A2%AF%E5%BA%A6%EF%BC%8C%E5%8F%82%E6%95%B0%E6%9B%B4%E6%96%B0%E5%85%AC%E5%BC%8F%EF%BC%89/" target="_blank" rel="noopener">https://hyzhan.github.io/2017/05/23/2017-05-23-%E9%80%BB%E8%BE%91%E5%9B%9E%E5%BD%92LR%E6%8E%A8%E5%AF%BC%EF%BC%88sigmoid%EF%BC%8C%E6%8D%9F%E5%A4%B1%E5%87%BD%E6%95%B0%EF%BC%8C%E6%A2%AF%E5%BA%A6%EF%BC%8C%E5%8F%82%E6%95%B0%E6%9B%B4%E6%96%B0%E5%85%AC%E5%BC%8F%EF%BC%89/</a> （sigmoid 的来历——最大熵）</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
   </section>
 
   
@@ -970,7 +1240,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-count">4</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -992,7 +1262,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-count">6</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -1054,7 +1324,7 @@
 
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共4.8k字</span>
+  <span class="post-count">博客全站共8.3k字</span>
 </div>
         
 
