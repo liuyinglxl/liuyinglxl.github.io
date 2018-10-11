@@ -336,7 +336,7 @@
       
         
           
-            <h1 id="PCA-主成分分析"><a href="#PCA-主成分分析" class="headerlink" title="PCA 主成分分析"></a>PCA 主成分分析</h1><h3 id="1-PCA-介绍"><a href="#1-PCA-介绍" class="headerlink" title="1. PCA 介绍"></a>1. PCA 介绍</h3><p>PCA：Principal components analysis，是一种<strong>非监督降维</strong>方法。顾名思义，就是找出数据最主要的方面，来代替原是的数据。比如以前的数据是 m 维的，现在将它降成 n 维。希望降维之后，损失最小，也可以理解成希望降维之后的数据能够尽可能的代表原始数据集。</p>
+            <h3 id="1-PCA-介绍"><a href="#1-PCA-介绍" class="headerlink" title="1. PCA 介绍"></a>1. PCA 介绍</h3><p>PCA：Principal components analysis，是一种<strong>非监督降维</strong>方法。顾名思义，就是找出数据最主要的方面，来代替原是的数据。比如以前的数据是 m 维的，现在将它降成 n 维。希望降维之后，损失最小，也可以理解成希望降维之后的数据能够尽可能的代表原始数据集。</p>
 <h3 id="2-PCA-的两种解释性："><a href="#2-PCA-的两种解释性：" class="headerlink" title="2. PCA 的两种解释性："></a>2. PCA 的两种解释性：</h3><ol>
 <li><p><strong>最近重构性</strong></p>
 <p>希望降维之后的数据与降维之后的数据的差异最小</p>
@@ -539,7 +539,7 @@
       
         
           
-            <h1 id="1-介绍朴素贝叶斯"><a href="#1-介绍朴素贝叶斯" class="headerlink" title="1. 介绍朴素贝叶斯"></a>1. 介绍朴素贝叶斯</h1><p>朴素贝叶斯是一种<strong>生成式模型</strong>。基于<strong>贝叶斯定理</strong>与<strong>特征条件独立假设</strong>（在已知分类Y的条件下，各个特征变量取值是相互独立的）的分类方法。对于给定的训练数据集，首先基于特征条件独立假设学习输入/输出的<strong>联合概率分布</strong>；然后基于此模型，对给定的输入 x，利用贝叶斯定理求出<strong>后验概率最大</strong>的输出 y.</p>
+            <h3 id="1-介绍朴素贝叶斯"><a href="#1-介绍朴素贝叶斯" class="headerlink" title="1. 介绍朴素贝叶斯"></a>1. 介绍朴素贝叶斯</h3><p>朴素贝叶斯是一种<strong>生成式模型</strong>。基于<strong>贝叶斯定理</strong>与<strong>特征条件独立假设</strong>（在已知分类Y的条件下，各个特征变量取值是相互独立的）的分类方法。对于给定的训练数据集，首先基于特征条件独立假设学习输入/输出的<strong>联合概率分布</strong>；然后基于此模型，对给定的输入 x，利用贝叶斯定理求出<strong>后验概率最大</strong>的输出 y.</p>
 <h3 id="2-朴素贝叶斯-“朴素”-在哪里？"><a href="#2-朴素贝叶斯-“朴素”-在哪里？" class="headerlink" title="2. 朴素贝叶斯 “朴素” 在哪里？"></a>2. 朴素贝叶斯 “朴素” 在哪里？</h3><p><strong>“朴素” </strong>是因为它假设了数据集中的所有特征是同等重要的并且是<strong>条件独立</strong>的。这是一个很强的假设，在实际情况中，这个假设很难成立，所以叫 “朴素”。</p>
 <p>$$P(X = x | Y = c_k) = P(X^{(1)} = x^{(1)}, … , X^{(n)} = x^{n} | Y = c_k) = P(X^{(1)} = x^{(1)} | Y = c_k) \cdot … \cdot P(X^{(n)} = x^{(n)} | Y= c_k)$$ </p>
 <h3 id="3-朴素贝叶斯与-LR-的区别"><a href="#3-朴素贝叶斯与-LR-的区别" class="headerlink" title="3. 朴素贝叶斯与 LR 的区别"></a>3. 朴素贝叶斯与 LR 的区别</h3><p> 朴素贝叶斯是生成式模型，LR 是判别式模型。</p>
@@ -727,7 +727,7 @@
       
         
           
-            <h1 id="特征工程"><a href="#特征工程" class="headerlink" title="特征工程"></a>特征工程</h1><h2 id="1-特征构造"><a href="#1-特征构造" class="headerlink" title="1. 特征构造"></a>1. 特征构造</h2><p>提取相关信息出来，再人工构造一些特征</p>
+            <h2 id="1-特征构造"><a href="#1-特征构造" class="headerlink" title="1. 特征构造"></a>1. 特征构造</h2><p>提取相关信息出来，再人工构造一些特征</p>
 <h2 id="2-特征清洗"><a href="#2-特征清洗" class="headerlink" title="2. 特征清洗"></a>2. 特征清洗</h2><h3 id="2-1-异常值检测"><a href="#2-1-异常值检测" class="headerlink" title="2.1 异常值检测"></a>2.1 异常值检测</h3><h4 id="1-基于统计的检测"><a href="#1-基于统计的检测" class="headerlink" title="1. 基于统计的检测"></a>1. 基于统计的检测</h4><p>四分位数间距，箱形图</p>
 <h4 id="2-基于距离的检测"><a href="#2-基于距离的检测" class="headerlink" title="2. 基于距离的检测"></a>2. 基于距离的检测</h4><ul>
 <li>K-means，得到聚类结果之后，然后选出每个簇中，大于阈值的点，即为离群点</li>
@@ -1323,7 +1323,7 @@
 
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共8.3k字</span>
+  <span class="post-count">博客全站共8.2k字</span>
 </div>
         
 

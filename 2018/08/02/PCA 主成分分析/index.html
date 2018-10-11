@@ -81,18 +81,18 @@
 
 
 
-<meta name="description" content="PCA 主成分分析1. PCA 介绍PCA：Principal components analysis，是一种非监督降维方法。顾名思义，就是找出数据最主要的方面，来代替原是的数据。比如以前的数据是 m 维的，现在将它降成 n 维。希望降维之后，损失最小，也可以理解成希望降维之后的数据能够尽可能的代表原始数据集。 2. PCA 的两种解释性： 最近重构性 希望降维之后的数据与降维之后的数据的差异最小">
+<meta name="description" content="1. PCA 介绍PCA：Principal components analysis，是一种非监督降维方法。顾名思义，就是找出数据最主要的方面，来代替原是的数据。比如以前的数据是 m 维的，现在将它降成 n 维。希望降维之后，损失最小，也可以理解成希望降维之后的数据能够尽可能的代表原始数据集。 2. PCA 的两种解释性： 最近重构性 希望降维之后的数据与降维之后的数据的差异最小  最大可分性 所">
 <meta name="keywords" content="机器学习,PCA主成分分析">
 <meta property="og:type" content="article">
 <meta property="og:title" content="PCA主成分分析面试整理">
 <meta property="og:url" content="http://yoursite.com/2018/08/02/PCA 主成分分析/index.html">
 <meta property="og:site_name" content="liuyinglxl">
-<meta property="og:description" content="PCA 主成分分析1. PCA 介绍PCA：Principal components analysis，是一种非监督降维方法。顾名思义，就是找出数据最主要的方面，来代替原是的数据。比如以前的数据是 m 维的，现在将它降成 n 维。希望降维之后，损失最小，也可以理解成希望降维之后的数据能够尽可能的代表原始数据集。 2. PCA 的两种解释性： 最近重构性 希望降维之后的数据与降维之后的数据的差异最小">
+<meta property="og:description" content="1. PCA 介绍PCA：Principal components analysis，是一种非监督降维方法。顾名思义，就是找出数据最主要的方面，来代替原是的数据。比如以前的数据是 m 维的，现在将它降成 n 维。希望降维之后，损失最小，也可以理解成希望降维之后的数据能够尽可能的代表原始数据集。 2. PCA 的两种解释性： 最近重构性 希望降维之后的数据与降维之后的数据的差异最小  最大可分性 所">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-10-11T07:39:45.559Z">
+<meta property="og:updated_time" content="2018-10-11T07:57:35.109Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="PCA主成分分析面试整理">
-<meta name="twitter:description" content="PCA 主成分分析1. PCA 介绍PCA：Principal components analysis，是一种非监督降维方法。顾名思义，就是找出数据最主要的方面，来代替原是的数据。比如以前的数据是 m 维的，现在将它降成 n 维。希望降维之后，损失最小，也可以理解成希望降维之后的数据能够尽可能的代表原始数据集。 2. PCA 的两种解释性： 最近重构性 希望降维之后的数据与降维之后的数据的差异最小">
+<meta name="twitter:description" content="1. PCA 介绍PCA：Principal components analysis，是一种非监督降维方法。顾名思义，就是找出数据最主要的方面，来代替原是的数据。比如以前的数据是 m 维的，现在将它降成 n 维。希望降维之后，损失最小，也可以理解成希望降维之后的数据能够尽可能的代表原始数据集。 2. PCA 的两种解释性： 最近重构性 希望降维之后的数据与降维之后的数据的差异最小  最大可分性 所">
 
 
 
@@ -335,7 +335,7 @@
       
 
       
-        <h1 id="PCA-主成分分析"><a href="#PCA-主成分分析" class="headerlink" title="PCA 主成分分析"></a>PCA 主成分分析</h1><h3 id="1-PCA-介绍"><a href="#1-PCA-介绍" class="headerlink" title="1. PCA 介绍"></a>1. PCA 介绍</h3><p>PCA：Principal components analysis，是一种<strong>非监督降维</strong>方法。顾名思义，就是找出数据最主要的方面，来代替原是的数据。比如以前的数据是 m 维的，现在将它降成 n 维。希望降维之后，损失最小，也可以理解成希望降维之后的数据能够尽可能的代表原始数据集。</p>
+        <h3 id="1-PCA-介绍"><a href="#1-PCA-介绍" class="headerlink" title="1. PCA 介绍"></a>1. PCA 介绍</h3><p>PCA：Principal components analysis，是一种<strong>非监督降维</strong>方法。顾名思义，就是找出数据最主要的方面，来代替原是的数据。比如以前的数据是 m 维的，现在将它降成 n 维。希望降维之后，损失最小，也可以理解成希望降维之后的数据能够尽可能的代表原始数据集。</p>
 <h3 id="2-PCA-的两种解释性："><a href="#2-PCA-的两种解释性：" class="headerlink" title="2. PCA 的两种解释性："></a>2. PCA 的两种解释性：</h3><ol>
 <li><p><strong>最近重构性</strong></p>
 <p>希望降维之后的数据与降维之后的数据的差异最小</p>
@@ -558,7 +558,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#PCA-主成分分析"><span class="nav-number">1.</span> <span class="nav-text">PCA 主成分分析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-PCA-介绍"><span class="nav-number">1.0.1.</span> <span class="nav-text">1. PCA 介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-PCA-的两种解释性："><span class="nav-number">1.0.2.</span> <span class="nav-text">2. PCA 的两种解释性：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-PCA如何求解"><span class="nav-number">1.0.3.</span> <span class="nav-text">3. PCA如何求解</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-降维之后的维度怎么确定"><span class="nav-number">1.0.4.</span> <span class="nav-text">4. 降维之后的维度怎么确定</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-PCA-算法总结"><span class="nav-number">1.0.5.</span> <span class="nav-text">5. PCA 算法总结</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#主要优点："><span class="nav-number">1.0.5.1.</span> <span class="nav-text">主要优点：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#主要缺点："><span class="nav-number">1.0.5.2.</span> <span class="nav-text">主要缺点：</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Reference"><span class="nav-number">2.</span> <span class="nav-text">Reference</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-PCA-介绍"><span class="nav-number">1.</span> <span class="nav-text">1. PCA 介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-PCA-的两种解释性："><span class="nav-number">2.</span> <span class="nav-text">2. PCA 的两种解释性：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-PCA如何求解"><span class="nav-number">3.</span> <span class="nav-text">3. PCA如何求解</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-降维之后的维度怎么确定"><span class="nav-number">4.</span> <span class="nav-text">4. 降维之后的维度怎么确定</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-PCA-算法总结"><span class="nav-number">5.</span> <span class="nav-text">5. PCA 算法总结</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#主要优点："><span class="nav-number">5.1.</span> <span class="nav-text">主要优点：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#主要缺点："><span class="nav-number">5.2.</span> <span class="nav-text">主要缺点：</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Reference"><span class="nav-number"></span> <span class="nav-text">Reference</span></a></div>
             
 
           </div>
@@ -603,7 +603,7 @@
 
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共8.3k字</span>
+  <span class="post-count">博客全站共8.2k字</span>
 </div>
         
 
