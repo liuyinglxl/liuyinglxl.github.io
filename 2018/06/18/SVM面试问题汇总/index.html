@@ -89,7 +89,7 @@
 <meta property="og:site_name" content="liuyinglxl">
 <meta property="og:description" content="口述 SVMSVM 叫做支持向量机，它是一种二分类模型。它的基本模型是定义在特征空间的间隔最大的线性分类器。 根据训练数据的不同，SVM 主要分为三种情况： 第一种情况就是，当训练数据线性可分的时候，我们是通过硬间隔最大化，来学习一个线性分类器，也就是线性可分的支持向量机。硬间隔就是说，硬性要求所有的样本点都满足和分类平面间的距离必须大于某个值，也就是说都要满足函数间隔 &amp;gt;= 1 的约束条件">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-10-11T08:57:59.347Z">
+<meta property="og:updated_time" content="2018-10-11T09:11:14.990Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="SVM支持向量机面试整理">
 <meta name="twitter:description" content="口述 SVMSVM 叫做支持向量机，它是一种二分类模型。它的基本模型是定义在特征空间的间隔最大的线性分类器。 根据训练数据的不同，SVM 主要分为三种情况： 第一种情况就是，当训练数据线性可分的时候，我们是通过硬间隔最大化，来学习一个线性分类器，也就是线性可分的支持向量机。硬间隔就是说，硬性要求所有的样本点都满足和分类平面间的距离必须大于某个值，也就是说都要满足函数间隔 &amp;gt;= 1 的约束条件">
@@ -390,7 +390,7 @@
 <h3 id="6-SVM-如何做回归-——-SVR"><a href="#6-SVM-如何做回归-——-SVR" class="headerlink" title="6. SVM 如何做回归 —— SVR"></a>6. SVM 如何做回归 —— SVR</h3><p>给定数据集，希望学到一个 $f(x) = w \cdot x + b$ 这样的回归模型，使得 f(x) 和 y 之间尽量接近。</p>
 <p>传统的回归模型，通常是直接基于模型输出 f(x) 与真实输出 y 之间的差别来计算损失，当且仅当 f(x) 与 y 完全相同的时候，损失才为 0. </p>
 <p>但是 SVR 是能容忍 f(x) 与 y 之间最多有 $\epsilon$ 的偏差，当且仅当 f(x) 与 y 之间的差别大于 $\epsilon$ 时才计算损失。也就是中间有宽度为 $2\epsilon$ 宽度的间隔带，若样本落入这个间隔带，则被认为是预测正确的。</p>
-<p>同样，对于两侧的松弛带，跟前面的 SVM 一样，也会引入一个松弛变量，两个的松弛程度可以不同，所以两侧的松弛变量分为是 $\xi _i$ 和 hat$\xi <em>i$ , 所以 SVR 的目标为:<br>$$<br>\min</em>{w,b,\xi,\hat \xi _i} \frac 1 2||w||^2 + C \sum _{i=1} ^m (\xi _i + \hat \xi _i)<br>\<br>s.t.f(x_i) - y_i \le \epsilon + \xi_i<br>\<br>y_i - f(x_i) \le \epsilon + \hat \xi _i<br>\<br>\epsilon_i \ge 0, \hat \xi_i \ge 0, i = 1,2,…,m.<br>$$<br>同样采用对偶算法，最后得到的 SVR 的对偶问题为：<br>$$<br>\max_{\alpha, \hat \alpha} \sum_{i=1}^m y_i(\hat\alpha_i - \alpha) - \epsilon(\hat\alpha_i + \alpha) - \frac 1 2 \sum <em>{i=1}^m \sum</em>{j=1}^m(\hat\alpha_i - \alpha_i)(\hat\alpha_j - \alpha_j)x_i^Tx_j\<br>s.t. \sum_{i=1}^m(\hat\alpha_i - \alpha_i) = 0\<br>0 \le \alpha_i, \hat\alpha_i \le C.<br>$$<br>最后，SVR 的解的形式为：$f(x) = \sum _{i=1}^m(\hat\alpha_i - \alpha_i)x_i^Tx+b$ .</p>
+<p>同样，对于两侧的松弛带，跟前面的 SVM 一样，也会引入一个松弛变量，两个的松弛程度可以不同，所以两侧的松弛变量分为是 $\xi _i$ 和 $\hat \xi <em>i$ , 所以SVR的目标为:<br>$$<br>\min</em>{w,b,\xi,\hat \xi _i} \frac 1 2||w||^2 + C \sum _{i=1} ^m (\xi _i + \hat \xi _i)<br>\<br>s.t.f(x_i) - y_i \le \epsilon + \xi_i<br>\<br>y_i - f(x_i) \le \epsilon + \hat \xi _i<br>\<br>\epsilon_i \ge 0, \hat \xi_i \ge 0, i = 1,2,…,m.<br>$$<br>同样采用对偶算法，最后得到的 SVR 的对偶问题为：<br>$$<br>\max_{\alpha, \hat \alpha} \sum_{i=1}^m y_i(\hat\alpha_i - \alpha) - \epsilon(\hat\alpha_i + \alpha) - \frac 1 2 \sum <em>{i=1}^m \sum</em>{j=1}^m(\hat\alpha_i - \alpha_i)(\hat\alpha_j - \alpha_j)x_i^Tx_j\<br>s.t. \sum_{i=1}^m(\hat\alpha_i - \alpha_i) = 0\<br>0 \le \alpha_i, \hat\alpha_i \le C.<br>$$<br>最后，SVR 的解的形式为：$f(x) = \sum _{i=1}^m(\hat\alpha_i - \alpha_i)x_i^Tx+b$ .</p>
 <p>落在间隔带之外的点就是支持向量，由于 SVR 最后解的形式仍然有 x 与 x 之间的内积，所以仍然可以使用核函数。</p>
 <h3 id="7-SVM-与感知机的区别和联系"><a href="#7-SVM-与感知机的区别和联系" class="headerlink" title="7. SVM 与感知机的区别和联系"></a>7. SVM 与感知机的区别和联系</h3><h4 id="什么是感知机？"><a href="#什么是感知机？" class="headerlink" title="什么是感知机？"></a>什么是感知机？</h4><p>感知机是二类分类的线性分类模型，输出是 -1，+1。感知机 $f(x) = sign(w \cdot x + b)$，当 $f(x) \ge 0$ 时，为+1，&lt;0 时为 -1. </p>
 <p>损失函数时：误分类点到超平面的总距离</p>
