@@ -336,59 +336,16 @@
       
         
           
-            <h3 id="1-PCA-介绍"><a href="#1-PCA-介绍" class="headerlink" title="1. PCA 介绍"></a>1. PCA 介绍</h3><p>PCA：Principal components analysis，是一种<strong>非监督降维</strong>方法。顾名思义，就是找出数据最主要的方面，来代替原是的数据。比如以前的数据是 m 维的，现在将它降成 n 维。希望降维之后，损失最小，也可以理解成希望降维之后的数据能够尽可能的代表原始数据集。</p>
-<h3 id="2-PCA-的两种解释性："><a href="#2-PCA-的两种解释性：" class="headerlink" title="2. PCA 的两种解释性："></a>2. PCA 的两种解释性：</h3><ol>
-<li><p><strong>最近重构性</strong></p>
-<p>希望降维之后的数据与降维之后的数据的差异最小</p>
-</li>
-<li><p><strong>最大可分性</strong></p>
-<p>所有样本点的投影能尽可能的分开，也即是使投影子后的样本点方差最大化</p>
-</li>
-</ol>
-<h3 id="3-PCA如何求解"><a href="#3-PCA如何求解" class="headerlink" title="3. PCA如何求解"></a>3. PCA如何求解</h3><ol>
-<li><p><strong>先进行中心化：</strong></p>
-<p>比如数据是 10 维的，一共有100个样本，那么数据 X 就是 (100, 10) 的矩阵，对这 10 列矩阵分别求出均值，然后让这一列的数据都减去均值。得到的数据 X‘ 就是以均值为 0 的数据</p>
-</li>
-<li><p><strong>求 X’ 的协方差矩阵：</strong></p>
-<p>协方差矩阵的维度是 (10, 10)，而且是一个对角矩阵，其中元素 (i, j) 表示，第 i 列与第 j 列之间的协方差，如何求：X‘ 中第 i 列向量与第 j 列向量的内积（因为每一列的均值均为0，所以不用减均值，就直接计算内积就好。如果这里用核函数来代替内积的话，就叫做 Kernel PCA，这个时候就是不存在线性的超平面来对数据进行投影，思想类似 SVM）。</p>
-<p>协方差 $cov(X, Y) = E((X - \mu)(Y-v))$ 表示的是，两个变量同时变化的变化程度：如果 x 与 y 之间的协方差大于 0，表示若 x 增加了，则 y 也会增加；如果 x 与 y 之间的协方差小于 0，表示若 x 增加了，则 y 会减少。如果 x 与 y 之间是独立的，则 x 与 y 之间的协方差为 0（但是协方差为 0，不能说明 x 与 y 是独立的）。协方差越大，表示两者对彼此的影响越大。</p>
-</li>
-<li><p><strong>求协方差矩阵的特征值和特征向量，然后对协方差矩阵进行特征值分解</strong></p>
-<p>什么是特征值分解？</p>
-<p>$A = Q \Sigma Q^{-1}$ ，其中，Q 就是特征向量组成的矩阵，Q 的每一列都是特征向量；$\Sigma$ 是一个对角矩阵，对角线上面的元素都是特征值，与 Q 中的特征向量是一一对应的</p>
-</li>
-<li><p>对 $\Sigma$ 中的特征值进行排序，Q 中的特征向量也进行相应的改变。<strong>取出最大的 d’ 个特征值所对应的特征向量</strong> $w_1, w_2, …, w_{d’}$. </p>
-<p>最后就得到投影矩阵 $W = (w_1, w_2, …, w_{d’})$ .</p>
-<p>假设这里 d‘ = 6，则 W 矩阵的维度就是 (10, 6) .</p>
-</li>
-<li><p><strong>将样本投影到选取的投影矩阵 W 上面</strong>：</p>
-<p>降维之后的数据：X*W，就是 (100, 6) 维的</p>
-</li>
-</ol>
-<h3 id="4-降维之后的维度怎么确定"><a href="#4-降维之后的维度怎么确定" class="headerlink" title="4. 降维之后的维度怎么确定"></a>4. 降维之后的维度怎么确定</h3><ol>
-<li><p>可以利用交叉验证，再选择一个很简单的分类器，来选择比较好的 k‘ 的值</p>
-</li>
-<li><p>可以设置一个比重阈值 t，比如 95%，然后选择满足阈值的最小的 k‘：</p>
-<p>$$\frac {\sum _{i=1}^{d’}\lambda_i}{\sum _{i=1}^d\lambda_i} \ge t$$ </p>
-</li>
-</ol>
-<h3 id="5-PCA-算法总结"><a href="#5-PCA-算法总结" class="headerlink" title="5. PCA 算法总结"></a>5. PCA 算法总结</h3><p>PCA 是一种非监督降维方法，它只需要特征值分解，就可以对数据进行降维，去躁。</p>
-<h4 id="主要优点："><a href="#主要优点：" class="headerlink" title="主要优点："></a>主要优点：</h4><ol>
-<li>仅仅需要以方差衡量信息量，不受数据集以外的因素影响</li>
-<li>各主成分之间蒸饺，可消除原始数据成分间的相互影响的因素</li>
-<li>计算方法简单，主要运算是特征值分解，易于实现。</li>
-</ol>
-<h4 id="主要缺点："><a href="#主要缺点：" class="headerlink" title="主要缺点："></a>主要缺点：</h4><ol>
-<li>主成分各个特征维度的含义具有一定的模型心各，不如原始样本特征的解释性强</li>
-<li>方差小的非主成分也可能含有对样本差异的重要信息，因此降维丢弃可能对后续数据处理有影响</li>
-</ol>
-<p>补充：</p>
-<p>SVD 奇异值分解，与 PCA 类似，前者是对原始数据进行奇异值分解，后者是为原始数据进行特征值分解</p>
-<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><p><a href="https://www.cnblogs.com/pinard/p/6239403.html" target="_blank" rel="noopener">https://www.cnblogs.com/pinard/p/6239403.html</a></p>
-<p><a href="https://blog.csdn.net/zhongkelee/article/details/44064401" target="_blank" rel="noopener">https://blog.csdn.net/zhongkelee/article/details/44064401</a></p>
-<p><a href="http://blog.codinglabs.org/articles/pca-tutorial.html" target="_blank" rel="noopener">http://blog.codinglabs.org/articles/pca-tutorial.html</a></p>
-
-          
+          1. PCA 介绍PCA：Principal components analysis，是一种非监督降维方法。顾名思义，就是找出数据最主要的方面，来代替原是的数据。比如以前的数据是 m 维的，现在将它降成 n 维。希望降维之后，损失最小，也可以理解成希望降维之后的数据能够尽可能的代表原始数据集。
+2.
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/08/02/PCA 主成分分析/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -539,150 +496,24 @@
       
         
           
-            <p>什么是集成学习？</p>
-<p>构建并结合多个学习器来完成学习任务；</p>
-<p>主要分为两类：</p>
-<ol>
-<li><p>基本学习器之间存在强依赖关系，必须串行执行的序列化方法——Boosting</p>
-</li>
-<li><p>基本学习器之间不存在强依赖关系，可同时生成的并行化方法——Bagging，随机森林</p>
-</li>
-</ol>
-<h2 id="Boosting"><a href="#Boosting" class="headerlink" title="Boosting"></a>Boosting</h2><h3 id="1-介绍-Boosting"><a href="#1-介绍-Boosting" class="headerlink" title="1. 介绍 Boosting"></a>1. 介绍 Boosting</h3><p>Boosting 通过改变训练样本的权重，学习多个分类器，并将这些分类器进行线性组合。</p>
-<p>Boosting 主要关注两个问题：</p>
-<ol>
-<li><p>每一轮如何改变训练数据的权重</p>
-<p><strong>提高</strong>在前一轮被<strong>错误</strong>分类的样本的权重，<strong>降低</strong>在前一轮被<strong>正确</strong>分类的样本的权重</p>
-</li>
-<li><p>如何将多个弱分类器组合成一个强分类器</p>
-<ul>
-<li>AdaBoost 通过<strong>加权多数表决</strong></li>
-<li>提升树是在每一步将模型进行叠加</li>
-</ul>
-</li>
-</ol>
-<h3 id="2-介绍-Boosting-的代表算法：AdaBoost"><a href="#2-介绍-Boosting-的代表算法：AdaBoost" class="headerlink" title="2. 介绍 Boosting 的代表算法：AdaBoost"></a>2. 介绍 Boosting 的代表算法：AdaBoost</h3><p>训练数据的过程：将训练数据集中的每个样本赋予一个权值，开始的时候，权重都初始化为相等值；1）首先，在整个数据集上训练一个弱分类器，并计算错误率；2）在同一个数据集上再次训练一个弱分类器，在训练的过程中，权值重新调整，其中在上一次分类中分对的样本权值将会降低，分错的样本权值将会提高。3）重复上述过程，串行的生成多个分类器，为了从所有弱分类器中得到多个分类结果，为每个分类器分配一个权值alpha，这些alpha值是基于每个弱分类器的错误率计算的。</p>
-<h4 id="优缺点"><a href="#优缺点" class="headerlink" title="优缺点"></a>优缺点</h4><ul>
-<li>优点：泛化错误率低，易编码，可以应该在大部分分类器上，无参数可调</li>
-<li>缺点：对离群数据点敏感</li>
-</ul>
-<h3 id="3-介绍-GBDT"><a href="#3-介绍-GBDT" class="headerlink" title="3. 介绍 GBDT"></a>3. 介绍 GBDT</h3><h4 id="3-1-回归树（DT：Decision-Tree）"><a href="#3-1-回归树（DT：Decision-Tree）" class="headerlink" title="3.1 回归树（DT：Decision Tree）"></a>3.1 回归树（DT：Decision Tree）</h4><p>GBDT中的树全部都是回归树（不是分类树），核心就是累加所有树的结果作为最终结果。</p>
-<p>GBDT调整之后可以用于分类问题，但是内部还是回归树。（回归树与分类树主要的区别在于特征选择，回归树用的是最小化均方误差，分类树用的是最小化 Gini 指数）</p>
-<h4 id="3-2-梯度迭代（GB：Gradient-Boosting）"><a href="#3-2-梯度迭代（GB：Gradient-Boosting）" class="headerlink" title="3.2 梯度迭代（GB：Gradient Boosting）"></a>3.2 梯度迭代（GB：Gradient Boosting）</h4><p>提升树（Boosting Tree）是一种加法模型，逐个学习每一个模型，每一次学习的数据是上一个模型的<strong>残差</strong>，GBDT的核心就是，每一棵树学习的是上一个模型的负向<strong>梯度</strong>。</p>
-<p>梯度 Gradient 体现在：无论前面一棵树的 cost funtion 是什么，是均方差还是方差，是要它以误差作为衡量标准，那么<strong>负向梯度</strong>就是它的全局最优方向。</p>
-<h4 id="3-3-缩减（Shrinkage）"><a href="#3-3-缩减（Shrinkage）" class="headerlink" title="3.3 缩减（Shrinkage）"></a>3.3 缩减（Shrinkage）</h4><p>Shrinkage 是 GBDT 算法的一个重要的演进分支，目前大部分源码都是基于这个版本的。</p>
-<p><strong>核心思想</strong>：Shrinkage 认为每次走一小步来逼近结果的效果，要比每次迈一大步很快逼近结果的方式更容易<strong>防止过拟合</strong>。也就是说，它不信任每次学习到的残差，它认为每棵树只学习到了真理的一小部分，累加的时候只累加一小部分，通过多学习几棵树来弥补不足。</p>
-<p><strong>具体做法</strong>：仍然以 gradient 作为学习目标，但是对于 gradient 学习出来的结果，只累加一小部分（step*梯度）逐步逼近目标，step 一般都比较小（0.01 ～ 0.001），导致各个树的 gradient 是渐变而不是陡变的。</p>
-<p><strong>本质上</strong>，Shrinkage 为每一棵树设置了一个 weight，累加时要乘以这个 weight，但和 gradient 没有关系。这个 weight 就是 step。跟 AdaBoost 一样，Shrinkage 能减少过拟合是经验证明的，目前还没有理论证明。</p>
-<h4 id="3-4-GBDT-适用范围"><a href="#3-4-GBDT-适用范围" class="headerlink" title="3.4 GBDT 适用范围"></a>3.4 GBDT 适用范围</h4><ul>
-<li>GBDT 可以用于回归问题（线性和非线性），相对 LR 仅能用于线性回归，GBDT 适用面更广</li>
-<li>GBDT 也可以用于二分类问题（设定阈值，大于为正，否则为负）和多分类问题</li>
-</ul>
-<h4 id="3-5-GBDT-相关问题"><a href="#3-5-GBDT-相关问题" class="headerlink" title="3.5 GBDT 相关问题"></a>3.5 GBDT 相关问题</h4><ol>
-<li><p>GBDT 相比于决策树有什么优点 </p>
-<p>泛化性能更好！GBDT 的最好的好处在于，每一步的 gradient 计算其实就是变相的增加了分类错误的权重，而已经分对的样本的 gradient 则都趋近于 0. 这样后面更加专注于那些分错的样本。</p>
-<ol start="2">
-<li>与传统 Boosting 的区别</li>
-</ol>
-<p>不是对样本进行权值改变，而是改变么一轮的回归目标（上一个模型的预测残差）</p>
-<ol start="3">
-<li>GBDT 的优缺点</li>
-</ol>
-<p><strong>优点</strong>：</p>
-<ol>
-<li>能够灵活处理各种类型的数据，不需要特征归一化（LR 需要）</li>
-<li>在相对较少的调参情况下，预测的准确率相对较高（相对 SVM）</li>
-<li>与传统决策树相比，每一步的 gradient 计算相当于沿着最优的防线过去学习，变相增大了分类错误样本的权重，使用更少特征来进行决策，防止过拟合</li>
-</ol>
-<p><strong>缺点</strong>：</p>
-<p>是一个串行过程，不能并行化，不适合线性模型</p>
-<ol start="4">
-<li>GBDT 如何防止过拟合</li>
-</ol>
-<p>限制树的棵树、设置学习率、设置每个叶子结点的最小节点数、增加惩罚想、基于 Bagging 思想进行抽样</p>
-</li>
-</ol>
-<h2 id="Bagging"><a href="#Bagging" class="headerlink" title="Bagging"></a>Bagging</h2><h3 id="1-介绍-Bagging"><a href="#1-介绍-Bagging" class="headerlink" title="1. 介绍 Bagging"></a>1. 介绍 Bagging</h3><p>Bagging (bootstrap aggregating)，套袋法，算法过程如下：</p>
-<ol>
-<li>假设训练集中共有 N 个样本，每次从中有放回的抽取 N 次，这样就得到一个有 N 个样本的数据集；然后我们这样抽取 S 次，就得到 S 个有 N 个样本的数据集（一般来说取出的样本包含了 63% 的原始数据，有 36% 的数据没有被采样到）</li>
-<li>对这 S 个数据集，训练 S 个模型</li>
-<li>最后的结果：<ul>
-<li>分类问题：对 S 个模型采用投票表决的方式</li>
-<li>回归问题：对 S 个模型的结果求均值</li>
-</ul>
-</li>
-</ol>
-<p>Bagging 的代表算法：随机森林</p>
-<h3 id="2-Bagging-的优点"><a href="#2-Bagging-的优点" class="headerlink" title="2.  Bagging 的优点"></a>2.  Bagging 的优点</h3><ol>
-<li>高效。Bagging 集成与直接训练集学习器的复杂度同阶</li>
-<li>Bagging 能不经修改的适用于分类、回归任务</li>
-<li>包外估计（out-of-bag estimate）。使用剩下来的 32% 的样本作为验证集</li>
-</ol>
-<h3 id="3-介绍-Bagging-的代表算法：随机森林"><a href="#3-介绍-Bagging-的代表算法：随机森林" class="headerlink" title="3. 介绍 Bagging 的代表算法：随机森林"></a>3. 介绍 Bagging 的代表算法：随机森林</h3><p>随机森林（Random Forest）是 Bagging 的一个变体。它是以<strong>决策树</strong>为基学习器构建 Bagging 集成的基础上，进一步在决策树的训练过程中引入<strong>随机属性</strong>选择。</p>
-<p>原来的决策树从所有属性中，选择最优属性。Random Forest 的每一颗决策树中的每一个节点，先从该节点的属性集中<strong>随机</strong>选择 K 个属性的子集，然后从这个属性子集中选择<strong>最优</strong>属性进行划分。 K 控制了随机性的引入程度，是一个重要的超参数。</p>
-<p>最后的预测结果：</p>
-<ul>
-<li>分类问题：简单投票法</li>
-<li>回归问题：简单平均法</li>
-</ul>
-<h3 id="4-随机森林的优缺点"><a href="#4-随机森林的优缺点" class="headerlink" title="4. 随机森林的优缺点"></a>4. 随机森林的优缺点</h3><h4 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h4><ol>
-<li>由于每次不再考虑全部的属性，而是一个属性子集，所有相比 Bagging 计算开销更小，训练效率更高</li>
-<li>由于增加了属性的扰动，随机森林中基学习器的性能降低，使得随机森林在起始时性能较差，但是随着基学习器的增多，随机森林通常会收敛于相比 Bagging 更低的泛化误差</li>
-<li>两个随机性的引入，使得随机森林不容易过拟合，具有很好的抗噪声能力</li>
-<li>对数据的适应能力强，可以处理离散和连续的值，不需要规范化</li>
-<li>可以得到变量的重要性，基于 oob 误分类率和基于 Gini 系数的变化</li>
-</ol>
-<h4 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h4><ol>
-<li>在噪声较大的时候容易过拟合</li>
-</ol>
-<h2 id="Boosting-与-Bagging"><a href="#Boosting-与-Bagging" class="headerlink" title="Boosting 与 Bagging"></a>Boosting 与 Bagging</h2><h3 id="1-Boosting-与-Bagging-的区别"><a href="#1-Boosting-与-Bagging-的区别" class="headerlink" title="1. Boosting 与 Bagging 的区别"></a>1. Boosting 与 Bagging 的区别</h3><p>区别主要在这 5 个方面：</p>
-<ol>
-<li><p>样本选择上</p>
-<ul>
-<li>Boosting：每一轮训练集不变，只是训练数据的权重发生变化，权值是根据上一轮的分类结果进行调整的</li>
-<li>Bagging：训练集是在原始数据集中有放回选取的，从原始数据集选出的各轮训练集之间是独立的</li>
-</ul>
-</li>
-<li><p>样本权重</p>
-<ul>
-<li>Boosting：根据错误率不断调整样本的权值，错误分类的样本的权重更大</li>
-<li>Bagging：每个样本的权值一样</li>
-</ul>
-</li>
-<li><p>预测函数</p>
-<ul>
-<li>Boosting：每个弱分类器都有相应的权重，对于分类误差小的分类器有更大的权重</li>
-<li>Bagging：所有若分类器权重相等</li>
-</ul>
-</li>
-<li><p>并行计算：</p>
-<ul>
-<li>Boosting：串行执行，因为后一个模型的样本权重需要前一轮模型的结果</li>
-</ul>
-</li>
-</ol>
-<h2 id="GBDT-与-随机森林"><a href="#GBDT-与-随机森林" class="headerlink" title="GBDT 与 随机森林"></a>GBDT 与 随机森林</h2><h4 id="相同点"><a href="#相同点" class="headerlink" title="相同点"></a>相同点</h4><ol>
-<li>GBDT 和 随机森林 都是有多棵树组成</li>
-<li>最终的结果都由多棵树共同决定</li>
-</ol>
-<h4 id="不同点"><a href="#不同点" class="headerlink" title="不同点"></a>不同点</h4><ol>
-<li>组成随机森林的树可以是分类树或者回归树；GBDT 只能是回归树</li>
-<li>组成随机森林的树可以并行生成（Bagging）；GBDT 只能串行生成（Boosting）</li>
-<li>对于最终的输出结果而言，随机森林使用多数投票或者简单平均；GBDT 通常是累加，或者加权累加</li>
-<li>随机森林对异常值不敏感；GBDT 对异常值非常敏感</li>
-<li>随机森林对训练集一视同仁权值一样；GBDT 是基于权值的弱分类器的集成</li>
-<li>随机森林通过减小<strong>方差</strong>提高性能；GBDT 通过减少<strong>偏差</strong>提高性能</li>
-</ol>
-<p>注：</p>
-<p>Bagging + 决策树 = 随机森林</p>
-<p>AdaBoost + 决策树 = 提升树</p>
-<p>Gradient Boosting + 决策树 = GBDT</p>
-<h3 id="从偏差方差去对boosting和bagging进行理解"><a href="#从偏差方差去对boosting和bagging进行理解" class="headerlink" title="从偏差方差去对boosting和bagging进行理解"></a>从偏差方差去对boosting和bagging进行理解</h3><p><a href="https://www.cnblogs.com/earendil/p/8872001.html" target="_blank" rel="noopener">https://www.cnblogs.com/earendil/p/8872001.html</a></p>
-<h3 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h3><p><a href="http://www.cnblogs.com/dudumiaomiao/p/6361777.html" target="_blank" rel="noopener">http://www.cnblogs.com/dudumiaomiao/p/6361777.html</a> （基本介绍和区别）</p>
-<p><a href="http://gitbook.cn/books/5a31eb9a7cdec87af6d848a0/index.html#undefined" target="_blank" rel="noopener">http://gitbook.cn/books/5a31eb9a7cdec87af6d848a0/index.html#undefined</a>  （RF，GBDT）</p>
-<p><a href="https://blog.csdn.net/qq_34896915/article/details/73771287" target="_blank" rel="noopener">https://blog.csdn.net/qq_34896915/article/details/73771287</a> （GBDT，XGBOOST）</p>
+          什么是集成学习？
+构建并结合多个学习器来完成学习任务；
+主要分为两类：
 
-          
+基本学习器之间存在强依赖关系，必须串行执行的序列化方法——Boosting
+
+基本学习器之间不存在强依赖关系，可同时生成的并行化方法——Bagging，随机森林
+
+
+Boosting1. 介绍 BoostingBoosting
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/07/03/集成学习面试问题汇总/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -833,33 +664,16 @@
       
         
           
-            <h3 id="1-介绍朴素贝叶斯"><a href="#1-介绍朴素贝叶斯" class="headerlink" title="1. 介绍朴素贝叶斯"></a>1. 介绍朴素贝叶斯</h3><p>朴素贝叶斯是一种<strong>生成式模型</strong>。基于<strong>贝叶斯定理</strong>与<strong>特征条件独立假设</strong>（在已知分类Y的条件下，各个特征变量取值是相互独立的）的分类方法。对于给定的训练数据集，首先基于特征条件独立假设学习输入/输出的<strong>联合概率分布</strong>；然后基于此模型，对给定的输入 x，利用贝叶斯定理求出<strong>后验概率最大</strong>的输出 y.</p>
-<h3 id="2-朴素贝叶斯-“朴素”-在哪里？"><a href="#2-朴素贝叶斯-“朴素”-在哪里？" class="headerlink" title="2. 朴素贝叶斯 “朴素” 在哪里？"></a>2. 朴素贝叶斯 “朴素” 在哪里？</h3><p><strong>“朴素” </strong>是因为它假设了数据集中的所有特征是同等重要的并且是<strong>条件独立</strong>的。这是一个很强的假设，在实际情况中，这个假设很难成立，所以叫 “朴素”。</p>
-<p>$$P(X = x | Y = c_k) = P(X^{(1)} = x^{(1)}, … , X^{(n)} = x^{n} | Y = c_k) = P(X^{(1)} = x^{(1)} | Y = c_k) \cdot … \cdot P(X^{(n)} = x^{(n)} | Y= c_k)$$ </p>
-<h3 id="3-朴素贝叶斯与-LR-的区别"><a href="#3-朴素贝叶斯与-LR-的区别" class="headerlink" title="3. 朴素贝叶斯与 LR 的区别"></a>3. 朴素贝叶斯与 LR 的区别</h3><p> 朴素贝叶斯是生成式模型，LR 是判别式模型。</p>
-<ol>
-<li><p>Navie Bayes 是生成式模型，根据已有样本进行贝叶斯估计学习出先验概率 P(Y) 和条件概率 P(X|Y)，进而求出联合概率分布 P(XY)，最后利用贝叶斯定理求解 P(Y|X). </p>
-<p>也就是说，它尝试去找这个数据到底是怎么产生的，然后再进行分类</p>
-</li>
-<li><p>LR 是判别式模型，根据极大化对数熙然函数，直接求出条件概率 P(Y|X)</p>
-</li>
-<li><p>区别：朴素贝叶斯基与条件独立假设；LR 没有</p>
-</li>
-<li><p>朴素贝叶斯使用数据集小的情景；LR 适用于大规模数据集</p>
-</li>
-</ol>
-<h3 id="4-朴素贝叶斯需要注意的地方"><a href="#4-朴素贝叶斯需要注意的地方" class="headerlink" title="4. 朴素贝叶斯需要注意的地方"></a>4. 朴素贝叶斯需要注意的地方</h3><ol>
-<li>给出的特征向量长度可能不同，这个时候就需要把特征向量归一化为统一长度的向量（比如在NLP中的句子长度）</li>
-<li>利用极大似然估计的时候，可能会出现估计的概率为 0 的情况，这个时候可以采用贝叶斯估计，即计算条件概率分布的时候，分子分母同时加上一个数 $\lambda$ . 当 $\lambda$ 为 1 时，叫做拉普拉斯平滑</li>
-</ol>
-<h3 id="5-朴素贝叶斯的优缺点"><a href="#5-朴素贝叶斯的优缺点" class="headerlink" title="5. 朴素贝叶斯的优缺点"></a>5. 朴素贝叶斯的优缺点</h3><h5 id="优点："><a href="#优点：" class="headerlink" title="优点："></a>优点：</h5><ol>
-<li>对小规模的数据表现很好</li>
-<li>适合多分类任务</li>
-<li>可反映数据的分布情况</li>
-</ol>
-<h5 id="缺点："><a href="#缺点：" class="headerlink" title="缺点："></a>缺点：</h5><p>对输入数据的表达形式很敏感</p>
+          1. 介绍朴素贝叶斯朴素贝叶斯是一种生成式模型。基于贝叶斯定理与特征条件独立假设（在已知分类Y的条件下，各个特征变量取值是相互独立的）的分类方法。对于给定的训练数据集，首先基于特征条件独立假设学习输入/输出的联合概率分布；然后基于此模型，对给定的输入 x，利用贝叶斯定理求出后验概率最大的输出 y.
 
-          
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/06/27/朴素贝叶斯面试问题汇总/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1010,167 +824,17 @@
       
         
           
-            <h3 id="口述-SVM"><a href="#口述-SVM" class="headerlink" title="口述 SVM"></a>口述 SVM</h3><p>SVM 叫做支持向量机，它是一种二分类模型。它的基本模型是定义在特征空间的间隔最大的线性分类器。</p>
-<p>根据训练数据的不同，SVM 主要分为三种情况：</p>
-<p>第一种情况就是，当训练数据线性可分的时候，我们是通过硬间隔最大化，来学习一个线性分类器，也就是线性可分的支持向量机。硬间隔就是说，硬性要求所有的样本点都满足和分类平面间的距离必须大于某个值，也就是说都要满足函数间隔 &gt;= 1 的约束条件。（那什么是函数间隔呢？—— $y_i (w \cdot x_i + b)$，几何间隔？——$y_i (\frac w {||w||}\cdot x_i + \frac b {||w||})$）</p>
-<p>SVM 的第二种情况就是，当线性可分的数据中存在一些异常点的时候，也就是数据近似线性可分的时候，这个时候就是利用软间隔最大化，来学习一个线性分类器，也就是线性支持向量机。软间隔就是加入了一个松弛变量，也就是引入了容错性，让部分样本可以不满足上面的约束，也就是让每个样本点满足 函数间隔 &gt;= 1-松弛变量 就可以了，但是我们需要让不满足的样本尽可能的少，所以要为加上相应的惩罚，也就是损失函数要加上 这些松弛变量*C系数。 （其实化简之后最终的对偶问题，软间隔和硬间隔的区别在于，软间隔的拉格朗日系数 $0 \le \alpha_i$，硬间隔的是 $0 \le \alpha_i \le C$） </p>
-<p>SVM 还有一种情况就是，当训练数据不线性可分的时候，这个时候的解决办法就是将线性不可分的数据映射到线性可分的高维空间中，通过求解高维中的线性问题来求解原来的非线性问题。这里会用到核技巧，也就是在计算的过程中，不会去显式的定义映射函数，因为这个会特别麻烦，我们只是定义核函数，核函数满足 $K(x, z) = \phi(x) \cdot \phi(z)$</p>
-<p>SVM 求解过程：</p>
-<p>求解的目标就是，最大化几何间隔，我们是通过求解对偶问题来求解原问题的。因为对偶问题更加容易求解，而且可以后面比较方便引入核函数。然后使用 SMO 算法来求解出模型的参数值（SMO 算法是支持向量机学习的一种快速算法，其特点是不断将原来的问题分类为只有两个参数子问题，并对子问题进行求解，直到所有的变量都满足 KKT 条件为止。因为每个子问题都有解析解，所以每个子问题就能很快得到结果，所以 SMO 还是比较快的）。</p>
-<p>SVM 的目标求解目标是在每个样本都满足函数间隔 &gt;= 1的条件下，最大化函数间隔，这个目标函数也可以看作是<strong>合页损失函数</strong> $\min_{w, b} \sum _{i=1} ^N [1 - y_i(w \cdot x_i + b)]_+ + \lambda ||w||^2$ .</p>
-<p>SVM 特点：</p>
-<ol>
-<li>SVM 其实只考虑局部边界线附近的点（也就是支持向量）</li>
-<li>SVM 的损失函数自带 <strong>L2 正则</strong>，有防止过拟合的作用</li>
-</ol>
-<p>SVM 缺点：</p>
-<ol>
-<li><p>如果样本数量太大，SVM 计算会比较困难，因为 SVM 是借助二次规划来求解支持向量的</p>
-</li>
-<li><p>解决多分类问题比较麻烦</p>
-<p>SVM 解决多分类主要是两种方法：</p>
-<ol>
-<li>一是 one vs one：任意两类样本之间训练一个 SVM，所有 K 类的话就需要训练 K(K-1)/2 个SVM，在测试的时候，把对应的数据分别对每个 SVM 进行测试，然后统计属于每个类别的个数，最后给个数最多的那个类别</li>
-<li>而是 one vs rest：对 K 个类别，训练的时候依次将某个样本的数据归位一类，其他所有的数据归为一类，这样训练 K 个 SVM。预测的时候，对这 K 个SVM 都去计算 f(x) （也就是wx+b），最后选出这最大的 f 值对应的类别即是最后的类别</li>
-</ol>
-</li>
-</ol>
-<h3 id="1-介绍-SVM"><a href="#1-介绍-SVM" class="headerlink" title="1. 介绍 SVM"></a>1. 介绍 SVM</h3><p>SVM也叫支持向量机，是一种二分类模型。它的基本模型是定义在特征空间上的间隔最大的线性分类器。</p>
-<p>根据训练数据的不同，主要分为三种情况：</p>
-<ol>
-<li><p>当训练数据线性可分时，通过硬间隔最大化，学习一个线性分类器，即线性可分支持向量机；</p>
-</li>
-<li><p>当训练数据近似线性可分时，引入松弛变量，通过软间隔最大化，学习一个线性分类器，即线性支持向量机；</p>
-</li>
-<li><p>当训练数据线性不可分时，通过使用核技巧及软间隔最大化，学习非线性支持向量机。 </p>
-</li>
-</ol>
-<h3 id="2-SVM-为什么要采用间隔最大化"><a href="#2-SVM-为什么要采用间隔最大化" class="headerlink" title="2. SVM 为什么要采用间隔最大化"></a>2. SVM 为什么要采用间隔最大化</h3><p>当训练数据线性可分时，存在无穷个分离超平面可以将两类数据正确分开，如果利用间隔最大化求得最优分离超平面，这时，解时唯一的，并且此时分离超平面所产生的分类结果是最鲁棒的，对未知实例的泛化能力最强。</p>
-<h3 id="3-SVM-的损失函数是什么？"><a href="#3-SVM-的损失函数是什么？" class="headerlink" title="3. SVM 的损失函数是什么？"></a>3. SVM 的损失函数是什么？</h3><p>SVM 的损失函数等价于合页损失函数：</p>
-<p>$\min_{w, b} \sum _{i=1} ^N [1 - y_i(w \cdot x_i + b)]_+ + \lambda ||w||^2$ </p>
-<p>第一项为合页损失函数 $L(y(w \cdot x + b)) = [1 - y_i (w \cdot x_i + b)]<em>+$, 其中，$[z]</em>+$ 表示的是，当 z &gt; 0 时，为 z，否则为 0 . </p>
-<p>所以原式表示，当样本点被正确分类时，且函数间隔（置信度） $y_i(w \cdot x_i) + b &gt; 0$ 时的损失为 0，否则是 $1 - y_i(w \cdot x_i + b)$ </p>
-<p>SVM 损失函数的第二项为正则化项，是系数为 $\lambda$ 的 w 的 L2 范数</p>
-<h3 id="3-为什么要将求解SVM的原始问题转换为其对偶问题"><a href="#3-为什么要将求解SVM的原始问题转换为其对偶问题" class="headerlink" title="3. 为什么要将求解SVM的原始问题转换为其对偶问题"></a>3. 为什么要将求解SVM的原始问题转换为其对偶问题</h3><ol>
-<li>因为对偶问题更容易求解（因为以前新来的要分类的样本首先根据 w 和 b 做一次线性运算，以前的分类决策函数为 $f(x) = sign(w\cdot x + b)$，然后看求的结果是 &gt;0 还是 &lt;0，来判断是正例还是负例；现在只需要将新来的样本与支持向量做内积，现在的分类决策函数为 $f(x) = sign(\sum _{i=1}^N \alpha_i^<em> \cdot y_i \cdot (x \cdot x_i) + b^</em>)$，然后运算即可）；</li>
-<li>自然引入核函数，自然推广到非线性分类问题（因为对于非线性分类问题，是将线性SVM的对偶问题中x之间的内积替换为核函数K(xi, xj)）  </li>
-</ol>
-<h3 id="4-为什么引进核函数"><a href="#4-为什么引进核函数" class="headerlink" title="4. 为什么引进核函数"></a>4. 为什么引进核函数</h3><p>如果样本在原始空间线性不可分时，可将样本从原始空间映射到一个更高维的特征空间，使得样本在这个特征空间内线性可分。（也就是核技巧）</p>
-<p>引入映射之后的对偶函数为：</p>
-<p>$\max _ \lambda  -\frac 1 2 \sum_{i=1}^N \sum _{j=1}^N \lambda_i \lambda_j y_i y_j \phi^T(x_i) \phi(x_j) + \sum _{i=1}^N \lambda_i$</p>
-<p>$s.t.        \sum _{i=1}^N \lambda_i y_i = 0, 0 \le \lambda \le C, i=1,2,…,N$ </p>
-<p>由于特征空间的维度一般是高维的，甚至是无穷维的，所以直接计算上面的两个映射函数的内积比较困难的。</p>
-<p>（或者说，由于从输入空间到特征空间的这种映射会使得维度发生爆炸式的增长，因此上面的Fai(x)·Fai(z)的运算会非常大，计算很困难，所以通常会构造一个核函数来解决这个问题，从而避免了在特征空间的内积运算，只需要在输入空间内进行内积运算）</p>
-<p>而核函数 $K(x,z) = \phi(x) \cdot \phi(z)$，计算核函数 $K(x,z)$ 相对比较容易，可以直接在低维空间计算，而且不需要显式写出映射之后的结果，所以 SVM 引进了核函数。</p>
-<h3 id="5-SVM-如何做回归-——-SVR"><a href="#5-SVM-如何做回归-——-SVR" class="headerlink" title="5. SVM 如何做回归 —— SVR"></a>5. SVM 如何做回归 —— SVR</h3><p>给定数据集，希望学到一个 $f(x) = w \cdot x + b$ 这样的回归模型，使得 f(x) 和 y 之间尽量接近。</p>
-<p>传统的回归模型，通常是直接基于模型输出 f(x) 与真实输出 y 之间的差别来计算损失，当且仅当 f(x) 与 y 完全相同的时候，损失才为 0. </p>
-<p>但是 SVR 是能容忍 f(x) 与 y 之间最多有 $\epsilon$ 的偏差，当且仅当 f(x) 与 y 之间的差别大于 $\epsilon$ 时才计算损失。也就是中间有宽度为 $2\epsilon$ 宽度的间隔带，若样本落入这个间隔带，则被认为是预测正确的。</p>
-<p>同样，对于两侧的松弛带，跟前面的 SVM 一样，也会引入一个松弛变量，两个的松弛程度可以不同，所以两侧的松弛变量分为是 $\xi _i$, $\hat{\xi <em>i}$, 所以 SVR 的目标为：<br>$$<br>\min</em>{w,b,\xi,\hat \xi _i} \frac 1 2||w||^2 + C \sum _{i=1} ^m (\xi _i + \hat \xi _i) \<br>s.t.f(x_i) - y_i \le \epsilon + \xi_i\<br>y_i - f(x_i) \le \epsilon + \hat \xi _i \<br>\epsilon_i \ge 0, \hat \xi_i \ge 0, i = 1,2,…,m.<br>$$<br>同样采用对偶算法，最后得到的 SVR 的对偶问题为：<br>$$<br>\max_{\alpha, \hat \alpha} \sum_{i=1}^m y_i(\hat\alpha_i - \alpha) - \epsilon(\hat\alpha_i + \alpha) - \frac 1 2 \sum <em>{i=1}^m \sum</em>{j=1}^m(\hat\alpha_i - \alpha_i)(\hat\alpha_j - \alpha_j)x_i^Tx_j\<br>s.t. \sum_{i=1}^m(\hat\alpha_i - \alpha_i) = 0\<br>0 \le \alpha_i, \hat\alpha_i \le C.<br>$$<br>最后，SVR 的解的形式为：$f(x) = \sum _{i=1}^m(\hat\alpha_i - \alpha_i)x_i^Tx+b$ .</p>
-<p>落在间隔带之外的点就是支持向量，由于 SVR 最后解的形式仍然有 x 与 x 之间的内积，所以仍然可以使用核函数。</p>
-<h3 id="6-SVM-与感知机的区别和联系"><a href="#6-SVM-与感知机的区别和联系" class="headerlink" title="6. SVM 与感知机的区别和联系"></a>6. SVM 与感知机的区别和联系</h3><h4 id="什么是感知机？"><a href="#什么是感知机？" class="headerlink" title="什么是感知机？"></a>什么是感知机？</h4><p>感知机是二类分类的线性分类模型，输出是 -1，+1。感知机 $f(x) = sign(w \cdot x + b)$，当 $f(x) \ge 0$ 时，为+1，&lt;0 时为 -1. </p>
-<p>损失函数时：误分类点到超平面的总距离</p>
-<p>误分类点，即 $y \cdot (w \cdot x + b) &lt; 0$，故所有误分类点到分离超平面的距离，也就是感知机的损失函数为：<br>$$<br>L(w, b) = - \sum_{x_i \in M} y_i(w \cdot x_i + b)<br>$$<br>M 是误分类点的集合。然后利用 SGD 进行求解。</p>
-<h3 id="7-SVM-与-感知机的区别和联系？"><a href="#7-SVM-与-感知机的区别和联系？" class="headerlink" title="7. SVM 与 感知机的区别和联系？"></a>7. SVM 与 感知机的区别和联系？</h3><p>感知机会因为采用不同的初值而得到不同的超平面，而且得到的超平面不一定是最优的。SVM 试图找到一个最优的超平面，这个最优，SVM 利用间隔最大化来衡量。主要区别是：</p>
-<ol>
-<li>感知机追求最大程度分类正确，最小化错误，比较容易造成过拟合；SVM 在追求正确分类的同时，还要求间隔最大，在一定程度上避免了过拟合；</li>
-<li>感知机的学习方法是梯度下降，SVM 的学习方法是对偶。</li>
-</ol>
-<h3 id="8-Linear-SVM-与-LR-的区别是什么？"><a href="#8-Linear-SVM-与-LR-的区别是什么？" class="headerlink" title="8. Linear SVM 与 LR 的区别是什么？"></a>8. Linear SVM 与 LR 的区别是什么？</h3><p>Linear SVM 就是书上讲的线性可分 SVM，不加 Kernel 的。</p>
-<ul>
-<li>Linear SVM 与 LR 都是线性分类模型</li>
-<li>Linear SVM 不直接依赖数据分布，分类平面不受一类点影响；LR 受所有数据点的影响，如果不同的类别之间数据不平衡，一般要先对数据做 balancing</li>
-<li>Linear SVM 依赖距离度量 </li>
-</ul>
-<h3 id="9-SVM-和-LR-对同一样本-A-进行训练，如果某类中增加一些数据点，那么原来的决策边界分别会怎么变"><a href="#9-SVM-和-LR-对同一样本-A-进行训练，如果某类中增加一些数据点，那么原来的决策边界分别会怎么变" class="headerlink" title="9. SVM 和 LR 对同一样本 A 进行训练，如果某类中增加一些数据点，那么原来的决策边界分别会怎么变"></a>9. SVM 和 LR 对同一样本 A 进行训练，如果某类中增加一些数据点，那么原来的决策边界分别会怎么变</h3><p>假设在增加了一个 “+” 例点：</p>
-<p>对于 SVM，如果这个点在间隔之外，则原来的决策边界不受影响。</p>
-<p>如果这个数据点在间隔内部，或者在“-”的那一侧，那么这个点会成为新的支持向量。但是，决策边界不一定会发生变化，因为这个数据点也可能被容错项处理掉了。</p>
-<p>对于 LR，w 与 $x_{n+1}$ 之间的夹角会变小，也就是说 决策边界 会发生旋转，使其发现更加接近  $x_{n+1}$ 的方向。</p>
-<h3 id="10-常见的核函数"><a href="#10-常见的核函数" class="headerlink" title="10. 常见的核函数"></a>10. 常见的核函数</h3><ol>
-<li><p><strong>线性核函数</strong></p>
-<p>$k(x, z) = x \cdot z$</p>
-<p>主要用于线性可分的情况，特征空间和输入空间的维度是一样的，其参数少速度快，对于线性可分数据，其分类效果很理想，因此我们通常首先用线性核函数来做分类，如果效果不行再尝试其他</p>
-</li>
-<li><p><strong>多项式核函数</strong></p>
-<p>$k(x, z) = (a(x \cdot z) + c)^d$</p>
-<p>多项式核函数可以实现将低维的输入空间映射到高维的特征空间，但是多项式核函数参数多，当多项式的阶数比较高的时候，核矩阵的元素将趋近无穷，计算复杂度会大到无法计算</p>
-</li>
-<li><p><strong>高斯核函数（径向基函数RBF）</strong></p>
-<p>$k(x, z) = \exp(-\frac {||x - z ||^2} {2\sigma ^2})$</p>
-<p>高斯径向基函数是一种局部性强的函数，其可以将一个样本映射到一个更高维的空间内，该核函数是应用最广的一个，无论大样本还是小样本都有比较好的性能，而且其相对多项式核函数参数要少，因此大多数情况下在不知道用什么核函数的时候，<strong>优先使用高斯核函数</strong></p>
-<p><strong>变种：</strong></p>
-<ul>
-<li><p><strong>指数核函数</strong>：$k(x, z) = \exp(-\frac {||x - z ||} {2\sigma ^2})$</p>
-<p>仅仅将高斯核函数中向量之间的L2距离调整为L1距离，这样的改动会对参数的依赖性降低，但是适用范围相对窄</p>
-</li>
-<li><p><strong>拉普拉斯核函数</strong>：$k(x, z) = \exp(-\frac {||x - z ||} {\sigma})$</p>
-<p>完全等价于指数核，唯一的区别在于拉普拉斯核函数对参数的敏感性降低了</p>
-</li>
-</ul>
-</li>
-<li><p><strong>sigmoid核函数</strong></p>
-<p>$k(x, z) = \tanh (\alpha(x \cdot z) + c)$</p>
-<p>采用sigmoid核函数，支持向量机实现的就是一种多层神经网络</p>
-</li>
-</ol>
-<p>在选择核函数的时候，如果对数据分布有一定的先验知识，就利用先验知识来选择符合数据分布的核函数；如果不知道的话，就使用交叉验证的方法，来试用不同的核函数，误差最小的即为最好的核函数，或者也可以将多个核函数混合起来，形成混合核函数。</p>
-<p>吴恩达的课上，给出的<strong>选择核函数的方法</strong>：</p>
-<ol>
-<li>如果特征数量大到和样本数量差不多，则选择LR或者线性核函数的SVM或者无核的SVM</li>
-<li>如果特征数量小，样本的数量正常，则选用高斯核函数的SVM<br> . 如果特征数量小，而样本的数量很大，则需要手工添加一些特征，从而变成第一种情况     </li>
-</ol>
-<h3 id="11-SVM如何处理多分类的问题"><a href="#11-SVM如何处理多分类的问题" class="headerlink" title="11. SVM如何处理多分类的问题"></a>11. SVM如何处理多分类的问题</h3><p>一般有两种做法，一种是直接法，一种是间接法</p>
-<ul>
-<li><p>直接法：直接在目标函数上面进行修改，将多个分类面的参数求解合并到一个最优化问题中，通过求解该最优化问题“一次性”实现多分类。但是！这个问题看似简单，但是计算复杂度比较高，实现起来很困难，只适用于小型问题；</p>
-</li>
-<li><p>间接法，主要是通过组合多个二分类器来实现多分类器的构造，常见的有 one-vs-one 和 one-vs-rest（一对一 和 一对多）</p>
-<ol>
-<li><p><strong>one-vs-one，一对一法（OVO SVMs）</strong>：在任意两类样本之间设计一个SVM，因此 K 类就需要 <strong>K(K-1)/2</strong> 个 SVM。</p>
-<p>当对一个未知样本进行分类时，最后得票最多的类别即为未知样本的类别。</p>
-<p>libsvm 中的多分类就是这样实现的。</p>
-<ul>
-<li>例子</li>
-</ul>
-<p>假设有四类A, B, C, D四类。在训练的时候，选择 A and B; A and C; A and D; B and C; B and D; C and D，共 4*(4-1)/2=6 组数据作为训练集，得到 6 个训练结果，即 6 个二分类器。</p>
-<p>在测试的时候，把对应的测试数据分类对这6个二分类器进行测试，然后采取投票的形式，最后得到分类结果：</p>
-<p>计数器 a = b= c = d = 0：</p>
-<p>对 (A, B) 分类器：若属于A，则a+=1；else：b+=1；</p>
-<p>对 (A, C) 分类器：若属于A，则a+=1；else：c+=1；</p>
-<p>……</p>
-<p>最后的分类结果即为：Max(a, b, c, d) 对应的类别。</p>
-<ul>
-<li>评价：当类别很多的时候，model 的个数 n*(n-1)/2 个，代价还是比较大</li>
-</ul>
-</li>
-<li><p><strong>one-vs-rest，一对多法（OVR SVMs）</strong>：训练时依次将某个类别的样本归为一类，其他剩余的归为一类，这样 K 个类别的样本就构造出 <strong>K</strong> 个二分类SVM。</p>
-<p>当对一个未知样本进行分类时，具有最大分类函数值的类别即为未知样本的类别。</p>
-<ul>
-<li>例子</li>
-</ul>
-<p>假设有四类A, B, C, D四类。在训练的时候抽取：</p>
-<ol>
-<li>A 为正类，BCD共同为负类</li>
-<li>B为正类，ACD共同为负类</li>
-<li>C为正类，ABD共同为负类</li>
-<li>D为正类，ABC共同为负类</li>
-</ol>
-<p>使用这四个训练集分别进行训练，得到4个二分类SVM。</p>
-<p>在测试的时候，那对应的测试数据分别利用这4个二分类器进行测试，最后每个测试都有一个结果：f1(x), f2(x), f3(x), f4(x). </p>
-<p>最后的分类结果即为：Max( f1(x), f2(x), f3(x), f4(x) ) 对应的类别。</p>
-<ul>
-<li>评价：</li>
-</ul>
-<p>这种方法有种缺陷：因为训练集是 1:M，这种情况下存在 biased，因而不是很实用。可以在抽取数据集的时候，从完成的负集中抽取1/3作为训练负集。</p>
-</li>
-</ol>
-</li>
-</ul>
-<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><p><a href="https://applenob.github.io/svm.html#3.2-%E8%BD%AF%E9%97%B4%E9%9A%94%E6%9C%80%E5%A4%A7%E5%8C%96" target="_blank" rel="noopener">https://applenob.github.io/svm.html#3.2-%E8%BD%AF%E9%97%B4%E9%9A%94%E6%9C%80%E5%A4%A7%E5%8C%96</a> （关于推导）</p>
-<p><a href="https://blog.csdn.net/szlcw1/article/details/52259668" target="_blank" rel="noopener">https://blog.csdn.net/szlcw1/article/details/52259668</a> （关于整体的介绍）</p>
-<p><a href="https://www.cnblogs.com/CheeseZH/p/5265959.html" target="_blank" rel="noopener">https://www.cnblogs.com/CheeseZH/p/5265959.html</a> （关于SVM多分类）</p>
-<p><a href="https://blog.csdn.net/batuwuhanpei/article/details/52354822" target="_blank" rel="noopener">https://blog.csdn.net/batuwuhanpei/article/details/52354822</a> （关于常用核函数）</p>
-<p><a href="https://blog.csdn.net/wsj998689aa/article/details/47027365" target="_blank" rel="noopener">https://blog.csdn.net/wsj998689aa/article/details/47027365</a> （关于其他补充核函数）</p>
-
-          
+          口述 SVMSVM 叫做支持向量机，它是一种二分类模型。它的基本模型是定义在特征空间的间隔最大的线性分类器。
+根据训练数据的不同，SVM 主要分为三种情况：
+第一种情况就是，当训练数据线性可分的时候，我们是通过硬间隔最大化，来学习一个线性分类器，也就是线性可分的支持向量机。硬间隔就是说，硬性要求所有
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/06/18/SVM面试问题汇总/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1332,169 +996,21 @@
       
         
           
-            <h2 id="1-特征构造"><a href="#1-特征构造" class="headerlink" title="1. 特征构造"></a>1. 特征构造</h2><p>提取相关信息出来，再人工构造一些特征</p>
-<h2 id="2-特征清洗"><a href="#2-特征清洗" class="headerlink" title="2. 特征清洗"></a>2. 特征清洗</h2><h3 id="2-1-异常值检测"><a href="#2-1-异常值检测" class="headerlink" title="2.1 异常值检测"></a>2.1 异常值检测</h3><h4 id="1-基于统计的检测"><a href="#1-基于统计的检测" class="headerlink" title="1. 基于统计的检测"></a>1. 基于统计的检测</h4><p>四分位数间距，箱形图</p>
-<h4 id="2-基于距离的检测"><a href="#2-基于距离的检测" class="headerlink" title="2. 基于距离的检测"></a>2. 基于距离的检测</h4><ul>
-<li>K-means，得到聚类结果之后，然后选出每个簇中，大于阈值的点，即为离群点</li>
-</ul>
-<h4 id="3-基于聚类的检测"><a href="#3-基于聚类的检测" class="headerlink" title="3. 基于聚类的检测"></a>3. 基于聚类的检测</h4><ul>
-<li>DBSCAN，最后不属于任何簇的那些样本，为异常点 </li>
-</ul>
-<h4 id="4-基于密度的检测"><a href="#4-基于密度的检测" class="headerlink" title="4. 基于密度的检测"></a>4. 基于密度的检测</h4><h4 id="5-基于模型的检测"><a href="#5-基于模型的检测" class="headerlink" title="5. 基于模型的检测"></a>5. 基于模型的检测</h4><ol>
-<li><p>One Class SVM</p>
-</li>
-<li><p>Isolation Forest（IForest算法）</p>
-<ol>
-<li><p>构建多颗决策树</p>
-<ul>
-<li>首先采样决策树的训练样本，不需要全部的样本，因为我们的目的是异常点检测，只需要部分的样本我们一般就可以将异常点区分出来了</li>
-<li>由于没有标记输出，所以没办法计算基尼系数等指标，这里是随机选择划分特征，然后再随机选择划分点，进行决策树的分裂。直到深度达到限定的阈值或者没有样本了，就停止</li>
-</ul>
-</li>
-<li><p>计算需要检测的数据点 x 最终了若在任意第 t 颗 iTree 的层数 ht(x)，然后计算出 x 在每棵树的平均高度 h(x)</p>
-<ul>
-<li>对于数据 x，要遍历每一棵树 iTree，得到检测的数据点 x 最终落在任意第 t 颗 iTree 树的层数 ht(x)。ht(x) 越小，离根结点越近</li>
-</ul>
-</li>
-<li><p>根据平均高度 h(x) 判断 x 是否是一场点</p>
-<ul>
-<li>一般用下面这个公式计算 x 是异常值的概率分值：</li>
-</ul>
-</li>
-</ol>
-<p>$$<br>s(x, m) = 2 ^{- \frac{h(x)}{c(m)}}<br>$$</p>
-<pre><code>s(x, m) 的取值范围是 [0,1]，取值越接近1，是异常点的概率越大。m 是样本个数，c(m) 为：
-</code></pre><p>$$<br>c(m) = 2\ln (m-1) + \delta - 2*(m-1)/m<br>$$</p>
-<pre><code>所以高度 ht(x) 越接近 0，则 s(x, m) 越接近 1，即是异常点的概率接近 100%
-</code></pre></li>
-</ol>
-<h2 id="3-特征预处理"><a href="#3-特征预处理" class="headerlink" title="3. 特征预处理"></a>3. 特征预处理</h2><h3 id="3-1-归一化"><a href="#3-1-归一化" class="headerlink" title="3.1 归一化"></a>3.1 归一化</h3><h4 id="1-为什么要进行归一化？"><a href="#1-为什么要进行归一化？" class="headerlink" title="1. 为什么要进行归一化？"></a>1. 为什么要进行归一化？</h4><ul>
-<li>可以加快梯度下降寻找最优解的速度。因为如果一个特征值范围很大，那么每一次迭代，它的更新速度会很大，那么需要较多次的迭代才能找到最优值</li>
-<li>使各个特征具有相同的量纲，具有可比性。否则模型就会倾向于去学习那么数值差别比较大的特征</li>
-</ul>
-<h4 id="2-常用的归一化方法"><a href="#2-常用的归一化方法" class="headerlink" title="2. 常用的归一化方法"></a>2. 常用的归一化方法</h4><ol>
-<li><p>线性归一化（Min-Max）</p>
-<p>适用于数据比较集中的情况。有个缺陷：如果 max 和 min 不稳定，很容易使得归一化结果不稳定，使得后续使用效果也不稳定</p>
-</li>
-<li><p>标准差归一化（Standard）</p>
-<p>减均值除方差，将数据转换为均值为 0，方差为 1 的数据分布</p>
-</li>
-<li><p>非线性归一化</p>
-<p>在数据分化很大的场景中，也就是说有些数值很大，有些很小，这个时候可以通过一些数学函数，将原始值直接进行映射。</p>
-<p>比如：log、指数、正切等</p>
-</li>
-</ol>
-<h3 id="3-2-连续特征离散化"><a href="#3-2-连续特征离散化" class="headerlink" title="3.2 连续特征离散化"></a>3.2 连续特征离散化</h3><h4 id="1-为什么要进行离散化？"><a href="#1-为什么要进行离散化？" class="headerlink" title="1. 为什么要进行离散化？"></a>1. 为什么要进行离散化？</h4><ol>
-<li>离散之后的特征基本都是用0 1表示的，离散特征的加减操作更加容易，易于模型的快速迭代</li>
-<li>稀疏向量的内积运算速度快（比如SVM就需要内积运算），计算结果方便存储，容易扩展</li>
-<li>离散之后的特征对异常数据有更强的鲁棒性，比如说年龄特征，&gt;60就为1，假设存在一个年龄是300岁的异常数据，如果进行了离散化的话，那么对应的值就是1，不会对模型造成太大的影响，但是不进行离散的话，就会造成比较大的影响</li>
-<li>LR（广义线性模型）这类的模型，表达能力有限。但是将单个变量离散化为N个变量之后，每个变量都有自己的权重，相当于为模型引入了非线性，能够提升模型的表达能力</li>
-<li>离散之后，可能进行特征交叉，由 M+N 个变量变成 M*N 个变量，进一步引入了非线性，提升了表达能力6. 特征离散之后，模型会更加稳定。比如对年龄离散化，20-30作为一个区间，不会因为一个用户年龄长了一岁就变成一个完全不同的人</li>
-</ol>
-<h4 id="2-怎样划分离散区间？"><a href="#2-怎样划分离散区间？" class="headerlink" title="2. 怎样划分离散区间？"></a>2. 怎样划分离散区间？</h4><ol>
-<li><p>等频离散</p>
-<p>每个区间的样本数量相等。假如有1000个样本（排序），将前100个作为一段，100～200作为一段……这样得到10段，则第100、200、300……位置的点就是分割点</p>
-</li>
-<li><p>等距离散</p>
-<p>每个区间的间距相等。根据取值等间距平均分成多段区间。这样方式适用于样本分布均匀的情况，不然会出现一个分段占据了大部分的样本。</p>
-</li>
-<li><p>树模型离散</p>
-<p>利用单个特征和目标值训练一颗决策树模型，然后依据叶子结点的取值作为分割点</p>
-</li>
-<li><p>K-Means 聚类离散</p>
-<p>最后得到的一个簇类就是一个离散区间</p>
-</li>
-<li><p>基于卡方检验离散（自下而上）</p>
-<ul>
-<li>根据要离散的属性对实例进行排序：每个实例属于一个区间</li>
-<li>合并区间，计算每一对相邻区间的卡方值</li>
-<li>停止准则：当卡方检验不显著，即 $p \ge \alpha$，继续合并相邻区间；当卡方检验显著，停止区间合并</li>
-</ul>
-</li>
-<li>基于信息增益离散（自下而上）<ul>
-<li>将属性的取值从大到小排列，把每个值看作是可能的切分点，依次计算将每个点作为切分点时，计算它们的熵，取熵最小的时候最为第一次划分点</li>
-<li>然后选取已有区间中熵最大的区间继续上面的这个过程</li>
-<li>终止条件：区间个数达到用户指定的个数或者某个用户定义的终止条件时，停止分裂</li>
-</ul>
-</li>
-</ol>
-<h3 id="3-3-缺失值处理"><a href="#3-3-缺失值处理" class="headerlink" title="3.3 缺失值处理"></a>3.3 缺失值处理</h3><p>主要有三大类：删除数据、数据补齐、不处理</p>
-<p>如果缺失的数据量比较大，而且不是很重要的特征的话，可以直接删除。不然的话可能会带入较大的 noise，对最后的结果造成影响。</p>
-<p>如果我们不希望改变原始的数据的话，可以不处理缺失值，也就是直接在包含空值的数据上进行处理。或者是将变量映射到高维空间。比如性别特征，有一部分数据是缺失的，则可以将这个特征映射成三个变量：是否男，是否女，是否缺失。这样的话完整保留了原始数据的全部信息。</p>
-<h4 id="缺失值补齐"><a href="#缺失值补齐" class="headerlink" title="缺失值补齐"></a>缺失值补齐</h4><ol>
-<li><p>特殊值填充</p>
-<p>将空值作为一种特殊的属性值来处理，它不同于其他的任何属性值。但是可能会导致严重的数据偏差，一般不推荐使用。</p>
-</li>
-<li><p>平均值填充</p>
-<ul>
-<li>数值型：平均值填充 </li>
-<li>非数值型：众数填充（利用出现次数最多的值进行填充）</li>
-</ul>
-<p>利用现存的数据的多数信息来推测缺失值</p>
-</li>
-<li><p>上下文填充</p>
-<p>从上一个数据或者下一个数据的值进行填充</p>
-</li>
-<li><p>插值法填充</p>
-<p>通过两点，估计中间的值</p>
-</li>
-<li><p>用算法拟合进行填充</p>
-<p>已知的作为训练集，缺失的作为测试集，来进行预测填充</p>
-</li>
-</ol>
-<h3 id="3-4-数据平滑"><a href="#3-4-数据平滑" class="headerlink" title="3.4 数据平滑"></a>3.4 数据平滑</h3><h2 id="4-特征选择"><a href="#4-特征选择" class="headerlink" title="4. 特征选择"></a>4. 特征选择</h2><p>选择有意义的特征输入到机器学习中进行训练。</p>
-<p>通常从两个方面考虑选择特征：</p>
-<ol>
-<li>特征是否发散：如果一个特征不发散，例如方差接近于 0，也就是说这个特征基本上没有差异，那这个特征对于样本的区分并没有用；</li>
-<li>特征与目标的相关性：显然，与目标相关性高的特征，应该优先选择。</li>
-</ol>
-<p>根据特征选择的形式，可以将特征选择方法分为 3 种：</p>
-<ol>
-<li>Filter 过滤法：按照发散性或者相关性对各个特征进行评分，设定阈值或者待选择阈值的个数，选择特征；</li>
-<li>Wrapper 包装法：根据目标函数，每次选择若干特征，或者排除若干特征；</li>
-<li>Embedded 嵌入法：先使用某些机器学习的算法和模型进行训练，得到各个特征的权值系数，根据系数从大到小选择特征。类似于 Filter 方法，但是是通过训练来确定特征的优劣。</li>
-</ol>
-<h3 id="4-1-Filter-过滤法"><a href="#4-1-Filter-过滤法" class="headerlink" title="4.1 Filter 过滤法"></a>4.1 Filter 过滤法</h3><ol>
-<li><p>方差选择法</p>
-<p>计算各个特征的方差，然后根据阈值，选择方差大于阈值的特征。</p>
-<p>方差比较小（比如小于 1），那么这个特征可能对我们的算法没有太大的作用。可以直接舍弃。</p>
-</li>
-<li><p>相关系数法</p>
-<p>计算各个特征对目标值的相关系数 r（皮尔逊相关系数，在 p 显著的情况下再来看这个值，相关系数为正，表示正相关，为负，表示负相关，值越大，表示越密切）以及相关系数的 p 值（显著水平，如果不显著的话，相关系数再高也没有用，因为可能只是因为偶然因素引起的，一般 p 小于 0.05 就算显著了） </p>
-<p>皮尔逊相关系数（Pearson Correlation Coefficient）：<br>$$<br>r = \frac {\sum (x - m_x)(y - m_y)}{\sqrt \sum (x - m_x)^2(y - m_y)^2}<br>$$<br>设定一个阈值，选择相关系数较大的部分特征。</p>
-</li>
-<li><p>卡方检验（这是假设检验的一种）</p>
-<p>在统计学中，卡方检验是用来评价两个时间是否独立，也就是 $P(AB) = P(A)*P(B)$ </p>
-<p>经典的卡方检验是检验定性自变量对定性因变量的相关性。假设自变量有 N 种取值，因变量有 M 种取值，考虑自变量等于 i 且因变量等于 j 的样本频数的观察值与期望的差距，构建统计量：<br>$$<br>x^2 = \sum \frac {(A-E)^2}{E}<br>$$<br>卡方检验，就是自变量对因变量的相关性。</p>
-</li>
-<li><p>互信息法（信息增益）</p>
-<p>经典的互信息也是评价定性自变量对定性因变量的相关性的。互信息计算公式如下：<br>$$<br>I(X;Y) = \sum <em>{x\in X}\sum</em>{y \in Y} \log \frac {p(x, y)}{p(x)p(y)}<br>$$<br>互信息是从信息熵的角度，分析各个特征和输出值之间的关系评分。互信息值越大，说明特征和输出值之间的相关性越大，越要保留。</p>
-</li>
-</ol>
-<h3 id="4-2-Wrapper-包装法"><a href="#4-2-Wrapper-包装法" class="headerlink" title="4.2 Wrapper 包装法"></a>4.2 Wrapper 包装法</h3><ul>
-<li><p>递归特征消除法 (Recursive Feature Elimination, RFE)</p>
-<p>递归消除特征法是使用一个基模型来进行对轮训练，每轮训练后，消除若干权值系数的特征，再基于新的特征集进行下一轮训练。</p>
-<p>比如利用 SVM 作为基模型（SVM-RFE）：</p>
-<p>在第一轮训练的时候，会选择所有的特征来训练，得到了分类超平面 $w \cdot x + b = 0$ 后，如果有 n 个特征，那么 SVM-RFE 会选择处 w 中分量的平方值 $w_i^2$ 最小的对应的那个特征，将其排出；在第二轮训练的时候，特征数就剩 n-1 个，然后利用这 i-1 个特征进行训练，再去除最小的，一次类推，直到特征数量满足需求。</p>
-</li>
-</ul>
-<h3 id="4-3-Embedded-嵌入法"><a href="#4-3-Embedded-嵌入法" class="headerlink" title="4.3 Embedded 嵌入法"></a>4.3 Embedded 嵌入法</h3><ol>
-<li><p>基于惩罚项的特征选择</p>
-<p>使用带惩罚项的基模型，除了筛选出特征外，同时也进行了降维。比如带 L1 正则的模型（L1 正则能降维的原理在于：保留多个对目标值具有同等相关性的特征种的一个）</p>
-</li>
-<li><p>基于树模型的特征选择法</p>
-<p>比如树模型中的 GBDT 可以作为基模型来进行特征选择</p>
-</li>
-</ol>
-<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><p><a href="https://breezedeus.github.io/2014/11/19/breezedeus-feature-mining-gbdt.html#fn:fbgbdt" target="_blank" rel="noopener">https://breezedeus.github.io/2014/11/19/breezedeus-feature-mining-gbdt.html#fn:fbgbdt</a> （利用 GBDT 构造新特征）</p>
-<p><a href="https://cloud.tencent.com/developer/article/1005443" target="_blank" rel="noopener">https://cloud.tencent.com/developer/article/1005443</a> （特征工程综述）</p>
-<p><a href="https://www.zybuluo.com/K1999/note/460870（连续特征离散化）" target="_blank" rel="noopener">https://www.zybuluo.com/K1999/note/460870（连续特征离散化）</a></p>
-<p><a href="https://www.cnblogs.com/pinard/p/9314198.html（异常值检测）" target="_blank" rel="noopener">https://www.cnblogs.com/pinard/p/9314198.html（异常值检测）</a></p>
-<p><a href="https://blog.csdn.net/lujiandong1/article/details/52654703（缺失值处理）" target="_blank" rel="noopener">https://blog.csdn.net/lujiandong1/article/details/52654703（缺失值处理）</a></p>
-<p><a href="https://www.zhihu.com/question/26639110（缺失值填充）" target="_blank" rel="noopener">https://www.zhihu.com/question/26639110（缺失值填充）</a></p>
-<p><a href="https://www.zhihu.com/question/28641663" target="_blank" rel="noopener">https://www.zhihu.com/question/28641663</a> （特征选择）</p>
+          1. 特征构造提取相关信息出来，再人工构造一些特征
+2. 特征清洗2.1 异常值检测1. 基于统计的检测四分位数间距，箱形图
+2. 基于距离的检测
+K-means，得到聚类结果之后，然后选出每个簇中，大于阈值的点，即为离群点
 
-          
+3. 基于聚类的检测
+DBSCAN，最后不属于任何簇的那些样本，为异常点
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/06/11/特征工程/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1645,126 +1161,18 @@
       
         
           
-            <h3 id="简单介绍-LR-模型"><a href="#简单介绍-LR-模型" class="headerlink" title="简单介绍 LR 模型"></a>简单介绍 LR 模型</h3><p>LR 是一个经典的分类算法，LR 是假设输入数据（标签）是服从伯努利分布的。LR 的形式就是 $P(Y=1 | x) = \frac {\exp (w \cdot x)}{1 + \exp {w \cdot x}}$.</p>
-<p>可以从三个方面来理解 LR：</p>
-<ol>
-<li><p>可以将 LR 看作是<strong>参数化的逻辑斯蒂分布</strong></p>
-<p>逻辑斯蒂分布是指</p>
-<p>分布函数为 $ F(x) = \frac {1}{1 + e^{-(x-\mu)/ \gamma}}$，它的曲线就是像 sigmoid 那样的一条 S 型曲线    </p>
-<p>密度函数为 $f(x) = \frac {e^{-(x-\mu)/\gamma}}{1 + e^{-(x-\mu)/\gamma}}$, 它的曲线就是像正态分布那样的曲线</p>
-<p>LR 就是参数化的逻辑斯蒂分布，这里参数化是指：利用 $w \cdot x + b$ 来代替 $-(x - \mu) / \gamma$ .</p>
-<p>所以 LR 为（b 合并在了 w 中）：</p>
-<p> $P(Y=1 | x) = \frac {e^{ w \cdot x}}{1 + e ^ {w \cdot x}}$</p>
-<p> $P(Y=0 | x) = \frac {1}{1 + e^ {w \cdot x}}$</p>
-</li>
-<li><p>LR 是将线性分类函数转换为概率</p>
-<p>一个事件的几率是该事件发生的概率与不发生的概率的比值：$p/(1-p)$ ，对数几率为: $\log\frac p {1-p}$</p>
-<p>对于 LR 模型，对数几率为 $\log \frac{P(Y=1|x)}{1-P(Y=1|x)} = w \cdot x$ </p>
-<p>也就是说，在 LR模型中，输出 Y=1 的对数几率是输入 x 的线性函数，这也是为啥说 LR 也是个对数线性模型的原因。</p>
-<p>所以，针对对输入 x 进行分类的线性函数，可以通过 LR ，模型将其转换为概率： $P(Y=1 | x) = \frac {\exp(w\cdot x + b)}{1 + \exp(w \cdot x + b)}$ . </p>
-</li>
-<li><p>线性模型在分类问题上面的推广</p>
-<p>如果想要用线性模型进行分类任务，就找一个单调可微的函数将分类任务的真实标记与线性回归模型的预测值联系起来。</p>
-<p>对于二分类的话，输出值是 0 或者 1，而线性模型的输出是实值范围，最直接的想法是利用分段函数，比如 &gt;=0 时候为 1，&lt;0 的时候为 1。但是分段函数不可导，所以利用 sigmoid 函数来进行代替，将连续值转换成概率值。</p>
-</li>
-</ol>
-<p>LR 的学习过程是利用极大化似然函数，利用 SGD 来求解。</p>
-<p>LR 的主要优点就是实现很简单，具有可解释性，分类速度也快，也不是很占资源，而且最后可以方便对输出结果进行调整。缺点的话是只能用于原始的 LR 只能用于线性问题，只能处理二分类问题。</p>
-<h3 id="1-介绍-LR"><a href="#1-介绍-LR" class="headerlink" title="1. 介绍 LR"></a>1. 介绍 LR</h3><p><strong>LR 是假设数据服从伯努利分布，通过极大化似然函数的方法，运用梯度下降来求解参数，来达到将数据二分类的目的。</strong></p>
-<p>在这句话中，包含了5个点：1. LR 的假设；2. LR 的损失函数； 3. LR 的求解方法；4. LR 的目的； 5. LR 如何分类。具体的如下：</p>
-<h5 id="1-LR-的基本假设："><a href="#1-LR-的基本假设：" class="headerlink" title="1. LR 的基本假设："></a>1. LR 的基本假设：</h5><p>任何模型都有自己的假设，在这个假设下这个模型才是成立的。</p>
-<p>LR 的第一个假设是<strong>假设数据服从伯努利分布（二项分布）</strong>，也就是二项分布，比如抛硬币，正面的概率是 p，反面是 1-p. 在 LR 中，正类是 p，负类则为 1-p.</p>
-<p>LR 的第二个假设是<strong>假设样本为正类的概率</strong>是: $p = \frac {\exp{(wx)}} {1 + \exp{(wx)}}$</p>
-<p>所以 LR 的最终形式为：  $h_w(x;w) = \frac {\exp{(wx)}} {1 + \exp{(wx)}}$</p>
-<h5 id="2-LR-的损失函数"><a href="#2-LR-的损失函数" class="headerlink" title="2. LR 的损失函数"></a>2. LR 的损失函数</h5><p>LR 的损失函数是它的<strong>极大似然函数</strong>：</p>
-<p>设 $P(Y=1 | x) = \pi(x), P(Y=0 | x) = 1 - \pi(x)$</p>
-<p>则似然函数为：$\prod _{i=1}^N [\pi(x_i)]^{y_i} [1 - \pi(x_i)]^{1-y_i}$ </p>
-<h5 id="3-LR-的求解方法"><a href="#3-LR-的求解方法" class="headerlink" title="3. LR 的求解方法"></a>3. LR 的求解方法</h5><p>该极大似然函数无法直接求解，所以一般通过函数进行梯度下降来不断逼近最优解。</p>
-<p>这里可能会问梯度下降有哪些：随机梯度下降、批量梯度下降、small batch 梯度下降；以及这三种方式的优劣和如何选择最合适的梯度下降方式。</p>
-<ul>
-<li>批量梯度下降的优点是会获得全局最优解，缺点是在更新每个参数的时候需要遍历所有的数据，计算量会很大，并且有很多冗余计算，所以当数据集大的时候，每个参数都会更新很慢。</li>
-<li>随机梯度下降法以高方差频繁更新，优点是 sgd 会跳到新的和潜在更好的区域最优解，缺点是使得收敛到局部最优解的过程更加的复杂。</li>
-<li>小批量梯度下降结合了 sgd 和 batch gd 的优点，每次更新的时候使用 n 个样本。减少了参数更新的次数，可以达到稳定收敛结果，一般在深度学习中采用这种方式。</li>
-</ul>
-<h5 id="4-LR-的目的"><a href="#4-LR-的目的" class="headerlink" title="4. LR 的目的"></a>4. LR 的目的</h5><p>将数据二分类，提高准确率</p>
-<h5 id="5-LR-如何进行分类"><a href="#5-LR-如何进行分类" class="headerlink" title="5. LR 如何进行分类"></a>5. LR 如何进行分类</h5><p>划定一个阈值，y 大于这个阈值的是一类，小于这个阈值的是另一类。阈值根据实际情况选择，一般是 0.5。</p>
-<h3 id="2-LR-为什么要使用极大似然函数作为损失函数"><a href="#2-LR-为什么要使用极大似然函数作为损失函数" class="headerlink" title="2. LR 为什么要使用极大似然函数作为损失函数"></a>2. LR 为什么要使用<strong>极大似然函数</strong>作为损失函数</h3><ol>
-<li>因为我们想要让每一个样本的预测都要得到最大的概率，也就是将所有样本预测后得到概率进行相乘之后是最大的，也就是极大似然函数</li>
-<li>对极大似然函数取对数之后，相当于对数损失函数，对数损失函数的训练求解参数的速度是比较快的，而且更新速度只与 x，y 有关（与 sigmoid 无关），比较稳定</li>
-</ol>
-<p><strong>为什么不用平方损失函数？</strong></p>
-<ol start="3">
-<li>如果使用平方损失函数，梯度更新的速度会和 sigmoid 函数的梯度相关，sigmoid 函数的梯度比较小，导致训练速度比较慢。</li>
-</ol>
-<h3 id="3-LR-为什么要用-sigmoid"><a href="#3-LR-为什么要用-sigmoid" class="headerlink" title="3. LR 为什么要用 sigmoid"></a>3. LR 为什么要用 sigmoid</h3><p>利用最大熵分布，$max(\sum_{v=1}^k\sum_{i=1}^m \pi(x(i))_v \log (\pi(x(i))_v)$ ，求出熵最大的时候的 $\pi$ ，这个时候 $\pi$ 就是 sigmoid 函数。</p>
-<p>二就是利用 sigmoid 比较符合概率分布的定义。</p>
-<h3 id="4-LR-在训练的过程中，如果有很多的特征高度相关或者说有一个特征重复了100遍，会造成怎样的影响？"><a href="#4-LR-在训练的过程中，如果有很多的特征高度相关或者说有一个特征重复了100遍，会造成怎样的影响？" class="headerlink" title="4. LR 在训练的过程中，如果有很多的特征高度相关或者说有一个特征重复了100遍，会造成怎样的影响？"></a>4. LR 在训练的过程中，如果有很多的特征高度相关或者说有一个<strong>特征</strong>重复了100遍，会造成怎样的影响？</h3><ul>
-<li><p>如果在损失函数收敛的情况下，就算有很多特征高度相关也不会影响分类器的结果</p>
-</li>
-<li><p>对特征本身来讲，假设只有一个特征，在不考虑采样的情况下，将它重复100遍。训练完以后，数据还是这么多，但是这个特征本身重复了100遍，实际上将原来的特征分成了100份，每个特征都是原来权重的百分之一</p>
-</li>
-<li><p>如果在随机采样的情况下，其实训练收敛以后，还是可以认为这100个特征和原来那个特征扮演的效果一样，只是可能中间很多特征值正负抵消了。 </p>
-</li>
-</ul>
-<h3 id="5-为什么在训练的过程中，会将高度相关的特征去掉？"><a href="#5-为什么在训练的过程中，会将高度相关的特征去掉？" class="headerlink" title="5. 为什么在训练的过程中，会将高度相关的特征去掉？"></a>5. 为什么在训练的过程中，会将高度相关的特征去掉？</h3><ul>
-<li>去掉高度相关的特征可以让模型具有更好的解释性</li>
-<li>可以大大提高训练速度。如果模型当中有很多特征高度相关的话，就算损失函数本身收敛了，但实际上参数是没有收敛的，这样会拉低训练的速度。其次就是特征多了，本身也会增大训练时间。</li>
-</ul>
-<h3 id="6-LR-如何对非线性可分的数据做分类？"><a href="#6-LR-如何对非线性可分的数据做分类？" class="headerlink" title="6. LR 如何对非线性可分的数据做分类？"></a>6. LR 如何对非线性可分的数据做分类？</h3><p>利用核函数，也就是将线性不可分的数据映射到高维空间中，让它们在高维空间中线性可分。</p>
-<p>其实核技巧不是 SVM 专有的，只要满足 Repersenter Theorem 这个定理就可以使用核技巧，这个定理是说，对于任意的 $L_2$ 正则化的线性模型，目标函数为 $\min_w \frac {\lambda}{N}w^Tw + \frac 1 N \sum _{n=1} ^ N err(y_n, w^Tz_n)$, 均有最优的参数 $w_* = \sum \beta _n z_n$.</p>
-<p>而只要满足这种形式的最优解，都可以用核技巧，所以带 L2 正则的 LR 是可以用核技巧的</p>
-<h3 id="7-LR-如何做多分类？"><a href="#7-LR-如何做多分类？" class="headerlink" title="7. LR 如何做多分类？"></a>7. LR 如何做多分类？</h3><p>有两种方式</p>
-<ol>
-<li><p>对每个类别训练一个二元分类器</p>
-<p>这个时候是当 K 个类别不是互斥的时候，也就是说，可以属于好几个类别（比如预测用户可能购买的商品类别），用这种方式比较合适</p>
-</li>
-<li><p>利用 softmax</p>
-<p>当 K 个类是互斥的，也就是只能属于一个类别，这个时候用 softmax 比较合适，</p>
-<p>公式为：$P(y = i | x, \theta) = \frac {\exp(\theta _i ^T x)}{\sum _j ^k \exp(\theta_j ^T x)}$</p>
-<p>决策函数为：$y^* = \arg\max_iP(y=i|x,\theta)$</p>
-<p>对应的损失函数为：$J(\theta) - \frac 1 N \sum_i^N \sum_j^K 1[y_i = j] \log \frac {\exp(\theta_i^tx)}{\sum\exp(\theta_k^Tx)}$ </p>
-</li>
-</ol>
-<h3 id="8-LR-的优点"><a href="#8-LR-的优点" class="headerlink" title="8.  LR 的优点"></a>8.  LR 的优点</h3><ul>
-<li>实现简单</li>
-<li>形式简单，模型的<strong>可解释性非常好</strong>。从特征的权重可以看到不同的特征对最后结果的影响，某个特征的权重值比较高，那么这个特征对最后的结果的影响会比较大</li>
-<li>模型的效果不错。如果特征工程做得好，最后的效果都不会太差</li>
-<li>训练速度快。分类的时候，计算量仅仅和特征的数目相关</li>
-<li>资源占用小，尤其是内存。因为只需要存储各个维度的特征值</li>
-<li>方便输出结果调整。LR 可以方便的得到最后分类的结果，因为输出的是每个样本的概率分数，我们可以很容易的对这些概率分数进行阈值划分，然后归属到对应的类别中。</li>
-</ul>
-<h3 id="9-LR-的缺点"><a href="#9-LR-的缺点" class="headerlink" title="9.  LR 的缺点"></a>9.  LR 的缺点</h3><ul>
-<li>很难处理数据不平衡的问题。比如：假如正负样本比为：10000:1，我们把所有样本的都预测为正的话，也能让损失函数的值很小。但是作为一个分类器，它对正负样本的区分能力不会很好。</li>
-<li>处理非线性数据比较麻烦。LR 在不引入其他方法的情况下，只能处理线性可分的数据（或者进一步说，只能处理二分类的问题）。</li>
-<li>LR 本身无法进行特征筛选。所有有的时候会利用 GBDT 来选择特征，然后在利用 LR 来进行分类。</li>
-<li>原始的 LR 只能处理二分类问题</li>
-</ul>
-<p>容易过拟合，一般准确性不高，原始的 LR 只能处理二分类问题， 只能用于线性问题</p>
-<h3 id="10-为什么-LR-把特征离散后效果更好？"><a href="#10-为什么-LR-把特征离散后效果更好？" class="headerlink" title="10. 为什么 LR 把特征离散后效果更好？"></a>10. 为什么 LR 把特征离散后效果更好？</h3><p><strong>总结：计算简单、简化模型、增强模型的泛化能力</strong></p>
-<p>在工业上，很少直接将特征输入到 LR，而是将连续特征离散化为一系列的0、1特征，然后再交给 LR 模型，这样做的优势有以下几点：</p>
-<ol>
-<li><p>稀疏向量内积乘法<strong>运算速度</strong>更快，计算结果方便存储，容易扩展；</p>
-</li>
-<li><p>离散化后的特征对异常数据有很强的<strong>鲁棒性</strong>：比如一个特征是年龄&gt;30是1，否则为0。如果特征没有离散化的话，一个异常数据 “年龄300岁”会给模型造成很大的干扰；</p>
-</li>
-<li><p>LR 输入广义线性模型，表达能力受限；单变量离散化为 N 个之后（比如one-hot），每个变量有单独的权重，相当于为模型<strong>引入非线性</strong>，能够提升模型的表达能力，提高拟合能力；</p>
-</li>
-<li><p>离散化之后可以进行特征交叉，由 M+N 个变量，进一步<strong>引入非线性</strong>，提升表达能力；</p>
-</li>
-<li><p>特征离散化后，模型会更加稳定，比如如果对用户年龄离散化，20～30为一个区间，不会因为一个用户年龄长了一岁，就变成一个完全不同的人。（处于区间相邻处的样本就会刚好相反，所以怎么划分区间是一门学问）</p>
-<p><strong>模型是使用离散特征还是连续特征，其实是一个 “海量离散特征+简单模型” 同 “少量连续特征+复杂模型” 的权衡</strong>。既可以离散化用线性模型，也可以用连续特征加深度学习。</p>
-</li>
-</ol>
-<p>##Reference</p>
-<p><a href="https://www.cnblogs.com/ModifyRong/p/7739955.html" target="_blank" rel="noopener">https://www.cnblogs.com/ModifyRong/p/7739955.html</a></p>
-<p><a href="https://blog.csdn.net/yang090510118/article/details/39478033" target="_blank" rel="noopener">https://blog.csdn.net/yang090510118/article/details/39478033</a> （解释LR特征离散）</p>
-<p><a href="https://hyzhan.github.io/2017/05/23/2017-05-23-%E9%80%BB%E8%BE%91%E5%9B%9E%E5%BD%92LR%E6%8E%A8%E5%AF%BC%EF%BC%88sigmoid%EF%BC%8C%E6%8D%9F%E5%A4%B1%E5%87%BD%E6%95%B0%EF%BC%8C%E6%A2%AF%E5%BA%A6%EF%BC%8C%E5%8F%82%E6%95%B0%E6%9B%B4%E6%96%B0%E5%85%AC%E5%BC%8F%EF%BC%89/" target="_blank" rel="noopener">https://hyzhan.github.io/2017/05/23/2017-05-23-%E9%80%BB%E8%BE%91%E5%9B%9E%E5%BD%92LR%E6%8E%A8%E5%AF%BC%EF%BC%88sigmoid%EF%BC%8C%E6%8D%9F%E5%A4%B1%E5%87%BD%E6%95%B0%EF%BC%8C%E6%A2%AF%E5%BA%A6%EF%BC%8C%E5%8F%82%E6%95%B0%E6%9B%B4%E6%96%B0%E5%85%AC%E5%BC%8F%EF%BC%89/</a> (解释LR要采用sigmoid)</p>
-<p><a href="http://shomy.top/2017/03/07/kernel-lr/" target="_blank" rel="noopener">http://shomy.top/2017/03/07/kernel-lr/</a> （Kernel LR）</p>
-<p><a href="https://tech.meituan.com/intro_to_logistic_regression.html" target="_blank" rel="noopener">https://tech.meituan.com/intro_to_logistic_regression.html</a> （美团介绍 LR）</p>
-<p><a href="http://izhaoyi.top/2017/07/08/lr/#%E8%A7%92%E5%BA%A6%E4%BA%8C%EF%BC%9ALR%E6%A8%A1%E5%9E%8B%E5%B0%86%E7%BA%BF%E6%80%A7%E5%88%86%E7%B1%BB%E5%87%BD%E6%95%B0%E8%BD%AC%E6%8D%A2%E4%B8%BA%EF%BC%88%E6%9D%A1%E4%BB%B6%EF%BC%89%E6%A6%82%E7%8E%87" target="_blank" rel="noopener">http://izhaoyi.top/2017/07/08/lr/#%E8%A7%92%E5%BA%A6%E4%BA%8C%EF%BC%9ALR%E6%A8%A1%E5%9E%8B%E5%B0%86%E7%BA%BF%E6%80%A7%E5%88%86%E7%B1%BB%E5%87%BD%E6%95%B0%E8%BD%AC%E6%8D%A2%E4%B8%BA%EF%BC%88%E6%9D%A1%E4%BB%B6%EF%BC%89%E6%A6%82%E7%8E%87</a> （LR 的三种理解形式）</p>
-<p><a href="https://hyzhan.github.io/2017/05/23/2017-05-23-%E9%80%BB%E8%BE%91%E5%9B%9E%E5%BD%92LR%E6%8E%A8%E5%AF%BC%EF%BC%88sigmoid%EF%BC%8C%E6%8D%9F%E5%A4%B1%E5%87%BD%E6%95%B0%EF%BC%8C%E6%A2%AF%E5%BA%A6%EF%BC%8C%E5%8F%82%E6%95%B0%E6%9B%B4%E6%96%B0%E5%85%AC%E5%BC%8F%EF%BC%89/" target="_blank" rel="noopener">https://hyzhan.github.io/2017/05/23/2017-05-23-%E9%80%BB%E8%BE%91%E5%9B%9E%E5%BD%92LR%E6%8E%A8%E5%AF%BC%EF%BC%88sigmoid%EF%BC%8C%E6%8D%9F%E5%A4%B1%E5%87%BD%E6%95%B0%EF%BC%8C%E6%A2%AF%E5%BA%A6%EF%BC%8C%E5%8F%82%E6%95%B0%E6%9B%B4%E6%96%B0%E5%85%AC%E5%BC%8F%EF%BC%89/</a> （sigmoid 的来历——最大熵）</p>
+          简单介绍 LR 模型LR 是一个经典的分类算法，LR 是假设输入数据（标签）是服从伯努利分布的。LR 的形式就是 $P(Y=1 | x) = \frac {\exp (w \cdot x)}{1 + \exp {w \cdot x}}$.
+可以从三个方面来理解 LR：
 
-          
+可以将 LR 看作是参数化的
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/06/08/LR面试问题汇总/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
