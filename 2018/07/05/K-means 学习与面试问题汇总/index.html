@@ -89,12 +89,12 @@
 <meta property="og:site_name" content="liuyinglxl">
 <meta property="og:description" content="介绍聚类聚类是无监督学习算法，想要将样本数据集划分为多个不相交的簇。 聚类的性能如何评价？—— 度量性能的指标 我们是希望聚类的结果：簇内相似度高，簇间相似度低。 所以聚类性能度量主要是两种：1. 将聚类结果与某个参考模型进行比较，这叫做“外部指标”；2. 直接考察聚类结果而不利用任何参考模型，这叫做“内部指标” 对于外部指标： 数据集中的任意两个样本点，在聚类中的给出的簇划分，和参考模型给出的簇">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://yoursite.com/Users/liuyinglxl/Nustore%20Files/我的坚果云/面试/知识储备/pic/image-20180819204251163.png">
-<meta property="og:updated_time" content="2018-10-11T10:22:18.545Z">
+<meta property="og:image" content="http://yoursite.com/images/dbscan.jpg">
+<meta property="og:updated_time" content="2018-10-11T10:41:32.087Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="聚类(K-means,DBSCAN)面试整理">
 <meta name="twitter:description" content="介绍聚类聚类是无监督学习算法，想要将样本数据集划分为多个不相交的簇。 聚类的性能如何评价？—— 度量性能的指标 我们是希望聚类的结果：簇内相似度高，簇间相似度低。 所以聚类性能度量主要是两种：1. 将聚类结果与某个参考模型进行比较，这叫做“外部指标”；2. 直接考察聚类结果而不利用任何参考模型，这叫做“内部指标” 对于外部指标： 数据集中的任意两个样本点，在聚类中的给出的簇划分，和参考模型给出的簇">
-<meta name="twitter:image" content="http://yoursite.com/Users/liuyinglxl/Nustore%20Files/我的坚果云/面试/知识储备/pic/image-20180819204251163.png">
+<meta name="twitter:image" content="http://yoursite.com/images/dbscan.jpg">
 
 
 
@@ -467,7 +467,7 @@
 <h3 id="4-算法描述"><a href="#4-算法描述" class="headerlink" title="4. 算法描述"></a>4. 算法描述</h3><p>首先遍历样本集合，找出所有的核心对象</p>
 <p>循环操作，直到核心对象集合为空</p>
 <pre><code>随机选取一个核心对象 a，然后从未被访问的核心对象集合中找到 a 密度可达的所有集合
-</code></pre><p><img src="/Users/liuyinglxl/Nustore Files/我的坚果云/面试/知识储备/pic/image-20180819204251163.png" alt="image-20180819204251163"></p>
+</code></pre><p><img src="/images/dbscan.jpg" alt=""></p>
 <h3 id="5-DBSCAN-的优缺点"><a href="#5-DBSCAN-的优缺点" class="headerlink" title="5. DBSCAN 的优缺点"></a>5. DBSCAN 的优缺点</h3><h4 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h4><ol>
 <li>可以对任意形状的数据集进行聚类</li>
 <li>可以在聚类的同时发现异常点，对数据集中的异常点不敏感</li>
