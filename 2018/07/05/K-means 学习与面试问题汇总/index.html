@@ -1,0 +1,1109 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/fav128.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/fav32.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/fav16.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/fav.svg?v=5.1.4" color="#222">
+
+
+
+  <meta name="msapplication-config" content="/images/browserconfig.xml" />
+
+
+
+  <meta name="keywords" content="机器学习,聚类,K-means,DBSCAN," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="介绍聚类聚类是无监督学习算法，想要将样本数据集划分为多个不相交的簇。 聚类的性能如何评价？—— 度量性能的指标 我们是希望聚类的结果：簇内相似度高，簇间相似度低。 所以聚类性能度量主要是两种：1. 将聚类结果与某个参考模型进行比较，这叫做“外部指标”；2. 直接考察聚类结果而不利用任何参考模型，这叫做“内部指标” 对于外部指标： 数据集中的任意两个样本点，在聚类中的给出的簇划分，和参考模型给出的簇">
+<meta name="keywords" content="机器学习,聚类,K-means,DBSCAN">
+<meta property="og:type" content="article">
+<meta property="og:title" content="聚类(K-means,DBSCAN)面试整理">
+<meta property="og:url" content="http://yoursite.com/2018/07/05/K-means 学习与面试问题汇总/index.html">
+<meta property="og:site_name" content="liuyinglxl">
+<meta property="og:description" content="介绍聚类聚类是无监督学习算法，想要将样本数据集划分为多个不相交的簇。 聚类的性能如何评价？—— 度量性能的指标 我们是希望聚类的结果：簇内相似度高，簇间相似度低。 所以聚类性能度量主要是两种：1. 将聚类结果与某个参考模型进行比较，这叫做“外部指标”；2. 直接考察聚类结果而不利用任何参考模型，这叫做“内部指标” 对于外部指标： 数据集中的任意两个样本点，在聚类中的给出的簇划分，和参考模型给出的簇">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/Users/liuyinglxl/Nustore%20Files/我的坚果云/面试/知识储备/pic/image-20180819204251163.png">
+<meta property="og:updated_time" content="2018-10-11T09:29:28.894Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="聚类(K-means,DBSCAN)面试整理">
+<meta name="twitter:description" content="介绍聚类聚类是无监督学习算法，想要将样本数据集划分为多个不相交的簇。 聚类的性能如何评价？—— 度量性能的指标 我们是希望聚类的结果：簇内相似度高，簇间相似度低。 所以聚类性能度量主要是两种：1. 将聚类结果与某个参考模型进行比较，这叫做“外部指标”；2. 直接考察聚类结果而不利用任何参考模型，这叫做“内部指标” 对于外部指标： 数据集中的任意两个样本点，在聚类中的给出的簇划分，和参考模型给出的簇">
+<meta name="twitter:image" content="http://yoursite.com/Users/liuyinglxl/Nustore%20Files/我的坚果云/面试/知识储备/pic/image-20180819204251163.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/07/05/K-means 学习与面试问题汇总/"/>
+
+
+
+
+
+  <title>聚类(K-means,DBSCAN)面试整理 | liuyinglxl</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">liuyinglxl</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/05/K-means 学习与面试问题汇总/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="liuyinglxl">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="liuyinglxl">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">聚类(K-means,DBSCAN)面试整理</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-05T18:03:11+08:00">
+                2018-07-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/机器学习/" itemprop="url" rel="index">
+                    <span itemprop="name">机器学习</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/07/05/K-means 学习与面试问题汇总/" class="leancloud_visitors" data-flag-title="聚类(K-means,DBSCAN)面试整理">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="介绍聚类"><a href="#介绍聚类" class="headerlink" title="介绍聚类"></a>介绍聚类</h2><p>聚类是无监督学习算法，想要将样本数据集划分为多个不相交的簇。</p>
+<p>聚类的性能如何评价？—— 度量性能的指标</p>
+<p>我们是希望聚类的结果：簇内相似度高，簇间相似度低。</p>
+<p>所以聚类性能度量主要是两种：1. 将聚类结果与某个参考模型进行比较，这叫做“外部指标”；2. 直接考察聚类结果而不利用任何参考模型，这叫做“内部指标”</p>
+<p><strong>对于外部指标：</strong></p>
+<p>数据集中的任意两个样本点，在聚类中的给出的簇划分，和参考模型给出的簇划分，共四种情况：</p>
+<ol>
+<li>在聚类中分在了同一个簇中，在参考模型中也在同一个簇内，这样的样本对数量为 a</li>
+<li>在聚类中分在了用一个簇内，但在参考模型中不在同一个簇内，这样的样本对数量为 b</li>
+<li>在聚类中不在同一个簇内，但在参考模型中在同一个簇内，这样的样本对数量为 c</li>
+<li>在聚类中不在同一个簇内，在参考模型中也不在同一个簇内，这样的样本对数量为 d</li>
+</ol>
+<p>所以 a + b + c + d = m(m-1)/2，m 是样本的数量，这个时候可以有如下的外部指标：</p>
+<ol>
+<li><p>Jaccard 系数</p>
+<p>$JC = a / (a + b + c)$</p>
+</li>
+<li><p>FM 指数</p>
+<p>$FMI = \sqrt {\frac {a}{a+b} \cdot \frac{a}{a+c}}$</p>
+</li>
+<li><p>Rand 指数</p>
+<p>$RI = \frac{2(a+d)}{m(m-1)}$ </p>
+</li>
+</ol>
+<p>这三个值都在 0 和 1 之间，值越大说明聚类的效果越好</p>
+<p><strong>对于内部指标：</strong></p>
+<p>主要是依据距离来的，比如簇内的平均距离、最远距离、最近距离等等。</p>
+<h2 id="K-means-学习与面试问题汇总"><a href="#K-means-学习与面试问题汇总" class="headerlink" title="K-means 学习与面试问题汇总"></a>K-means 学习与面试问题汇总</h2><h3 id="1-介绍-K-means"><a href="#1-介绍-K-means" class="headerlink" title="1. 介绍 K-means"></a>1. 介绍 K-means</h3><p>K-means 是一种聚类算法，是一种无监督学习算法，目标是将相似的对象归到同一蔟中。蔟内的对象越相似，聚类的效果就越好。</p>
+<p>聚类与分类最大的不同在于，分类是监督学习，分类的目标已经确定；聚类是无监督学习，类别是未知的</p>
+<h3 id="2-K-means-的算法原理"><a href="#2-K-means-的算法原理" class="headerlink" title="2. K-means 的算法原理"></a>2. K-means 的算法原理</h3><p><strong>目标</strong>：使各个样本与所在簇的质心的均值的平方和达到最小（这也是 K-means 最后聚类效果的评价标准）</p>
+<p>$SSE = \sum_{i=1}^k{\sum_{x \in C_i}{||x-u_i||_2^2}}$</p>
+<p><strong>步骤</strong>：</p>
+<ol>
+<li>创建 k 个点作为 k 个簇的起始质心（通常是随机选择）</li>
+<li>分别计算剩下的元素到 k 个簇中心的距离，将这些元素分别划到距离最近的蔟</li>
+<li>根据聚类的结果，重新计算 k 个簇各自的中心，计算方法是取簇中所有元素各自维度的<strong>算术平均数</strong></li>
+<li>将 D 中全部元素按照新的中心重新聚类</li>
+<li>重复第 4 步，直到聚类结果不再发生变化</li>
+<li>最后，输出聚类结果</li>
+</ol>
+<h3 id="3-K-means-的优缺点"><a href="#3-K-means-的优缺点" class="headerlink" title="3. K-means 的优缺点"></a>3. K-means 的优缺点</h3><p><strong>优点</strong>：</p>
+<ol>
+<li>原理简单，实现简单</li>
+<li>聚类效果优</li>
+<li>算法的可解释性比较强</li>
+<li>需要调的参数只有 K</li>
+</ol>
+<p><strong>缺点</strong>：</p>
+<ol>
+<li><p>k 需要事先给定，但是这个 k 值很难估计 </p>
+<ul>
+<li>各种估计 K 的方法</li>
+</ul>
+</li>
+<li><p>需要人为地确定初始聚类中心，不同的初始聚类中心可能导致完全不同的聚类结果，不能保证 k_means 算法收敛到全局最优解</p>
+<p>目前有如下的解法方法：</p>
+<ul>
+<li>针对这个问题，在 K-means 的基础上提出了<strong>二分 K-means</strong>算法。该算法首先将所有点都看作是一个簇，然后一分为二，找到最小 SSE 的聚类质心。接着选择其中一个簇继续一分为二，此处哪一个簇需要，根据划分后的 SSE 来判断</li>
+<li><strong>K-means++</strong> 算法：假设已经选去了 n 个初始聚类中心，则在选择第 k+1 个聚类中心时：距离当前 n 个聚类中心越远的点越有可能呗选为第 n+1 个簇中心</li>
+<li>先计算出整理样本的中心，然后根据样本点到中心的距离，由近至远采样作为初始聚类中心</li>
+<li>初步将数据分成 K 个区域，将每个区域的中心作为初始聚类中心</li>
+<li>计算出每个点的“密度”，认为“密度”较大的是聚类中心。先把“密度”最大的挑出来作为第一个聚类中心，然后从剩下点中挑出密度最大，且离所有已选择的聚类中心大于一定距离的点作为下一个聚类中心，直到选择了 k 个 </li>
+</ul>
+</li>
+<li><p>对离群点敏感</p>
+<ul>
+<li>数据预处理</li>
+</ul>
+</li>
+<li><p>结果不稳定（受输入顺序影响）</p>
+</li>
+<li><p>计算量大</p>
+<ul>
+<li>利用 kd-tree 进行加速</li>
+</ul>
+</li>
+</ol>
+<h3 id="4-K-means-的-K-值应该如何选择"><a href="#4-K-means-的-K-值应该如何选择" class="headerlink" title="4. K-means 的 K 值应该如何选择"></a>4. K-means 的 K 值应该如何选择</h3><p>给定一个合适的类簇指标，比如直径（簇内任意两点之间的最大距离）或者半径（簇内所有点到簇中心距离的最大值），只要我们假设的类簇的数目等于或者大于真实的类簇数目时，该指标上升会很缓慢，而一旦试图得到少于真实数目的类簇时，该指标就会急剧上升</p>
+<h3 id="5-K-means-的初始簇中心怎么选"><a href="#5-K-means-的初始簇中心怎么选" class="headerlink" title="5. K-means 的初始簇中心怎么选"></a>5. K-means 的初始簇中心怎么选</h3><ul>
+<li>在 K-means 的基础上提出了<strong>二分 K-means</strong>算法。该算法首先将所有点都看作是一个簇，然后一分为二，找到最小 SSE 的聚类质心。接着选择其中一个簇继续一分为二，此处哪一个簇需要，根据划分后的 SSE 来判断</li>
+<li><strong>K-means++</strong> 算法：假设已经选去了 n 个初始聚类中心，则在选择第 k+1 个聚类中心时：距离当前 n 个聚类中心越远的点越有可能呗选为第 n+1 个簇中心</li>
+<li>先计算出整理样本的中心，然后根据样本点到中心的距离，由近至远采样作为初始聚类中心</li>
+<li>初步将数据分成 K 个区域，将每个区域的中心作为初始聚类中心</li>
+<li>计算出每个点的“密度”，认为“密度”较大的是聚类中心。先把“密度”最大的挑出来作为第一个聚类中心，然后从剩下点中挑出密度最大，且离所有已选择的聚类中心大于一定距离的点作为下一个聚类中心，直到选择了 k 个 </li>
+</ul>
+<h3 id="6-手写伪代码"><a href="#6-手写伪代码" class="headerlink" title="6. 手写伪代码"></a>6. 手写伪代码</h3><p>创建 K 个点作为 K 个初始聚类中心 </p>
+<p>当任意一个点的簇分配结果发生结果时</p>
+<pre><code>对数据集中的每个数据点，重新分配质心
+
+    对每个质心：
+
+        计算质心到数据点之间的距离
+
+    将数据点分配到距其最近的簇
+
+对每个簇，计算簇中所有点的均值并将其均值作为新的质心
+</code></pre><h3 id="7-K-means-与-KNN"><a href="#7-K-means-与-KNN" class="headerlink" title="7. K-means 与 KNN"></a>7. K-means 与 KNN</h3><ul>
+<li>K-means 是无监督学习的聚类算法，没有样本输出；KNN 是监督学习的分类算法，有对应的类别输出</li>
+<li>KNN 基本不需要训练，对测试集里面的点，只需要找到在训练集中最近的 K 个点，用这 K 个点的类别投票决定测试点的类别；而 K-means 有训练过程，要找到 K 个类别的最佳质心，从而决定样本的簇类别</li>
+<li>两个算法的相似之处是都包含同一个过程：即找出和某个点最近的点</li>
+</ul>
+<h3 id="8-K-means-与-EM（期望最大化算法）-的关系"><a href="#8-K-means-与-EM（期望最大化算法）-的关系" class="headerlink" title="8. K-means 与 EM（期望最大化算法） 的关系"></a>8. K-means 与 EM（期望最大化算法） 的关系</h3><h4 id="简单理解-EM-算法"><a href="#简单理解-EM-算法" class="headerlink" title="简单理解 EM 算法"></a>简单理解 EM 算法</h4><p>在求解概率模型参数的时候，如果需要的变量全部都是观测变量，不涉及到隐藏变量的话，可以使用极大似然函数来求解模型的参数。但是模型如果同时包含观测变量和隐藏变量的话，传统的方式就不行了，这个时候就需要 —— <strong>EM 算法</strong>。</p>
+<p>EM 的学习目标是（目标函数）：</p>
+<p>$L(\theta) = \log P(Y|\theta) = \log \sum _z P(Y,Z|\theta) = \log (\sum _zP(Y|Z,\theta)P(Z|\theta))$     </p>
+<p>其中，Y 表示观测变量，Z 表示隐变量。由于包含隐变量 Z，所以无法正常求解。</p>
+<h4 id="EM-算法的思想"><a href="#EM-算法的思想" class="headerlink" title="EM 算法的思想"></a>EM 算法的思想</h4><p>利用最大似然求 $L(\theta)$ ，得到参数 $\theta$ ，其实是没有解析解的，所以通过迭代的方法来求解。</p>
+<ol>
+<li>给 $\theta$ 一个初值</li>
+<li>E 步（求期望）：求隐变量 Z 的条件概率分布的期望 $Q(\theta, \theta ^{(i)}) = E_Z[\log P(Y,Z|\theta | Y, \theta ^{i})]$ </li>
+<li>M 步（求极大化）：求使得 $Q(\theta, \theta ^{(i)})$ 极大化的 $\theta$，就是第 i+1 次的参数</li>
+</ol>
+<h4 id="K-means-与-EM-算法"><a href="#K-means-与-EM-算法" class="headerlink" title="K-means 与 EM 算法"></a>K-means 与 EM 算法</h4><p>在 K-means 中，每个聚类的簇中心是隐变量，我们会自己初始化这 K 个簇中心，也就是 EM 算法的 E 步；然后在 K-means 中，会计算每个样本到样本最近的簇中心，并把样本聚类到最近的这个簇中心，这个就是 EM 算法的 M 步。重复这个 E 步和 M 步，直到簇中心不再发生变化，这就完成了 K-means 算法。</p>
+<h2 id="DBSCAN"><a href="#DBSCAN" class="headerlink" title="DBSCAN"></a>DBSCAN</h2><p>###1. 简单介绍</p>
+<p>DBSCAN 是经典的基于密度的聚类算法。DBSCAN 是基于一组邻域来描述样本集的紧密程度的，参数 $(\epsilon, MinPts)$ 用来描述邻域的样本分布紧密程度。其中，$\epsilon$ 是邻域距离阈值，MinPts 是领域内样本数量阈值。</p>
+<p>用简单语言来解释书上提到的几个概念：</p>
+<ul>
+<li>核心对象：如果一个样本 x 在 $\epsilon$-领域内的样本数量 $\ge$ minPts，则这个样本点就是核心对象</li>
+<li>密度直达：若样本 j 位于 样本 i 的 $\epsilon$-领域内，且样本 i 是核心对象，则样本 i 与样本 j 密度直达</li>
+<li>密度可达：若样本 i 与 j 密度直达，样本 j 与 k 密度直达，则样本 i 与 样本 k 密度可达</li>
+<li>密度相连：若样本 i 与 j 密度可达，样本 i 与 k 也密度可达，则样本 i 与 样本 k 密度相连</li>
+</ul>
+<p>DBSCAN 的聚类思想就是：由密度可达关系导出的最大密度相连样本集合。这个簇满足连接性和最大性。</p>
+<p>###2. 如何找到簇样本集合</p>
+<p>任意选择一个没有类别的核心对象作为种子，然后找打哦所有这个核心对象密度可达的样本集合，即为一个聚类簇。接着继续选择一个没有类别的核心对象去寻找密度可达的样本集合，这样就得到另一个聚类簇。一直运行到所有核心对象都有类别为止。</p>
+<h3 id="3-算法有三个问题没有考虑"><a href="#3-算法有三个问题没有考虑" class="headerlink" title="3. 算法有三个问题没有考虑"></a>3. 算法有三个问题没有考虑</h3><ol>
+<li>一些异常样本或者少量游离在簇外的样本点，这些点不在任何一个核心对象的范围内，DBSCAN 将这些点看作燥点</li>
+<li>距离度量的问题，如何计算某样本和核心对象样本的距离？在 DBSCAN 中，一般采用最近邻思想，采用一种距离度量来衡量样本距离，比如欧式距离</li>
+<li>某些样本可能到两个核心对象的距离都小于 $\epsilon$，但是这两个核心样本由于都不是密度直达的，不属于同一个聚类簇，那么如何判断这个样本的类别呢？在 DBSCAN 中，采用先来后到的思想，先进行聚类的类别簇会标记这个样本为它的类别。所以DBSCAN 是不完全稳定的算法（每次得到的结果可能不一样）</li>
+</ol>
+<h3 id="4-算法描述"><a href="#4-算法描述" class="headerlink" title="4. 算法描述"></a>4. 算法描述</h3><p>首先遍历样本集合，找出所有的核心对象</p>
+<p>循环操作，直到核心对象集合为空</p>
+<pre><code>随机选取一个核心对象 a，然后从未被访问的核心对象集合中找到 a 密度可达的所有集合
+</code></pre><p><img src="/Users/liuyinglxl/Nustore Files/我的坚果云/面试/知识储备/pic/image-20180819204251163.png" alt="image-20180819204251163"></p>
+<h3 id="5-DBSCAN-的优缺点"><a href="#5-DBSCAN-的优缺点" class="headerlink" title="5. DBSCAN 的优缺点"></a>5. DBSCAN 的优缺点</h3><h4 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h4><ol>
+<li>可以对任意形状的数据集进行聚类</li>
+<li>可以在聚类的同时发现异常点，对数据集中的异常点不敏感</li>
+</ol>
+<h4 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h4><ol>
+<li>如果数据很稀疏时，DBSCAN 聚类效果会比较差</li>
+<li>如果样本数据集较大时，聚类收敛时间较长</li>
+<li>调参比较麻烦，对 $\epsilon, MinPts$ 进行联合调参，不同的参数组合对最后的聚类效果有较大的影响</li>
+</ol>
+<h2 id="DBSCAN-与-K-Means-比较"><a href="#DBSCAN-与-K-Means-比较" class="headerlink" title="DBSCAN 与 K-Means 比较"></a>DBSCAN 与 K-Means 比较</h2><h3 id="1-DBSCAN-与传统的-K-means-的区别"><a href="#1-DBSCAN-与传统的-K-means-的区别" class="headerlink" title="1. DBSCAN 与传统的 K-means 的区别"></a>1. DBSCAN 与传统的 K-means 的区别</h3><ol>
+<li>K-means 使用簇的基于原型的概念；DBSCAN 使用基于密度的概念</li>
+<li>K-means 需要制定簇的个数作为参数；DBSCAN 不需要簇的数量，是自动确定的，但是需要给定参数  $(\epsilon, MinPts)$ </li>
+<li>与 K-means 相比，DBSCAN 可以发现任意形状的簇类</li>
+<li>K-means 可以发现不是明显分离的簇，即便簇有重叠，也可以发现；但是 DBSCAN 会合并那些有重叠的簇（先到先得</li>
+<li>K-means 可以聚类稀疏数据，但是 DBSCAN 不可以</li>
+</ol>
+<p>##Reference</p>
+<p><a href="http://www.csuldw.com/2015/06/03/2015-06-03-ml-algorithm-K-means/" target="_blank" rel="noopener">http://www.csuldw.com/2015/06/03/2015-06-03-ml-algorithm-K-means/</a> （基本 K-means 算法介绍）</p>
+<p><a href="https://zhuanlan.zhihu.com/p/25032944" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/25032944</a> （初始簇中心选择）</p>
+<p><a href="http://www.cnblogs.com/kemaswill/archive/2013/01/26/2877434.html" target="_blank" rel="noopener">http://www.cnblogs.com/kemaswill/archive/2013/01/26/2877434.html</a> （K 值介绍）</p>
+<p><a href="https://www.cnblogs.com/pinard/p/6164214.html" target="_blank" rel="noopener">https://www.cnblogs.com/pinard/p/6164214.html</a> （优点，K-means与KNN）</p>
+<p><a href="https://www.cnblogs.com/pinard/p/6208966.html" target="_blank" rel="noopener">https://www.cnblogs.com/pinard/p/6208966.html</a> （DBSCAN）</p>
+<p><a href="https://blog.csdn.net/weixin_39599711/article/details/78167232" target="_blank" rel="noopener">https://blog.csdn.net/weixin_39599711/article/details/78167232</a> （K-means 与 DBSCAN 的区别）</p>
+<p><a href="https://www.cnblogs.com/pinard/p/6912636.html" target="_blank" rel="noopener">https://www.cnblogs.com/pinard/p/6912636.html</a> （EM算法介绍，EM与K-means）</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/机器学习/" rel="tag"># 机器学习</a>
+          
+            <a href="/tags/聚类/" rel="tag"># 聚类</a>
+          
+            <a href="/tags/K-means/" rel="tag"># K-means</a>
+          
+            <a href="/tags/DBSCAN/" rel="tag"># DBSCAN</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/07/03/机器学习常见问题面试问题汇总/" rel="next" title="机器学习常见问题">
+                <i class="fa fa-chevron-left"></i> 机器学习常见问题
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/08/02/PCA 主成分分析/" rel="prev" title="PCA主成分分析面试整理">
+                PCA主成分分析面试整理 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">liuyinglxl</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#介绍聚类"><span class="nav-number">1.</span> <span class="nav-text">介绍聚类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#K-means-学习与面试问题汇总"><span class="nav-number">2.</span> <span class="nav-text">K-means 学习与面试问题汇总</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-介绍-K-means"><span class="nav-number">2.1.</span> <span class="nav-text">1. 介绍 K-means</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-K-means-的算法原理"><span class="nav-number">2.2.</span> <span class="nav-text">2. K-means 的算法原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-K-means-的优缺点"><span class="nav-number">2.3.</span> <span class="nav-text">3. K-means 的优缺点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-K-means-的-K-值应该如何选择"><span class="nav-number">2.4.</span> <span class="nav-text">4. K-means 的 K 值应该如何选择</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-K-means-的初始簇中心怎么选"><span class="nav-number">2.5.</span> <span class="nav-text">5. K-means 的初始簇中心怎么选</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-手写伪代码"><span class="nav-number">2.6.</span> <span class="nav-text">6. 手写伪代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-K-means-与-KNN"><span class="nav-number">2.7.</span> <span class="nav-text">7. K-means 与 KNN</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-K-means-与-EM（期望最大化算法）-的关系"><span class="nav-number">2.8.</span> <span class="nav-text">8. K-means 与 EM（期望最大化算法） 的关系</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#简单理解-EM-算法"><span class="nav-number">2.8.1.</span> <span class="nav-text">简单理解 EM 算法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#EM-算法的思想"><span class="nav-number">2.8.2.</span> <span class="nav-text">EM 算法的思想</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#K-means-与-EM-算法"><span class="nav-number">2.8.3.</span> <span class="nav-text">K-means 与 EM 算法</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DBSCAN"><span class="nav-number">3.</span> <span class="nav-text">DBSCAN</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-算法有三个问题没有考虑"><span class="nav-number">3.1.</span> <span class="nav-text">3. 算法有三个问题没有考虑</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-算法描述"><span class="nav-number">3.2.</span> <span class="nav-text">4. 算法描述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-DBSCAN-的优缺点"><span class="nav-number">3.3.</span> <span class="nav-text">5. DBSCAN 的优缺点</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#优点"><span class="nav-number">3.3.1.</span> <span class="nav-text">优点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#缺点"><span class="nav-number">3.3.2.</span> <span class="nav-text">缺点</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DBSCAN-与-K-Means-比较"><span class="nav-number">4.</span> <span class="nav-text">DBSCAN 与 K-Means 比较</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-DBSCAN-与传统的-K-means-的区别"><span class="nav-number">4.1.</span> <span class="nav-text">1. DBSCAN 与传统的 K-means 的区别</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">liuyinglxl</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">博客全站共25k字</span>
+</div>
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("r11nU63EITwNHpdGQt54Qoe6-gzGzoHsz", "KWbrJg4hOLgLLHYuBotsLYgr");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+  
+     <!-- custom analytics part create by xiamo -->
+<script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+<script>AV.initialize("r11nU63EITwNHpdGQt54Qoe6-gzGzoHsz", "KWbrJg4hOLgLLHYuBotsLYgr");</script>
+<script>
+function showTime(Counter) {
+	var query = new AV.Query(Counter);
+	$(".leancloud_visitors").each(function() {
+		var url = $(this).attr("id").trim();
+		query.equalTo("url", url);
+		query.find({
+			success: function(results) {
+				if (results.length == 0) {
+					var content = $(document.getElementById(url)).text() + ': 0';
+					$(document.getElementById(url)).text(content);
+					return;
+				}
+				for (var i = 0; i < results.length; i++) {
+					var object = results[i];
+					var content = $(document.getElementById(url)).text() + ': ' + object.get('time');
+					$(document.getElementById(url)).text(content);
+				}
+			},
+			error: function(object, error) {
+				console.log("Error: " + error.code + " " + error.message);
+			}
+		});
+
+	});
+}
+
+function addCount(Counter) {
+	var Counter = AV.Object.extend("Counter");
+	url = $(".leancloud_visitors").attr('id').trim();
+	title = $(".leancloud_visitors").attr('data-flag-title').trim();
+	var query = new AV.Query(Counter);
+	query.equalTo("url", url);
+	query.find({
+		success: function(results) {
+			if (results.length > 0) {
+				var counter = results[0];
+				counter.fetchWhenSave(true);
+				counter.increment("time");
+				counter.save(null, {
+					success: function(counter) {
+						var content = $(document.getElementById(url)).text() + ': ' + counter.get('time');
+						$(document.getElementById(url)).text(content);
+					},
+					error: function(counter, error) {
+						console.log('Failed to save Visitor num, with error message: ' + error.message);
+					}
+				});
+			} else {
+				var newcounter = new Counter();
+				newcounter.set("title", title);
+				newcounter.set("url", url);
+				newcounter.set("time", 1);
+				newcounter.save(null, {
+					success: function(newcounter) {
+					    console.log("newcounter.get('time')="+newcounter.get('time'));
+						var content = $(document.getElementById(url)).text() + ': ' + newcounter.get('time');
+						$(document.getElementById(url)).text(content);
+					},
+					error: function(newcounter, error) {
+						console.log('Failed to create');
+					}
+				});
+			}
+		},
+		error: function(error) {
+			console.log('Error:' + error.code + " " + error.message);
+		}
+	});
+}
+$(function() {
+	var Counter = AV.Object.extend("Counter");
+	if ($('.leancloud_visitors').length == 1) {
+		addCount(Counter);
+	} else if ($('.post-title-link').length > 1) {
+		showTime(Counter);
+	}
+});
+</script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+</body>
+</html>
+<!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/src/clicklove.js"></script>

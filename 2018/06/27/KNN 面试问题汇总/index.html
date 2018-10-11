@@ -70,7 +70,7 @@
 
 
 
-  <meta name="keywords" content="机器学习,朴素贝叶斯," />
+  <meta name="keywords" content="机器学习,KNN," />
 
 
 
@@ -81,18 +81,20 @@
 
 
 
-<meta name="description" content="1. 介绍朴素贝叶斯朴素贝叶斯是一种生成式模型。基于贝叶斯定理与特征条件独立假设（在已知分类Y的条件下，各个特征变量取值是相互独立的）的分类方法。对于给定的训练数据集，首先基于特征条件独立假设学习输入/输出的联合概率分布；然后基于此模型，对给定的输入 x，利用贝叶斯定理求出后验概率最大的输出 y. 2. 朴素贝叶斯 “朴素” 在哪里？“朴素” 是因为它假设了数据集中的所有特征是同等重要的并且是条件">
-<meta name="keywords" content="机器学习,朴素贝叶斯">
+<meta name="description" content="1. 介绍 KNNKNN 是一种基本的分类与回归方法，给定一个数据集，在数据集中找出与新实例最近的 k 个实例，选择这个 k 个实例中出现次数最多的类别作为新实例的类别。 KNN 主要有三个基本的要素：k 值的选择、距离度量、分类决策规则 2. KNN 实现过程 计算当前待分类实例与训练数据集中的每个样本实例的距离； 按照距离递增次序排序； 选取与待分类实例距离最小的k个训练实例； 统计这k个实例">
+<meta name="keywords" content="机器学习,KNN">
 <meta property="og:type" content="article">
-<meta property="og:title" content="朴素贝叶斯面试整理">
-<meta property="og:url" content="http://yoursite.com/2018/06/27/朴素贝叶斯面试问题汇总/index.html">
+<meta property="og:title" content="KNN K近邻面试整理">
+<meta property="og:url" content="http://yoursite.com/2018/06/27/KNN 面试问题汇总/index.html">
 <meta property="og:site_name" content="liuyinglxl">
-<meta property="og:description" content="1. 介绍朴素贝叶斯朴素贝叶斯是一种生成式模型。基于贝叶斯定理与特征条件独立假设（在已知分类Y的条件下，各个特征变量取值是相互独立的）的分类方法。对于给定的训练数据集，首先基于特征条件独立假设学习输入/输出的联合概率分布；然后基于此模型，对给定的输入 x，利用贝叶斯定理求出后验概率最大的输出 y. 2. 朴素贝叶斯 “朴素” 在哪里？“朴素” 是因为它假设了数据集中的所有特征是同等重要的并且是条件">
+<meta property="og:description" content="1. 介绍 KNNKNN 是一种基本的分类与回归方法，给定一个数据集，在数据集中找出与新实例最近的 k 个实例，选择这个 k 个实例中出现次数最多的类别作为新实例的类别。 KNN 主要有三个基本的要素：k 值的选择、距离度量、分类决策规则 2. KNN 实现过程 计算当前待分类实例与训练数据集中的每个样本实例的距离； 按照距离递增次序排序； 选取与待分类实例距离最小的k个训练实例； 统计这k个实例">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-10-11T07:57:19.718Z">
+<meta property="og:image" content="http://yoursite.com/Users/liuyinglxl/Nustore%20Files/我的坚果云/面试/知识储备/pic/SouthEast.png">
+<meta property="og:updated_time" content="2018-10-11T09:27:51.248Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="朴素贝叶斯面试整理">
-<meta name="twitter:description" content="1. 介绍朴素贝叶斯朴素贝叶斯是一种生成式模型。基于贝叶斯定理与特征条件独立假设（在已知分类Y的条件下，各个特征变量取值是相互独立的）的分类方法。对于给定的训练数据集，首先基于特征条件独立假设学习输入/输出的联合概率分布；然后基于此模型，对给定的输入 x，利用贝叶斯定理求出后验概率最大的输出 y. 2. 朴素贝叶斯 “朴素” 在哪里？“朴素” 是因为它假设了数据集中的所有特征是同等重要的并且是条件">
+<meta name="twitter:title" content="KNN K近邻面试整理">
+<meta name="twitter:description" content="1. 介绍 KNNKNN 是一种基本的分类与回归方法，给定一个数据集，在数据集中找出与新实例最近的 k 个实例，选择这个 k 个实例中出现次数最多的类别作为新实例的类别。 KNN 主要有三个基本的要素：k 值的选择、距离度量、分类决策规则 2. KNN 实现过程 计算当前待分类实例与训练数据集中的每个样本实例的距离； 按照距离递增次序排序； 选取与待分类实例距离最小的k个训练实例； 统计这k个实例">
+<meta name="twitter:image" content="http://yoursite.com/Users/liuyinglxl/Nustore%20Files/我的坚果云/面试/知识储备/pic/SouthEast.png">
 
 
 
@@ -122,13 +124,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/06/27/朴素贝叶斯面试问题汇总/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/06/27/KNN 面试问题汇总/"/>
 
 
 
 
 
-  <title>朴素贝叶斯面试整理 | liuyinglxl</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  <title>KNN K近邻面试整理 | liuyinglxl</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
   
 
 
@@ -235,7 +237,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/27/朴素贝叶斯面试问题汇总/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/27/KNN 面试问题汇总/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="liuyinglxl">
@@ -252,7 +254,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">朴素贝叶斯面试整理</h1>
+          <h1 class="post-title" itemprop="name headline">KNN K近邻面试整理</h1>
         
 
         <div class="post-meta">
@@ -264,7 +266,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-27T15:03:50+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-27T15:13:17+08:00">
                 2018-06-27
               </time>
             
@@ -304,7 +306,7 @@
 
           
           
-             <span id="/2018/06/27/朴素贝叶斯面试问题汇总/" class="leancloud_visitors" data-flag-title="朴素贝叶斯面试整理">
+             <span id="/2018/06/27/KNN 面试问题汇总/" class="leancloud_visitors" data-flag-title="KNN K近邻面试整理">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -335,31 +337,38 @@
       
 
       
-        <h3 id="1-介绍朴素贝叶斯"><a href="#1-介绍朴素贝叶斯" class="headerlink" title="1. 介绍朴素贝叶斯"></a>1. 介绍朴素贝叶斯</h3><p>朴素贝叶斯是一种<strong>生成式模型</strong>。基于<strong>贝叶斯定理</strong>与<strong>特征条件独立假设</strong>（在已知分类Y的条件下，各个特征变量取值是相互独立的）的分类方法。对于给定的训练数据集，首先基于特征条件独立假设学习输入/输出的<strong>联合概率分布</strong>；然后基于此模型，对给定的输入 x，利用贝叶斯定理求出<strong>后验概率最大</strong>的输出 y.</p>
-<h3 id="2-朴素贝叶斯-“朴素”-在哪里？"><a href="#2-朴素贝叶斯-“朴素”-在哪里？" class="headerlink" title="2. 朴素贝叶斯 “朴素” 在哪里？"></a>2. 朴素贝叶斯 “朴素” 在哪里？</h3><p><strong>“朴素” </strong>是因为它假设了数据集中的所有特征是同等重要的并且是<strong>条件独立</strong>的。这是一个很强的假设，在实际情况中，这个假设很难成立，所以叫 “朴素”。</p>
-<p>$$P(X = x | Y = c_k) = P(X^{(1)} = x^{(1)}, … , X^{(n)} = x^{n} | Y = c_k) = P(X^{(1)} = x^{(1)} | Y = c_k) \cdot … \cdot P(X^{(n)} = x^{(n)} | Y= c_k)$$ </p>
-<h3 id="3-朴素贝叶斯与-LR-的区别"><a href="#3-朴素贝叶斯与-LR-的区别" class="headerlink" title="3. 朴素贝叶斯与 LR 的区别"></a>3. 朴素贝叶斯与 LR 的区别</h3><p> 朴素贝叶斯是生成式模型，LR 是判别式模型。</p>
+        <h3 id="1-介绍-KNN"><a href="#1-介绍-KNN" class="headerlink" title="1. 介绍 KNN"></a>1. 介绍 KNN</h3><p>KNN 是一种基本的分类与回归方法，给定一个数据集，在数据集中找出与新实例最近的 k 个实例，选择这个 k 个实例中出现次数最多的类别作为新实例的类别。</p>
+<p>KNN 主要有三个基本的要素：k 值的选择、距离度量、分类决策规则</p>
+<h3 id="2-KNN-实现过程"><a href="#2-KNN-实现过程" class="headerlink" title="2. KNN 实现过程"></a>2. KNN 实现过程</h3><ol>
+<li>计算当前待分类实例与训练数据集中的每个样本实例的距离；</li>
+<li>按照距离递增次序排序；</li>
+<li>选取与待分类实例距离最小的k个训练实例；</li>
+<li>统计这k个实例所属各个类别数；</li>
+<li>将统计的类别数最多的类别作为待分类的预测类别</li>
+</ol>
+<h3 id="3-K-值如何选择"><a href="#3-K-值如何选择" class="headerlink" title="3. K 值如何选择"></a>3. K 值如何选择</h3><p>在实际应用中，K 一般选一个比较小的值，然后采用交叉验证法来选择最优的 K 值。</p>
 <ol>
-<li><p>Navie Bayes 是生成式模型，根据已有样本进行贝叶斯估计学习出先验概率 P(Y) 和条件概率 P(X|Y)，进而求出联合概率分布 P(XY)，最后利用贝叶斯定理求解 P(Y|X). </p>
-<p>也就是说，它尝试去找这个数据到底是怎么产生的，然后再进行分类</p>
+<li><p>较小的 K 值，相当于用较小领域中的训练实例进行预测，学习的近似误差会减小，但是估计误差会增大。</p>
+<p>K 值减小，意味着整体模型变得复杂，容易发生过拟合</p>
 </li>
-<li><p>LR 是判别式模型，根据极大化对数熙然函数，直接求出条件概率 P(Y|X)</p>
-</li>
-<li><p>区别：朴素贝叶斯基与条件独立假设；LR 没有</p>
-</li>
-<li><p>朴素贝叶斯使用数据集小的情景；LR 适用于大规模数据集</p>
+<li><p>较大的 K 值，相当于用较大领域中的训练实例进行预测，学习的近似误差会增大，但是估计误差会减小。</p>
+<p>K 值的增大，意味着整体的模型变得简单</p>
 </li>
 </ol>
-<h3 id="4-朴素贝叶斯需要注意的地方"><a href="#4-朴素贝叶斯需要注意的地方" class="headerlink" title="4. 朴素贝叶斯需要注意的地方"></a>4. 朴素贝叶斯需要注意的地方</h3><ol>
-<li>给出的特征向量长度可能不同，这个时候就需要把特征向量归一化为统一长度的向量（比如在NLP中的句子长度）</li>
-<li>利用极大似然估计的时候，可能会出现估计的概率为 0 的情况，这个时候可以采用贝叶斯估计，即计算条件概率分布的时候，分子分母同时加上一个数 $\lambda$ . 当 $\lambda$ 为 1 时，叫做拉普拉斯平滑</li>
+<h3 id="4-KNN-的优缺点"><a href="#4-KNN-的优缺点" class="headerlink" title="4. KNN 的优缺点"></a>4. KNN 的优缺点</h3><h4 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h4><ol>
+<li>思想简单，理论成熟，既可以做分类也可以做回归</li>
+<li>训练时间复杂度为 O(n)</li>
+<li>准确度高，对数据没有假设</li>
 </ol>
-<h3 id="5-朴素贝叶斯的优缺点"><a href="#5-朴素贝叶斯的优缺点" class="headerlink" title="5. 朴素贝叶斯的优缺点"></a>5. 朴素贝叶斯的优缺点</h3><h5 id="优点："><a href="#优点：" class="headerlink" title="优点："></a>优点：</h5><ol>
-<li>对小规模的数据表现很好</li>
-<li>适合多分类任务</li>
-<li>可反映数据的分布情况</li>
+<h4 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h4><ol>
+<li><p>计算量大</p>
+</li>
+<li><p>样本不平衡问题</p>
+</li>
+<li><p>需要大量的内存</p>
+</li>
 </ol>
-<h5 id="缺点："><a href="#缺点：" class="headerlink" title="缺点："></a>缺点：</h5><p>对输入数据的表达形式很敏感</p>
+<h3 id="5-KNN-与-K-Means-的区别"><a href="#5-KNN-与-K-Means-的区别" class="headerlink" title="5. KNN 与 K-Means 的区别"></a>5. KNN 与 K-Means 的区别</h3><p><img src="/Users/liuyinglxl/Nustore Files/我的坚果云/面试/知识储备/pic/SouthEast.png" alt="è¿éåå¾çæè¿°"></p>
 
       
     </div>
@@ -379,7 +388,7 @@
           
             <a href="/tags/机器学习/" rel="tag"># 机器学习</a>
           
-            <a href="/tags/朴素贝叶斯/" rel="tag"># 朴素贝叶斯</a>
+            <a href="/tags/KNN/" rel="tag"># KNN</a>
           
         </div>
       
@@ -392,8 +401,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/06/27/决策树面试问题汇总/" rel="next" title="决策树面试整理">
-                <i class="fa fa-chevron-left"></i> 决策树面试整理
+              <a href="/2018/06/27/朴素贝叶斯面试问题汇总/" rel="next" title="朴素贝叶斯面试整理">
+                <i class="fa fa-chevron-left"></i> 朴素贝叶斯面试整理
               </a>
             
           </div>
@@ -402,8 +411,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/06/27/KNN 面试问题汇总/" rel="prev" title="KNN K近邻面试整理">
-                KNN K近邻面试整理 <i class="fa fa-chevron-right"></i>
+              <a href="/2018/07/03/集成学习面试问题汇总/" rel="prev" title="集成学习面试整理">
+                集成学习面试整理 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -536,7 +545,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-介绍朴素贝叶斯"><span class="nav-number">1.</span> <span class="nav-text">1. 介绍朴素贝叶斯</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-朴素贝叶斯-“朴素”-在哪里？"><span class="nav-number">2.</span> <span class="nav-text">2. 朴素贝叶斯 “朴素” 在哪里？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-朴素贝叶斯与-LR-的区别"><span class="nav-number">3.</span> <span class="nav-text">3. 朴素贝叶斯与 LR 的区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-朴素贝叶斯需要注意的地方"><span class="nav-number">4.</span> <span class="nav-text">4. 朴素贝叶斯需要注意的地方</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-朴素贝叶斯的优缺点"><span class="nav-number">5.</span> <span class="nav-text">5. 朴素贝叶斯的优缺点</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#优点："><span class="nav-number">5.0.1.</span> <span class="nav-text">优点：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#缺点："><span class="nav-number">5.0.2.</span> <span class="nav-text">缺点：</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-介绍-KNN"><span class="nav-number">1.</span> <span class="nav-text">1. 介绍 KNN</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-KNN-实现过程"><span class="nav-number">2.</span> <span class="nav-text">2. KNN 实现过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-K-值如何选择"><span class="nav-number">3.</span> <span class="nav-text">3. K 值如何选择</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-KNN-的优缺点"><span class="nav-number">4.</span> <span class="nav-text">4. KNN 的优缺点</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#优点"><span class="nav-number">4.1.</span> <span class="nav-text">优点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#缺点"><span class="nav-number">4.2.</span> <span class="nav-text">缺点</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-KNN-与-K-Means-的区别"><span class="nav-number">5.</span> <span class="nav-text">5. KNN 与 K-Means 的区别</span></a></li></ol></div>
             
 
           </div>
