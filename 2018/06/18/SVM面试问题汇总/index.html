@@ -89,7 +89,7 @@
 <meta property="og:site_name" content="liuyinglxl">
 <meta property="og:description" content="口述 SVMSVM 叫做支持向量机，它是一种二分类模型。它的基本模型是定义在特征空间的间隔最大的线性分类器。 根据训练数据的不同，SVM 主要分为三种情况： 第一种情况就是，当训练数据线性可分的时候，我们是通过硬间隔最大化，来学习一个线性分类器，也就是线性可分的支持向量机。硬间隔就是说，硬性要求所有的样本点都满足和分类平面间的距离必须大于某个值，也就是说都要满足函数间隔 &amp;gt;= 1 的约束条件">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-10-11T08:35:47.924Z">
+<meta property="og:updated_time" content="2018-10-11T08:41:27.925Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="SVM支持向量机面试整理">
 <meta name="twitter:description" content="口述 SVMSVM 叫做支持向量机，它是一种二分类模型。它的基本模型是定义在特征空间的间隔最大的线性分类器。 根据训练数据的不同，SVM 主要分为三种情况： 第一种情况就是，当训练数据线性可分的时候，我们是通过硬间隔最大化，来学习一个线性分类器，也就是线性可分的支持向量机。硬间隔就是说，硬性要求所有的样本点都满足和分类平面间的距离必须大于某个值，也就是说都要满足函数间隔 &amp;gt;= 1 的约束条件">
@@ -372,8 +372,8 @@
 </ol>
 <h3 id="2-SVM-为什么要采用间隔最大化"><a href="#2-SVM-为什么要采用间隔最大化" class="headerlink" title="2. SVM 为什么要采用间隔最大化"></a>2. SVM 为什么要采用间隔最大化</h3><p>当训练数据线性可分时，存在无穷个分离超平面可以将两类数据正确分开，如果利用间隔最大化求得最优分离超平面，这时，解时唯一的，并且此时分离超平面所产生的分类结果是最鲁棒的，对未知实例的泛化能力最强。</p>
 <h3 id="3-SVM-的损失函数是什么？"><a href="#3-SVM-的损失函数是什么？" class="headerlink" title="3. SVM 的损失函数是什么？"></a>3. SVM 的损失函数是什么？</h3><p>SVM 的损失函数等价于合页损失函数：</p>
-<p>$\min_{w, b} \sum _{i=1} ^N [1 - y_i(w \cdot x_i + b)]_+ + \lambda ||w||^2$ </p>
-<p>第一项为合页损失函数 $L(y(w \cdot x + b)) = [1 - y_i (w \cdot x_i + b)]<em>+$, 其中，$[z]</em>+$ 表示的是，当 z &gt; 0 时，为 z，否则为 0 . </p>
+<p>$$ \min_{w, b} \sum _{i=1} ^N [1 - y_i(w \cdot x_i + b)]_+ + \lambda ||w||^2$$ </p>
+<p>第一项为合页损失函数 $ L(y(w \cdot x + b)) = [1 - y_i (w \cdot x_i + b)]<em>+ $, 其中，$[z]</em>+$ 表示的是，当 z &gt; 0 时，为 z，否则为 0 . </p>
 <p>所以原式表示，当样本点被正确分类时，且函数间隔（置信度） $y_i(w \cdot x_i) + b &gt; 0$ 时的损失为 0，否则是 $1 - y_i(w \cdot x_i + b)$ </p>
 <p>SVM 损失函数的第二项为正则化项，是系数为 $\lambda$ 的 w 的 L2 范数</p>
 <h3 id="3-为什么要将求解SVM的原始问题转换为其对偶问题"><a href="#3-为什么要将求解SVM的原始问题转换为其对偶问题" class="headerlink" title="3. 为什么要将求解SVM的原始问题转换为其对偶问题"></a>3. 为什么要将求解SVM的原始问题转换为其对偶问题</h3><ol>
@@ -382,15 +382,15 @@
 </ol>
 <h3 id="4-为什么引进核函数"><a href="#4-为什么引进核函数" class="headerlink" title="4. 为什么引进核函数"></a>4. 为什么引进核函数</h3><p>如果样本在原始空间线性不可分时，可将样本从原始空间映射到一个更高维的特征空间，使得样本在这个特征空间内线性可分。（也就是核技巧）</p>
 <p>引入映射之后的对偶函数为：</p>
-<p>$\max _ \lambda  -\frac 1 2 \sum_{i=1}^N \sum _{j=1}^N \lambda_i \lambda_j y_i y_j \phi^T(x_i) \phi(x_j) + \sum _{i=1}^N \lambda_i$</p>
-<p>$s.t.        \sum _{i=1}^N \lambda_i y_i = 0, 0 \le \lambda \le C, i=1,2,…,N$ </p>
+<p>$$\max _ \lambda  -\frac 1 2 \sum_{i=1}^N \sum _{j=1}^N \lambda_i \lambda_j y_i y_j \phi^T(x_i) \phi(x_j) + \sum _{i=1}^N \lambda_i$$ </p>
+<p>$$s.t.        \sum _{i=1}^N \lambda_i y_i = 0, 0 \le \lambda \le C, i=1,2,…,N$$ </p>
 <p>由于特征空间的维度一般是高维的，甚至是无穷维的，所以直接计算上面的两个映射函数的内积比较困难的。</p>
 <p>（或者说，由于从输入空间到特征空间的这种映射会使得维度发生爆炸式的增长，因此上面的Fai(x)·Fai(z)的运算会非常大，计算很困难，所以通常会构造一个核函数来解决这个问题，从而避免了在特征空间的内积运算，只需要在输入空间内进行内积运算）</p>
 <p>而核函数 $K(x,z) = \phi(x) \cdot \phi(z)$，计算核函数 $K(x,z)$ 相对比较容易，可以直接在低维空间计算，而且不需要显式写出映射之后的结果，所以 SVM 引进了核函数。</p>
 <h3 id="5-SVM-如何做回归-——-SVR"><a href="#5-SVM-如何做回归-——-SVR" class="headerlink" title="5. SVM 如何做回归 —— SVR"></a>5. SVM 如何做回归 —— SVR</h3><p>给定数据集，希望学到一个 $f(x) = w \cdot x + b$ 这样的回归模型，使得 f(x) 和 y 之间尽量接近。</p>
 <p>传统的回归模型，通常是直接基于模型输出 f(x) 与真实输出 y 之间的差别来计算损失，当且仅当 f(x) 与 y 完全相同的时候，损失才为 0. </p>
 <p>但是 SVR 是能容忍 f(x) 与 y 之间最多有 $\epsilon$ 的偏差，当且仅当 f(x) 与 y 之间的差别大于 $\epsilon$ 时才计算损失。也就是中间有宽度为 $2\epsilon$ 宽度的间隔带，若样本落入这个间隔带，则被认为是预测正确的。</p>
-<p>同样，对于两侧的松弛带，跟前面的 SVM 一样，也会引入一个松弛变量，两个的松弛程度可以不同，所以两侧的松弛变量分为是 $\xi _i$ 和 $\hat \xi <em>i $ , 所以 SVR 的目标为:<br>$$<br>\min</em>{w,b,\xi,\hat \xi _i} \frac 1 2||w||^2 + C \sum _{i=1} ^m (\xi _i + \hat \xi _i)<br>\<br>s.t.f(x_i) - y_i \le \epsilon + \xi_i<br>\<br>y_i - f(x_i) \le \epsilon + \hat \xi _i<br>\<br>\epsilon_i \ge 0, \hat \xi_i \ge 0, i = 1,2,…,m.<br>$$<br>同样采用对偶算法，最后得到的 SVR 的对偶问题为：<br>$$<br>\max_{\alpha, \hat \alpha} \sum_{i=1}^m y_i(\hat\alpha_i - \alpha) - \epsilon(\hat\alpha_i + \alpha) - \frac 1 2 \sum <em>{i=1}^m \sum</em>{j=1}^m(\hat\alpha_i - \alpha_i)(\hat\alpha_j - \alpha_j)x_i^Tx_j\<br>s.t. \sum_{i=1}^m(\hat\alpha_i - \alpha_i) = 0\<br>0 \le \alpha_i, \hat\alpha_i \le C.<br>$$<br>最后，SVR 的解的形式为：$f(x) = \sum _{i=1}^m(\hat\alpha_i - \alpha_i)x_i^Tx+b$ .</p>
+<p>同样，对于两侧的松弛带，跟前面的 SVM 一样，也会引入一个松弛变量，两个的松弛程度可以不同，所以两侧的松弛变量分为是 $\xi _i$ 和 $\hat \xi <em>i$ , 所以 SVR 的目标为:<br>$$<br>\min</em>{w,b,\xi,\hat \xi _i} \frac 1 2||w||^2 + C \sum _{i=1} ^m (\xi _i + \hat \xi _i)<br>\<br>s.t.f(x_i) - y_i \le \epsilon + \xi_i<br>\<br>y_i - f(x_i) \le \epsilon + \hat \xi _i<br>\<br>\epsilon_i \ge 0, \hat \xi_i \ge 0, i = 1,2,…,m.<br>$$<br>同样采用对偶算法，最后得到的 SVR 的对偶问题为：<br>$$<br>\max_{\alpha, \hat \alpha} \sum_{i=1}^m y_i(\hat\alpha_i - \alpha) - \epsilon(\hat\alpha_i + \alpha) - \frac 1 2 \sum <em>{i=1}^m \sum</em>{j=1}^m(\hat\alpha_i - \alpha_i)(\hat\alpha_j - \alpha_j)x_i^Tx_j\<br>s.t. \sum_{i=1}^m(\hat\alpha_i - \alpha_i) = 0\<br>0 \le \alpha_i, \hat\alpha_i \le C.<br>$$<br>最后，SVR 的解的形式为：$f(x) = \sum _{i=1}^m(\hat\alpha_i - \alpha_i)x_i^Tx+b$ .</p>
 <p>落在间隔带之外的点就是支持向量，由于 SVR 最后解的形式仍然有 x 与 x 之间的内积，所以仍然可以使用核函数。</p>
 <h3 id="6-SVM-与感知机的区别和联系"><a href="#6-SVM-与感知机的区别和联系" class="headerlink" title="6. SVM 与感知机的区别和联系"></a>6. SVM 与感知机的区别和联系</h3><h4 id="什么是感知机？"><a href="#什么是感知机？" class="headerlink" title="什么是感知机？"></a>什么是感知机？</h4><p>感知机是二类分类的线性分类模型，输出是 -1，+1。感知机 $f(x) = sign(w \cdot x + b)$，当 $f(x) \ge 0$ 时，为+1，&lt;0 时为 -1. </p>
 <p>损失函数时：误分类点到超平面的总距离</p>
