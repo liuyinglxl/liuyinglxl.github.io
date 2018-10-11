@@ -89,7 +89,7 @@
 <meta property="og:site_name" content="liuyinglxl">
 <meta property="og:description" content="口述 SVMSVM 叫做支持向量机，它是一种二分类模型。它的基本模型是定义在特征空间的间隔最大的线性分类器。 根据训练数据的不同，SVM 主要分为三种情况： 第一种情况就是，当训练数据线性可分的时候，我们是通过硬间隔最大化，来学习一个线性分类器，也就是线性可分的支持向量机。硬间隔就是说，硬性要求所有的样本点都满足和分类平面间的距离必须大于某个值，也就是说都要满足函数间隔 &amp;gt;= 1 的约束条件">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-10-11T08:43:43.751Z">
+<meta property="og:updated_time" content="2018-10-11T08:54:13.373Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="SVM支持向量机面试整理">
 <meta name="twitter:description" content="口述 SVMSVM 叫做支持向量机，它是一种二分类模型。它的基本模型是定义在特征空间的间隔最大的线性分类器。 根据训练数据的不同，SVM 主要分为三种情况： 第一种情况就是，当训练数据线性可分的时候，我们是通过硬间隔最大化，来学习一个线性分类器，也就是线性可分的支持向量机。硬间隔就是说，硬性要求所有的样本点都满足和分类平面间的距离必须大于某个值，也就是说都要满足函数间隔 &amp;gt;= 1 的约束条件">
@@ -376,41 +376,41 @@
 <p>第一项为合页损失函数, 其中，$[z]_+$ 表示的是，当 z &gt; 0 时，为 z，否则为 0 . </p>
 <p>所以原式表示，当样本点被正确分类时，且函数间隔（置信度） $y_i(w \cdot x_i) + b &gt; 0$ 时的损失为 0，否则是 $1 - y_i(w \cdot x_i + b)$ </p>
 <p>SVM 损失函数的第二项为正则化项，是系数为 $\lambda$ 的 w 的 L2 范数</p>
-<h3 id="3-为什么要将求解SVM的原始问题转换为其对偶问题"><a href="#3-为什么要将求解SVM的原始问题转换为其对偶问题" class="headerlink" title="3. 为什么要将求解SVM的原始问题转换为其对偶问题"></a>3. 为什么要将求解SVM的原始问题转换为其对偶问题</h3><ol>
-<li>因为对偶问题更容易求解（因为以前新来的要分类的样本首先根据 w 和 b 做一次线性运算，以前的分类决策函数为 $f(x) = sign(w\cdot x + b)$，然后看求的结果是 &gt;0 还是 &lt;0，来判断是正例还是负例；现在只需要将新来的样本与支持向量做内积，现在的分类决策函数为 $f(x) = sign(\sum _{i=1}^N \alpha_i^<em> \cdot y_i \cdot (x \cdot x_i) + b^</em>)$，然后运算即可）；</li>
+<h3 id="4-为什么要将求解SVM的原始问题转换为其对偶问题"><a href="#4-为什么要将求解SVM的原始问题转换为其对偶问题" class="headerlink" title="4. 为什么要将求解SVM的原始问题转换为其对偶问题"></a>4. 为什么要将求解SVM的原始问题转换为其对偶问题</h3><ol>
+<li>因为对偶问题更容易求解（因为以前新来的要分类的样本首先根据 w 和 b 做一次线性运算，以前的分类决策函数为 $f(x) = sign(w\cdot x + b)$，然后看求的结果是 &gt;0 还是 &lt;0，来判断是正例还是负例；现在只需要将新来的样本与支持向量做内积，现在的分类决策函数为 $f(x) = sign(\sum _{i=1}^N \alpha_i^<em> · y_i · (x \cdot x_i) + b^</em>)​$，然后运算即可）；</li>
 <li>自然引入核函数，自然推广到非线性分类问题（因为对于非线性分类问题，是将线性SVM的对偶问题中x之间的内积替换为核函数K(xi, xj)）  </li>
 </ol>
-<h3 id="4-为什么引进核函数"><a href="#4-为什么引进核函数" class="headerlink" title="4. 为什么引进核函数"></a>4. 为什么引进核函数</h3><p>如果样本在原始空间线性不可分时，可将样本从原始空间映射到一个更高维的特征空间，使得样本在这个特征空间内线性可分。（也就是核技巧）</p>
+<h3 id="5-为什么引进核函数"><a href="#5-为什么引进核函数" class="headerlink" title="5. 为什么引进核函数"></a>5. 为什么引进核函数</h3><p>如果样本在原始空间线性不可分时，可将样本从原始空间映射到一个更高维的特征空间，使得样本在这个特征空间内线性可分。（也就是核技巧）</p>
 <p>引入映射之后的对偶函数为：</p>
 <p>$$\max _ \lambda  -\frac 1 2 \sum_{i=1}^N \sum _{j=1}^N \lambda_i \lambda_j y_i y_j \phi^T(x_i) \phi(x_j) + \sum _{i=1}^N \lambda_i$$ </p>
 <p>$$s.t.        \sum _{i=1}^N \lambda_i y_i = 0, 0 \le \lambda \le C, i=1,2,…,N$$ </p>
 <p>由于特征空间的维度一般是高维的，甚至是无穷维的，所以直接计算上面的两个映射函数的内积比较困难的。</p>
 <p>（或者说，由于从输入空间到特征空间的这种映射会使得维度发生爆炸式的增长，因此上面的Fai(x)·Fai(z)的运算会非常大，计算很困难，所以通常会构造一个核函数来解决这个问题，从而避免了在特征空间的内积运算，只需要在输入空间内进行内积运算）</p>
 <p>而核函数 $K(x,z) = \phi(x) \cdot \phi(z)$，计算核函数 $K(x,z)$ 相对比较容易，可以直接在低维空间计算，而且不需要显式写出映射之后的结果，所以 SVM 引进了核函数。</p>
-<h3 id="5-SVM-如何做回归-——-SVR"><a href="#5-SVM-如何做回归-——-SVR" class="headerlink" title="5. SVM 如何做回归 —— SVR"></a>5. SVM 如何做回归 —— SVR</h3><p>给定数据集，希望学到一个 $f(x) = w \cdot x + b$ 这样的回归模型，使得 f(x) 和 y 之间尽量接近。</p>
+<h3 id="6-SVM-如何做回归-——-SVR"><a href="#6-SVM-如何做回归-——-SVR" class="headerlink" title="6. SVM 如何做回归 —— SVR"></a>6. SVM 如何做回归 —— SVR</h3><p>给定数据集，希望学到一个 $f(x) = w \cdot x + b$ 这样的回归模型，使得 f(x) 和 y 之间尽量接近。</p>
 <p>传统的回归模型，通常是直接基于模型输出 f(x) 与真实输出 y 之间的差别来计算损失，当且仅当 f(x) 与 y 完全相同的时候，损失才为 0. </p>
 <p>但是 SVR 是能容忍 f(x) 与 y 之间最多有 $\epsilon$ 的偏差，当且仅当 f(x) 与 y 之间的差别大于 $\epsilon$ 时才计算损失。也就是中间有宽度为 $2\epsilon$ 宽度的间隔带，若样本落入这个间隔带，则被认为是预测正确的。</p>
 <p>同样，对于两侧的松弛带，跟前面的 SVM 一样，也会引入一个松弛变量，两个的松弛程度可以不同，所以两侧的松弛变量分为是 $\xi _i$ 和 hat$\xi <em>i$ , 所以 SVR 的目标为:<br>$$<br>\min</em>{w,b,\xi,\hat \xi _i} \frac 1 2||w||^2 + C \sum _{i=1} ^m (\xi _i + \hat \xi _i)<br>\<br>s.t.f(x_i) - y_i \le \epsilon + \xi_i<br>\<br>y_i - f(x_i) \le \epsilon + \hat \xi _i<br>\<br>\epsilon_i \ge 0, \hat \xi_i \ge 0, i = 1,2,…,m.<br>$$<br>同样采用对偶算法，最后得到的 SVR 的对偶问题为：<br>$$<br>\max_{\alpha, \hat \alpha} \sum_{i=1}^m y_i(\hat\alpha_i - \alpha) - \epsilon(\hat\alpha_i + \alpha) - \frac 1 2 \sum <em>{i=1}^m \sum</em>{j=1}^m(\hat\alpha_i - \alpha_i)(\hat\alpha_j - \alpha_j)x_i^Tx_j\<br>s.t. \sum_{i=1}^m(\hat\alpha_i - \alpha_i) = 0\<br>0 \le \alpha_i, \hat\alpha_i \le C.<br>$$<br>最后，SVR 的解的形式为：$f(x) = \sum _{i=1}^m(\hat\alpha_i - \alpha_i)x_i^Tx+b$ .</p>
 <p>落在间隔带之外的点就是支持向量，由于 SVR 最后解的形式仍然有 x 与 x 之间的内积，所以仍然可以使用核函数。</p>
-<h3 id="6-SVM-与感知机的区别和联系"><a href="#6-SVM-与感知机的区别和联系" class="headerlink" title="6. SVM 与感知机的区别和联系"></a>6. SVM 与感知机的区别和联系</h3><h4 id="什么是感知机？"><a href="#什么是感知机？" class="headerlink" title="什么是感知机？"></a>什么是感知机？</h4><p>感知机是二类分类的线性分类模型，输出是 -1，+1。感知机 $f(x) = sign(w \cdot x + b)$，当 $f(x) \ge 0$ 时，为+1，&lt;0 时为 -1. </p>
+<h3 id="7-SVM-与感知机的区别和联系"><a href="#7-SVM-与感知机的区别和联系" class="headerlink" title="7. SVM 与感知机的区别和联系"></a>7. SVM 与感知机的区别和联系</h3><h4 id="什么是感知机？"><a href="#什么是感知机？" class="headerlink" title="什么是感知机？"></a>什么是感知机？</h4><p>感知机是二类分类的线性分类模型，输出是 -1，+1。感知机 $f(x) = sign(w \cdot x + b)$，当 $f(x) \ge 0$ 时，为+1，&lt;0 时为 -1. </p>
 <p>损失函数时：误分类点到超平面的总距离</p>
 <p>误分类点，即 $y \cdot (w \cdot x + b) &lt; 0$，故所有误分类点到分离超平面的距离，也就是感知机的损失函数为：<br>$$<br>L(w, b) = - \sum_{x_i \in M} y_i(w \cdot x_i + b)<br>$$<br>M 是误分类点的集合。然后利用 SGD 进行求解。</p>
-<h3 id="7-SVM-与-感知机的区别和联系？"><a href="#7-SVM-与-感知机的区别和联系？" class="headerlink" title="7. SVM 与 感知机的区别和联系？"></a>7. SVM 与 感知机的区别和联系？</h3><p>感知机会因为采用不同的初值而得到不同的超平面，而且得到的超平面不一定是最优的。SVM 试图找到一个最优的超平面，这个最优，SVM 利用间隔最大化来衡量。主要区别是：</p>
+<h3 id="8-SVM-与-感知机的区别和联系？"><a href="#8-SVM-与-感知机的区别和联系？" class="headerlink" title="8. SVM 与 感知机的区别和联系？"></a>8. SVM 与 感知机的区别和联系？</h3><p>感知机会因为采用不同的初值而得到不同的超平面，而且得到的超平面不一定是最优的。SVM 试图找到一个最优的超平面，这个最优，SVM 利用间隔最大化来衡量。主要区别是：</p>
 <ol>
 <li>感知机追求最大程度分类正确，最小化错误，比较容易造成过拟合；SVM 在追求正确分类的同时，还要求间隔最大，在一定程度上避免了过拟合；</li>
 <li>感知机的学习方法是梯度下降，SVM 的学习方法是对偶。</li>
 </ol>
-<h3 id="8-Linear-SVM-与-LR-的区别是什么？"><a href="#8-Linear-SVM-与-LR-的区别是什么？" class="headerlink" title="8. Linear SVM 与 LR 的区别是什么？"></a>8. Linear SVM 与 LR 的区别是什么？</h3><p>Linear SVM 就是书上讲的线性可分 SVM，不加 Kernel 的。</p>
+<h3 id="9-Linear-SVM-与-LR-的区别是什么？"><a href="#9-Linear-SVM-与-LR-的区别是什么？" class="headerlink" title="9. Linear SVM 与 LR 的区别是什么？"></a>9. Linear SVM 与 LR 的区别是什么？</h3><p>Linear SVM 就是书上讲的线性可分 SVM，不加 Kernel 的。</p>
 <ul>
 <li>Linear SVM 与 LR 都是线性分类模型</li>
 <li>Linear SVM 不直接依赖数据分布，分类平面不受一类点影响；LR 受所有数据点的影响，如果不同的类别之间数据不平衡，一般要先对数据做 balancing</li>
 <li>Linear SVM 依赖距离度量 </li>
 </ul>
-<h3 id="9-SVM-和-LR-对同一样本-A-进行训练，如果某类中增加一些数据点，那么原来的决策边界分别会怎么变"><a href="#9-SVM-和-LR-对同一样本-A-进行训练，如果某类中增加一些数据点，那么原来的决策边界分别会怎么变" class="headerlink" title="9. SVM 和 LR 对同一样本 A 进行训练，如果某类中增加一些数据点，那么原来的决策边界分别会怎么变"></a>9. SVM 和 LR 对同一样本 A 进行训练，如果某类中增加一些数据点，那么原来的决策边界分别会怎么变</h3><p>假设在增加了一个 “+” 例点：</p>
+<h3 id="10-SVM-和-LR-对同一样本-A-进行训练，如果某类中增加一些数据点，那么原来的决策边界分别会怎么变"><a href="#10-SVM-和-LR-对同一样本-A-进行训练，如果某类中增加一些数据点，那么原来的决策边界分别会怎么变" class="headerlink" title="10. SVM 和 LR 对同一样本 A 进行训练，如果某类中增加一些数据点，那么原来的决策边界分别会怎么变"></a>10. SVM 和 LR 对同一样本 A 进行训练，如果某类中增加一些数据点，那么原来的决策边界分别会怎么变</h3><p>假设在增加了一个 “+” 例点：</p>
 <p>对于 SVM，如果这个点在间隔之外，则原来的决策边界不受影响。</p>
 <p>如果这个数据点在间隔内部，或者在“-”的那一侧，那么这个点会成为新的支持向量。但是，决策边界不一定会发生变化，因为这个数据点也可能被容错项处理掉了。</p>
 <p>对于 LR，w 与 $x_{n+1}$ 之间的夹角会变小，也就是说 决策边界 会发生旋转，使其发现更加接近  $x_{n+1}$ 的方向。</p>
-<h3 id="10-常见的核函数"><a href="#10-常见的核函数" class="headerlink" title="10. 常见的核函数"></a>10. 常见的核函数</h3><ol>
+<h3 id="11-常见的核函数"><a href="#11-常见的核函数" class="headerlink" title="11. 常见的核函数"></a>11. 常见的核函数</h3><ol>
 <li><p><strong>线性核函数</strong></p>
 <p>$k(x, z) = x \cdot z$</p>
 <p>主要用于线性可分的情况，特征空间和输入空间的维度是一样的，其参数少速度快，对于线性可分数据，其分类效果很理想，因此我们通常首先用线性核函数来做分类，如果效果不行再尝试其他</p>
@@ -443,7 +443,7 @@
 <li>如果特征数量大到和样本数量差不多，则选择LR或者线性核函数的SVM或者无核的SVM</li>
 <li>如果特征数量小，样本的数量正常，则选用高斯核函数的SVM<br> . 如果特征数量小，而样本的数量很大，则需要手工添加一些特征，从而变成第一种情况     </li>
 </ol>
-<h3 id="11-SVM如何处理多分类的问题"><a href="#11-SVM如何处理多分类的问题" class="headerlink" title="11. SVM如何处理多分类的问题"></a>11. SVM如何处理多分类的问题</h3><p>一般有两种做法，一种是直接法，一种是间接法</p>
+<h3 id="12-SVM如何处理多分类的问题"><a href="#12-SVM如何处理多分类的问题" class="headerlink" title="12. SVM如何处理多分类的问题"></a>12. SVM如何处理多分类的问题</h3><p>一般有两种做法，一种是直接法，一种是间接法</p>
 <ul>
 <li><p>直接法：直接在目标函数上面进行修改，将多个分类面的参数求解合并到一个最优化问题中，通过求解该最优化问题“一次性”实现多分类。但是！这个问题看似简单，但是计算复杂度比较高，实现起来很困难，只适用于小型问题；</p>
 </li>
@@ -672,7 +672,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#口述-SVM"><span class="nav-number">1.</span> <span class="nav-text">口述 SVM</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-介绍-SVM"><span class="nav-number">2.</span> <span class="nav-text">1. 介绍 SVM</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-SVM-为什么要采用间隔最大化"><span class="nav-number">3.</span> <span class="nav-text">2. SVM 为什么要采用间隔最大化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-SVM-的损失函数是什么？"><span class="nav-number">4.</span> <span class="nav-text">3. SVM 的损失函数是什么？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-为什么要将求解SVM的原始问题转换为其对偶问题"><span class="nav-number">5.</span> <span class="nav-text">3. 为什么要将求解SVM的原始问题转换为其对偶问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-为什么引进核函数"><span class="nav-number">6.</span> <span class="nav-text">4. 为什么引进核函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-SVM-如何做回归-——-SVR"><span class="nav-number">7.</span> <span class="nav-text">5. SVM 如何做回归 —— SVR</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-SVM-与感知机的区别和联系"><span class="nav-number">8.</span> <span class="nav-text">6. SVM 与感知机的区别和联系</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#什么是感知机？"><span class="nav-number">8.1.</span> <span class="nav-text">什么是感知机？</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-SVM-与-感知机的区别和联系？"><span class="nav-number">9.</span> <span class="nav-text">7. SVM 与 感知机的区别和联系？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-Linear-SVM-与-LR-的区别是什么？"><span class="nav-number">10.</span> <span class="nav-text">8. Linear SVM 与 LR 的区别是什么？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9-SVM-和-LR-对同一样本-A-进行训练，如果某类中增加一些数据点，那么原来的决策边界分别会怎么变"><span class="nav-number">11.</span> <span class="nav-text">9. SVM 和 LR 对同一样本 A 进行训练，如果某类中增加一些数据点，那么原来的决策边界分别会怎么变</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#10-常见的核函数"><span class="nav-number">12.</span> <span class="nav-text">10. 常见的核函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#11-SVM如何处理多分类的问题"><span class="nav-number">13.</span> <span class="nav-text">11. SVM如何处理多分类的问题</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Reference"><span class="nav-number"></span> <span class="nav-text">Reference</span></a></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#口述-SVM"><span class="nav-number">1.</span> <span class="nav-text">口述 SVM</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-介绍-SVM"><span class="nav-number">2.</span> <span class="nav-text">1. 介绍 SVM</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-SVM-为什么要采用间隔最大化"><span class="nav-number">3.</span> <span class="nav-text">2. SVM 为什么要采用间隔最大化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-SVM-的损失函数是什么？"><span class="nav-number">4.</span> <span class="nav-text">3. SVM 的损失函数是什么？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-为什么要将求解SVM的原始问题转换为其对偶问题"><span class="nav-number">5.</span> <span class="nav-text">4. 为什么要将求解SVM的原始问题转换为其对偶问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-为什么引进核函数"><span class="nav-number">6.</span> <span class="nav-text">5. 为什么引进核函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-SVM-如何做回归-——-SVR"><span class="nav-number">7.</span> <span class="nav-text">6. SVM 如何做回归 —— SVR</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-SVM-与感知机的区别和联系"><span class="nav-number">8.</span> <span class="nav-text">7. SVM 与感知机的区别和联系</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#什么是感知机？"><span class="nav-number">8.1.</span> <span class="nav-text">什么是感知机？</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-SVM-与-感知机的区别和联系？"><span class="nav-number">9.</span> <span class="nav-text">8. SVM 与 感知机的区别和联系？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9-Linear-SVM-与-LR-的区别是什么？"><span class="nav-number">10.</span> <span class="nav-text">9. Linear SVM 与 LR 的区别是什么？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#10-SVM-和-LR-对同一样本-A-进行训练，如果某类中增加一些数据点，那么原来的决策边界分别会怎么变"><span class="nav-number">11.</span> <span class="nav-text">10. SVM 和 LR 对同一样本 A 进行训练，如果某类中增加一些数据点，那么原来的决策边界分别会怎么变</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#11-常见的核函数"><span class="nav-number">12.</span> <span class="nav-text">11. 常见的核函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#12-SVM如何处理多分类的问题"><span class="nav-number">13.</span> <span class="nav-text">12. SVM如何处理多分类的问题</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Reference"><span class="nav-number"></span> <span class="nav-text">Reference</span></a></div>
             
 
           </div>
