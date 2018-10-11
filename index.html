@@ -232,6 +232,209 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/02/PCA 主成分分析/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="liuyinglxl">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="liuyinglxl">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/08/02/PCA 主成分分析/" itemprop="url">PCA主成分分析面试整理</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-08-02T21:16:59+08:00">
+                2018-08-02
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/机器学习/" itemprop="url" rel="index">
+                    <span itemprop="name">机器学习</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/08/02/PCA 主成分分析/" class="leancloud_visitors" data-flag-title="PCA主成分分析面试整理">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="PCA-主成分分析"><a href="#PCA-主成分分析" class="headerlink" title="PCA 主成分分析"></a>PCA 主成分分析</h1><h3 id="1-PCA-介绍"><a href="#1-PCA-介绍" class="headerlink" title="1. PCA 介绍"></a>1. PCA 介绍</h3><p>PCA：Principal components analysis，是一种<strong>非监督降维</strong>方法。顾名思义，就是找出数据最主要的方面，来代替原是的数据。比如以前的数据是 m 维的，现在将它降成 n 维。希望降维之后，损失最小，也可以理解成希望降维之后的数据能够尽可能的代表原始数据集。</p>
+<h3 id="2-PCA-的两种解释性："><a href="#2-PCA-的两种解释性：" class="headerlink" title="2. PCA 的两种解释性："></a>2. PCA 的两种解释性：</h3><ol>
+<li><p><strong>最近重构性</strong></p>
+<p>希望降维之后的数据与降维之后的数据的差异最小</p>
+</li>
+<li><p><strong>最大可分性</strong></p>
+<p>所有样本点的投影能尽可能的分开，也即是使投影子后的样本点方差最大化</p>
+</li>
+</ol>
+<h3 id="3-PCA如何求解"><a href="#3-PCA如何求解" class="headerlink" title="3. PCA如何求解"></a>3. PCA如何求解</h3><ol>
+<li><p><strong>先进行中心化：</strong></p>
+<p>比如数据是 10 维的，一共有100个样本，那么数据 X 就是 (100, 10) 的矩阵，对这 10 列矩阵分别求出均值，然后让这一列的数据都减去均值。得到的数据 X‘ 就是以均值为 0 的数据</p>
+</li>
+<li><p><strong>求 X’ 的协方差矩阵：</strong></p>
+<p>协方差矩阵的维度是 (10, 10)，而且是一个对角矩阵，其中元素 (i, j) 表示，第 i 列与第 j 列之间的协方差，如何求：X‘ 中第 i 列向量与第 j 列向量的内积（因为每一列的均值均为0，所以不用减均值，就直接计算内积就好。如果这里用核函数来代替内积的话，就叫做 Kernel PCA，这个时候就是不存在线性的超平面来对数据进行投影，思想类似 SVM）。</p>
+<p>协方差 $cov(X, Y) = E((X - \mu)(Y-v))$ 表示的是，两个变量同时变化的变化程度：如果 x 与 y 之间的协方差大于 0，表示若 x 增加了，则 y 也会增加；如果 x 与 y 之间的协方差小于 0，表示若 x 增加了，则 y 会减少。如果 x 与 y 之间是独立的，则 x 与 y 之间的协方差为 0（但是协方差为 0，不能说明 x 与 y 是独立的）。协方差越大，表示两者对彼此的影响越大。</p>
+</li>
+<li><p><strong>求协方差矩阵的特征值和特征向量，然后对协方差矩阵进行特征值分解</strong></p>
+<p>什么是特征值分解？</p>
+<p>$A = Q \Sigma Q^{-1}$ ，其中，Q 就是特征向量组成的矩阵，Q 的每一列都是特征向量；$\Sigma$ 是一个对角矩阵，对角线上面的元素都是特征值，与 Q 中的特征向量是一一对应的</p>
+</li>
+<li><p>对 $\Sigma$ 中的特征值进行排序，Q 中的特征向量也进行相应的改变。<strong>取出最大的 d’ 个特征值所对应的特征向量</strong> $w_1, w_2, …, w_{d’}$. </p>
+<p>最后就得到投影矩阵 $W = (w_1, w_2, …, w_{d’})$ .</p>
+<p>假设这里 d‘ = 6，则 W 矩阵的维度就是 (10, 6) .</p>
+</li>
+<li><p><strong>将样本投影到选取的投影矩阵 W 上面</strong>：</p>
+<p>降维之后的数据：X*W，就是 (100, 6) 维的</p>
+</li>
+</ol>
+<h3 id="4-降维之后的维度怎么确定"><a href="#4-降维之后的维度怎么确定" class="headerlink" title="4. 降维之后的维度怎么确定"></a>4. 降维之后的维度怎么确定</h3><ol>
+<li><p>可以利用交叉验证，再选择一个很简单的分类器，来选择比较好的 k‘ 的值</p>
+</li>
+<li><p>可以设置一个比重阈值 t，比如 95%，然后选择满足阈值的最小的 k‘：</p>
+<p>$$\frac {\sum _{i=1}^{d’}\lambda_i}{\sum _{i=1}^d\lambda_i} \ge t$$ </p>
+</li>
+</ol>
+<h3 id="5-PCA-算法总结"><a href="#5-PCA-算法总结" class="headerlink" title="5. PCA 算法总结"></a>5. PCA 算法总结</h3><p>PCA 是一种非监督降维方法，它只需要特征值分解，就可以对数据进行降维，去躁。</p>
+<h4 id="主要优点："><a href="#主要优点：" class="headerlink" title="主要优点："></a>主要优点：</h4><ol>
+<li>仅仅需要以方差衡量信息量，不受数据集以外的因素影响</li>
+<li>各主成分之间蒸饺，可消除原始数据成分间的相互影响的因素</li>
+<li>计算方法简单，主要运算是特征值分解，易于实现。</li>
+</ol>
+<h4 id="主要缺点："><a href="#主要缺点：" class="headerlink" title="主要缺点："></a>主要缺点：</h4><ol>
+<li>主成分各个特征维度的含义具有一定的模型心各，不如原始样本特征的解释性强</li>
+<li>方差小的非主成分也可能含有对样本差异的重要信息，因此降维丢弃可能对后续数据处理有影响</li>
+</ol>
+<p>补充：</p>
+<p>SVD 奇异值分解，与 PCA 类似，前者是对原始数据进行奇异值分解，后者是为原始数据进行特征值分解</p>
+<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><p><a href="https://www.cnblogs.com/pinard/p/6239403.html" target="_blank" rel="noopener">https://www.cnblogs.com/pinard/p/6239403.html</a></p>
+<p><a href="https://blog.csdn.net/zhongkelee/article/details/44064401" target="_blank" rel="noopener">https://blog.csdn.net/zhongkelee/article/details/44064401</a></p>
+<p><a href="http://blog.codinglabs.org/articles/pca-tutorial.html" target="_blank" rel="noopener">http://blog.codinglabs.org/articles/pca-tutorial.html</a></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/27/朴素贝叶斯面试问题汇总/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -251,7 +454,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/06/27/朴素贝叶斯面试问题汇总/" itemprop="url">朴素贝叶斯</a></h1>
+                <a class="post-title-link" href="/2018/06/27/朴素贝叶斯面试问题汇总/" itemprop="url">朴素贝叶斯面试整理</a></h1>
         
 
         <div class="post-meta">
@@ -303,7 +506,7 @@
 
           
           
-             <span id="/2018/06/27/朴素贝叶斯面试问题汇总/" class="leancloud_visitors" data-flag-title="朴素贝叶斯">
+             <span id="/2018/06/27/朴素贝叶斯面试问题汇总/" class="leancloud_visitors" data-flag-title="朴素贝叶斯面试整理">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -442,7 +645,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-count">2</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -464,7 +667,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-count">3</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -526,7 +729,7 @@
 
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共630字</span>
+  <span class="post-count">博客全站共1.7k字</span>
 </div>
         
 
