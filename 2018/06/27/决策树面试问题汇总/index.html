@@ -70,7 +70,7 @@
 
 
 
-  <meta name="keywords" content="机器学习,朴素贝叶斯," />
+  <meta name="keywords" content="机器学习,决策树," />
 
 
 
@@ -81,18 +81,20 @@
 
 
 
-<meta name="description" content="1. 介绍朴素贝叶斯朴素贝叶斯是一种生成式模型。基于贝叶斯定理与特征条件独立假设（在已知分类Y的条件下，各个特征变量取值是相互独立的）的分类方法。对于给定的训练数据集，首先基于特征条件独立假设学习输入/输出的联合概率分布；然后基于此模型，对给定的输入 x，利用贝叶斯定理求出后验概率最大的输出 y. 2. 朴素贝叶斯 “朴素” 在哪里？“朴素” 是因为它假设了数据集中的所有特征是同等重要的并且是条件">
-<meta name="keywords" content="机器学习,朴素贝叶斯">
+<meta name="description" content="口述决策树决策树一种基本的分类与回归方法。它可以看作是 if-then 规则的集合，也可以看作是定义在特征空间与类空间上的条件概率分布。决策树是一种树形结构，由节点和有向边组成，结果有内部节点和叶子结点，内部节点表示的是一个特征，叶子节点表示的是一个类别。决策树学习的本质就是从训练数据中训练归纳出一组规则。决策树的损失函数是正则化的极大似然分布，学习的策略就是最小化损失函数。但是从所有可能的决策树">
+<meta name="keywords" content="机器学习,决策树">
 <meta property="og:type" content="article">
-<meta property="og:title" content="朴素贝叶斯面试整理">
-<meta property="og:url" content="http://yoursite.com/2018/06/27/朴素贝叶斯面试问题汇总/index.html">
+<meta property="og:title" content="决策树面试整理">
+<meta property="og:url" content="http://yoursite.com/2018/06/27/决策树面试问题汇总/index.html">
 <meta property="og:site_name" content="liuyinglxl">
-<meta property="og:description" content="1. 介绍朴素贝叶斯朴素贝叶斯是一种生成式模型。基于贝叶斯定理与特征条件独立假设（在已知分类Y的条件下，各个特征变量取值是相互独立的）的分类方法。对于给定的训练数据集，首先基于特征条件独立假设学习输入/输出的联合概率分布；然后基于此模型，对给定的输入 x，利用贝叶斯定理求出后验概率最大的输出 y. 2. 朴素贝叶斯 “朴素” 在哪里？“朴素” 是因为它假设了数据集中的所有特征是同等重要的并且是条件">
+<meta property="og:description" content="口述决策树决策树一种基本的分类与回归方法。它可以看作是 if-then 规则的集合，也可以看作是定义在特征空间与类空间上的条件概率分布。决策树是一种树形结构，由节点和有向边组成，结果有内部节点和叶子结点，内部节点表示的是一个特征，叶子节点表示的是一个类别。决策树学习的本质就是从训练数据中训练归纳出一组规则。决策树的损失函数是正则化的极大似然分布，学习的策略就是最小化损失函数。但是从所有可能的决策树">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-10-11T07:57:19.718Z">
+<meta property="og:image" content="http://yoursite.com/Users/liuyinglxl/Nustore%20Files/我的坚果云/面试/知识储备/pic/20180228135729007.png">
+<meta property="og:updated_time" content="2018-10-11T09:25:13.046Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="朴素贝叶斯面试整理">
-<meta name="twitter:description" content="1. 介绍朴素贝叶斯朴素贝叶斯是一种生成式模型。基于贝叶斯定理与特征条件独立假设（在已知分类Y的条件下，各个特征变量取值是相互独立的）的分类方法。对于给定的训练数据集，首先基于特征条件独立假设学习输入/输出的联合概率分布；然后基于此模型，对给定的输入 x，利用贝叶斯定理求出后验概率最大的输出 y. 2. 朴素贝叶斯 “朴素” 在哪里？“朴素” 是因为它假设了数据集中的所有特征是同等重要的并且是条件">
+<meta name="twitter:title" content="决策树面试整理">
+<meta name="twitter:description" content="口述决策树决策树一种基本的分类与回归方法。它可以看作是 if-then 规则的集合，也可以看作是定义在特征空间与类空间上的条件概率分布。决策树是一种树形结构，由节点和有向边组成，结果有内部节点和叶子结点，内部节点表示的是一个特征，叶子节点表示的是一个类别。决策树学习的本质就是从训练数据中训练归纳出一组规则。决策树的损失函数是正则化的极大似然分布，学习的策略就是最小化损失函数。但是从所有可能的决策树">
+<meta name="twitter:image" content="http://yoursite.com/Users/liuyinglxl/Nustore%20Files/我的坚果云/面试/知识储备/pic/20180228135729007.png">
 
 
 
@@ -122,13 +124,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/06/27/朴素贝叶斯面试问题汇总/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/06/27/决策树面试问题汇总/"/>
 
 
 
 
 
-  <title>朴素贝叶斯面试整理 | liuyinglxl</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  <title>决策树面试整理 | liuyinglxl</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
   
 
 
@@ -235,7 +237,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/27/朴素贝叶斯面试问题汇总/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/27/决策树面试问题汇总/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="liuyinglxl">
@@ -252,7 +254,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">朴素贝叶斯面试整理</h1>
+          <h1 class="post-title" itemprop="name headline">决策树面试整理</h1>
         
 
         <div class="post-meta">
@@ -264,7 +266,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-27T15:03:50+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-27T11:46:20+08:00">
                 2018-06-27
               </time>
             
@@ -304,7 +306,7 @@
 
           
           
-             <span id="/2018/06/27/朴素贝叶斯面试问题汇总/" class="leancloud_visitors" data-flag-title="朴素贝叶斯面试整理">
+             <span id="/2018/06/27/决策树面试问题汇总/" class="leancloud_visitors" data-flag-title="决策树面试整理">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -335,31 +337,70 @@
       
 
       
-        <h3 id="1-介绍朴素贝叶斯"><a href="#1-介绍朴素贝叶斯" class="headerlink" title="1. 介绍朴素贝叶斯"></a>1. 介绍朴素贝叶斯</h3><p>朴素贝叶斯是一种<strong>生成式模型</strong>。基于<strong>贝叶斯定理</strong>与<strong>特征条件独立假设</strong>（在已知分类Y的条件下，各个特征变量取值是相互独立的）的分类方法。对于给定的训练数据集，首先基于特征条件独立假设学习输入/输出的<strong>联合概率分布</strong>；然后基于此模型，对给定的输入 x，利用贝叶斯定理求出<strong>后验概率最大</strong>的输出 y.</p>
-<h3 id="2-朴素贝叶斯-“朴素”-在哪里？"><a href="#2-朴素贝叶斯-“朴素”-在哪里？" class="headerlink" title="2. 朴素贝叶斯 “朴素” 在哪里？"></a>2. 朴素贝叶斯 “朴素” 在哪里？</h3><p><strong>“朴素” </strong>是因为它假设了数据集中的所有特征是同等重要的并且是<strong>条件独立</strong>的。这是一个很强的假设，在实际情况中，这个假设很难成立，所以叫 “朴素”。</p>
-<p>$$P(X = x | Y = c_k) = P(X^{(1)} = x^{(1)}, … , X^{(n)} = x^{n} | Y = c_k) = P(X^{(1)} = x^{(1)} | Y = c_k) \cdot … \cdot P(X^{(n)} = x^{(n)} | Y= c_k)$$ </p>
-<h3 id="3-朴素贝叶斯与-LR-的区别"><a href="#3-朴素贝叶斯与-LR-的区别" class="headerlink" title="3. 朴素贝叶斯与 LR 的区别"></a>3. 朴素贝叶斯与 LR 的区别</h3><p> 朴素贝叶斯是生成式模型，LR 是判别式模型。</p>
+        <h3 id="口述决策树"><a href="#口述决策树" class="headerlink" title="口述决策树"></a>口述决策树</h3><p>决策树一种基本的分类与回归方法。它可以看作是 if-then 规则的集合，也可以看作是定义在特征空间与类空间上的条件概率分布。决策树是一种树形结构，由节点和有向边组成，结果有内部节点和叶子结点，内部节点表示的是一个特征，叶子节点表示的是一个类别。决策树学习的本质就是从训练数据中训练归纳出一组规则。决策树的损失函数是正则化的极大似然分布，学习的策略就是最小化损失函数。但是从所有可能的决策树中选出最优的决策树是 NP 难的问题，所以现实中我们学习决策树通常是采用启发式算法，也就是分成三步来进行：特征选择、决策树生成、决策树剪枝。</p>
+<p>其中特征选择，是说我们依据什么来选择每个内部节点对应的属性，也就是选择利用哪个特征来对数据进行切分。我们要选择分类特征比较强的特征（如果一个特征没有分类能力，就是说利用这个特征进行分类，和随机分类的结果差不多）。如何判断一个特征的分类能力，通常有三种准则：信息增益、信息增益率、基尼系数，这三种特征选择的准则也分别对应了三种不同的决策树算法：ID3、C4.5、CART</p>
+<p>信息增益是指知道了这个特征，使得整个数据集不确定性减少的程度。</p>
+<p>信息增益比的出现，是因为信息增益会比较倾向于选择那些取值比较多的特征，但是那些特征不一定是分类能力最强的特征，所以提出了信息增益比，是对信息增益除上了一个基数，除上的是 $H_A(D) = \sum_{i=1}^n\frac {|D_i|}{|D|}\log _2 \frac{|D_i|}{|D|}|$ ，D 是数据集， $D_i$ 是数据集 D 依据特征 A（有 n 个取值），分成了 n 个子集，其中的第 i 个。也就是表示的是特征 A 的熵。</p>
+<p>基尼系数，反应的是从数据集中随机抽取两个样本，它们的类别不一致的概率，也是反映了随机变量的不确定性，基尼系数越大，说明随机抽的两个样本不属于同样的类别的概率最大，随机变量越不稳定。$Gini(p) = \sum _{k=1} ^k p_k (1-p_k) = 1 - \sum_{k=1}^k p_k^2$ .</p>
+<h3 id="1-什么是决策树"><a href="#1-什么是决策树" class="headerlink" title="1. 什么是决策树"></a>1. 什么是决策树</h3><p>决策树一种分类和回归模型，可以从三个角度来理解：</p>
 <ol>
-<li><p>Navie Bayes 是生成式模型，根据已有样本进行贝叶斯估计学习出先验概率 P(Y) 和条件概率 P(X|Y)，进而求出联合概率分布 P(XY)，最后利用贝叶斯定理求解 P(Y|X). </p>
-<p>也就是说，它尝试去找这个数据到底是怎么产生的，然后再进行分类</p>
+<li>一棵树</li>
+<li>if-then规则的集合，该集合是决策树上的所有所根节点到叶子结点的路径的集合</li>
+<li>定义在特征空间与类空间的条件概率分布，决策树实际上是将特征空间划分成了互不相交的单元，每个从根节点到叶子结点的路径对应着一个单元。决策树所表示的条件概率分布由各个单元给定条件下类的条件概率分布组成。实际中，哪个类别有较高的概率，就把该单元中的实例强行划分为该类别</li>
+</ol>
+<h3 id="2-如何学习一棵树"><a href="#2-如何学习一棵树" class="headerlink" title="2. 如何学习一棵树"></a>2. 如何学习一棵树</h3><p>决策树的<strong>损失函数</strong>通常是<strong>正则化的极大似然函数</strong>，学习的策略是以损失函数为目标函数的最小化。由于最小化这个损失函数是一个NP难（不能在多项式时间内解决）的问题，现实中，通常采用启发式算法（在解决问题的时候采取的是一种根据经验规则进行发现的方法。其特点是，在解决问题时，利用过去的经验，选择已经行之有效的方法，而不是系统的、以确定的步骤去寻求答案）来近似求解这一最优化问题，得到的决策树是次优的。</p>
+<p>决策树采用的是<strong>启发式</strong>的学习方法。</p>
+<p>分为三步：特征选择、模型生成、剪枝</p>
+<h3 id="3-决策树的优缺点"><a href="#3-决策树的优缺点" class="headerlink" title="3. 决策树的优缺点"></a>3. 决策树的优缺点</h3><h4 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h4><p>主要有两个优点：</p>
+<ol>
+<li>模型具有可解释性</li>
+<li>分类速度快</li>
+</ol>
+<p>其他的优点：</p>
+<ol start="3">
+<li>不用对数据进行过多的预处理，其他技术往往需要进行归一化等</li>
+<li>能够同时处理数据型和常规型属性，其他技术往往需要数据型属性</li>
+<li>对缺失值不敏感</li>
+</ol>
+<h4 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h4><ol>
+<li><p>对连续型的字段比较难预测</p>
 </li>
-<li><p>LR 是判别式模型，根据极大化对数熙然函数，直接求出条件概率 P(Y|X)</p>
-</li>
-<li><p>区别：朴素贝叶斯基与条件独立假设；LR 没有</p>
-</li>
-<li><p>朴素贝叶斯使用数据集小的情景；LR 适用于大规模数据集</p>
+<li><p>类别太多的时候，模型会很复杂</p>
 </li>
 </ol>
-<h3 id="4-朴素贝叶斯需要注意的地方"><a href="#4-朴素贝叶斯需要注意的地方" class="headerlink" title="4. 朴素贝叶斯需要注意的地方"></a>4. 朴素贝叶斯需要注意的地方</h3><ol>
-<li>给出的特征向量长度可能不同，这个时候就需要把特征向量归一化为统一长度的向量（比如在NLP中的句子长度）</li>
-<li>利用极大似然估计的时候，可能会出现估计的概率为 0 的情况，这个时候可以采用贝叶斯估计，即计算条件概率分布的时候，分子分母同时加上一个数 $\lambda$ . 当 $\lambda$ 为 1 时，叫做拉普拉斯平滑</li>
+<h3 id="4-构造决策树时的停止条件是什么"><a href="#4-构造决策树时的停止条件是什么" class="headerlink" title="4. 构造决策树时的停止条件是什么"></a>4. 构造决策树时的停止条件是什么</h3><ol>
+<li>节点中样本个数小于阈值</li>
+<li>样本集的基尼系数小于阈值</li>
+<li>没有更多的特征了</li>
 </ol>
-<h3 id="5-朴素贝叶斯的优缺点"><a href="#5-朴素贝叶斯的优缺点" class="headerlink" title="5. 朴素贝叶斯的优缺点"></a>5. 朴素贝叶斯的优缺点</h3><h5 id="优点："><a href="#优点：" class="headerlink" title="优点："></a>优点：</h5><ol>
-<li>对小规模的数据表现很好</li>
-<li>适合多分类任务</li>
-<li>可反映数据的分布情况</li>
+<h3 id="5-如何处理连续值特征"><a href="#5-如何处理连续值特征" class="headerlink" title="5. 如何处理连续值特征"></a>5. 如何处理连续值特征</h3><ol>
+<li><p>对于连续值 a，假设 a 在数据集 D 中共出现了n个不同的取值；</p>
+<p>对 n 个不同的取值从小到大排序：$(a_1, a_2, … , a_n)$</p>
+<p>由于划分点在 $[a_i, a_{i+1})$ 上任意取值，对划分结果不变，所以可以考虑 n-1 取值的划分点候选集。划分点 t 是二分点（将特征 a 不大于 t 的划分在一起，大于 t 的划分在一起）。</p>
+<p>然后怎么在候选集中进行选择最优的划分点？</p>
+<p>根据信息增益，选择最大的 g(D, a, t)：表示数据集 D 将特征 a 基于 t 划分之后，带来的信息增益。</p>
+<p>(上面这个说的是 C4.5 中的二分法连续值处理)</p>
+</li>
+<li><p>如果是CART的话，对于连续值的处理，可以参照CART回归树，遍历所有的输入变量 j 和切分点 s，根据最小化平方误差准则来选取</p>
+</li>
 </ol>
-<h5 id="缺点："><a href="#缺点：" class="headerlink" title="缺点："></a>缺点：</h5><p>对输入数据的表达形式很敏感</p>
+<p><img src="/Users/liuyinglxl/Nustore Files/我的坚果云/面试/知识储备/pic/20180228135729007.png" alt="img"></p>
+<h3 id="6-如何处理缺失值"><a href="#6-如何处理缺失值" class="headerlink" title="6. 如何处理缺失值"></a>6. 如何处理缺失值</h3><p>缺失值主要有这三种情况：</p>
+<ol>
+<li><p>在选择分裂属性的时候，训练样本存在缺失值（也就是在计算各个属性带来的信息增益的时候），如何处理？</p>
+<p>计算数据集 D 在属性 a 上不缺失的部分 D’ 中，a 的信息增益，然后将得到的结果乘以不缺失的占比：|D’|/|D|</p>
+</li>
+<li><p>分类属性已经确定，但样本在该属性上的值缺失，如何处理？</p>
+<p>假设分类属性为 a，并且 a 有 3 个可能的取值，则将缺失 a 值的样本 x 分配到三个字节点，并且带有权重，权重为每个子节点的个数占三个字节点总数的占比。其他的节点的权重为1</p>
+</li>
+<li><p>训练完成之后，给测试样本分类，存在缺失值，如何处理？</p>
+<p>根据投票来确定，或者填充缺失值</p>
+</li>
+</ol>
+<h3 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h3><p><a href="https://applenob.github.io/decision_tree.html" target="_blank" rel="noopener">https://applenob.github.io/decision_tree.html</a> （整体介绍）</p>
+<p><a href="https://blog.csdn.net/u012328159/article/details/79396893" target="_blank" rel="noopener">https://blog.csdn.net/u012328159/article/details/79396893</a> （连续值处理）</p>
+<p><a href="https://blog.csdn.net/u012328159/article/details/79413610" target="_blank" rel="noopener">https://blog.csdn.net/u012328159/article/details/79413610</a> （缺失值处理详解）</p>
+<p> <a href="https://www.zhihu.com/question/34867991/answer/151775210" target="_blank" rel="noopener">https://www.zhihu.com/question/34867991/answer/151775210</a> （缺失值处理）</p>
 
       
     </div>
@@ -379,7 +420,7 @@
           
             <a href="/tags/机器学习/" rel="tag"># 机器学习</a>
           
-            <a href="/tags/朴素贝叶斯/" rel="tag"># 朴素贝叶斯</a>
+            <a href="/tags/决策树/" rel="tag"># 决策树</a>
           
         </div>
       
@@ -392,8 +433,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/06/27/决策树面试问题汇总/" rel="next" title="决策树面试整理">
-                <i class="fa fa-chevron-left"></i> 决策树面试整理
+              <a href="/2018/06/18/SVM面试问题汇总/" rel="next" title="SVM支持向量机面试整理">
+                <i class="fa fa-chevron-left"></i> SVM支持向量机面试整理
               </a>
             
           </div>
@@ -402,8 +443,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/07/03/集成学习面试问题汇总/" rel="prev" title="集成学习面试整理">
-                集成学习面试整理 <i class="fa fa-chevron-right"></i>
+              <a href="/2018/06/27/朴素贝叶斯面试问题汇总/" rel="prev" title="朴素贝叶斯面试整理">
+                朴素贝叶斯面试整理 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -536,7 +577,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-介绍朴素贝叶斯"><span class="nav-number">1.</span> <span class="nav-text">1. 介绍朴素贝叶斯</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-朴素贝叶斯-“朴素”-在哪里？"><span class="nav-number">2.</span> <span class="nav-text">2. 朴素贝叶斯 “朴素” 在哪里？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-朴素贝叶斯与-LR-的区别"><span class="nav-number">3.</span> <span class="nav-text">3. 朴素贝叶斯与 LR 的区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-朴素贝叶斯需要注意的地方"><span class="nav-number">4.</span> <span class="nav-text">4. 朴素贝叶斯需要注意的地方</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-朴素贝叶斯的优缺点"><span class="nav-number">5.</span> <span class="nav-text">5. 朴素贝叶斯的优缺点</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#优点："><span class="nav-number">5.0.1.</span> <span class="nav-text">优点：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#缺点："><span class="nav-number">5.0.2.</span> <span class="nav-text">缺点：</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#口述决策树"><span class="nav-number">1.</span> <span class="nav-text">口述决策树</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-什么是决策树"><span class="nav-number">2.</span> <span class="nav-text">1. 什么是决策树</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-如何学习一棵树"><span class="nav-number">3.</span> <span class="nav-text">2. 如何学习一棵树</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-决策树的优缺点"><span class="nav-number">4.</span> <span class="nav-text">3. 决策树的优缺点</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#优点"><span class="nav-number">4.1.</span> <span class="nav-text">优点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#缺点"><span class="nav-number">4.2.</span> <span class="nav-text">缺点</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-构造决策树时的停止条件是什么"><span class="nav-number">5.</span> <span class="nav-text">4. 构造决策树时的停止条件是什么</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-如何处理连续值特征"><span class="nav-number">6.</span> <span class="nav-text">5. 如何处理连续值特征</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-如何处理缺失值"><span class="nav-number">7.</span> <span class="nav-text">6. 如何处理缺失值</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Reference"><span class="nav-number">8.</span> <span class="nav-text">Reference</span></a></li></ol></div>
             
 
           </div>
