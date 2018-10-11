@@ -1,0 +1,1089 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/fav128.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/fav32.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/fav16.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/fav.svg?v=5.1.4" color="#222">
+
+
+
+  <meta name="msapplication-config" content="/images/browserconfig.xml" />
+
+
+
+  <meta name="keywords" content="机器学习,集成学习," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="###  什么是集成学习？ 构建并结合多个学习器来完成学习任务； 主要分为两类：  基本学习器之间存在强依赖关系，必须串行执行的序列化方法——Boosting  基本学习器之间不存在强依赖关系，可同时生成的并行化方法——Bagging，随机森林   Boosting1. 介绍 BoostingBoosting 通过改变训练样本的权重，学习多个分类器，并将这些分类器进行线性组合。 Boosting">
+<meta name="keywords" content="机器学习,集成学习">
+<meta property="og:type" content="article">
+<meta property="og:title" content="集成学习面试整理">
+<meta property="og:url" content="http://yoursite.com/2018/07/03/集成学习面试问题汇总/index.html">
+<meta property="og:site_name" content="liuyinglxl">
+<meta property="og:description" content="###  什么是集成学习？ 构建并结合多个学习器来完成学习任务； 主要分为两类：  基本学习器之间存在强依赖关系，必须串行执行的序列化方法——Boosting  基本学习器之间不存在强依赖关系，可同时生成的并行化方法——Bagging，随机森林   Boosting1. 介绍 BoostingBoosting 通过改变训练样本的权重，学习多个分类器，并将这些分类器进行线性组合。 Boosting">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-10-11T08:00:36.123Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="集成学习面试整理">
+<meta name="twitter:description" content="###  什么是集成学习？ 构建并结合多个学习器来完成学习任务； 主要分为两类：  基本学习器之间存在强依赖关系，必须串行执行的序列化方法——Boosting  基本学习器之间不存在强依赖关系，可同时生成的并行化方法——Bagging，随机森林   Boosting1. 介绍 BoostingBoosting 通过改变训练样本的权重，学习多个分类器，并将这些分类器进行线性组合。 Boosting">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/07/03/集成学习面试问题汇总/"/>
+
+
+
+
+
+  <title>集成学习面试整理 | liuyinglxl</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">liuyinglxl</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/03/集成学习面试问题汇总/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="liuyinglxl">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="liuyinglxl">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">集成学习面试整理</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-03T15:33:17+08:00">
+                2018-07-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/机器学习/" itemprop="url" rel="index">
+                    <span itemprop="name">机器学习</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/07/03/集成学习面试问题汇总/" class="leancloud_visitors" data-flag-title="集成学习面试整理">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>### </p>
+<p>什么是集成学习？</p>
+<p>构建并结合多个学习器来完成学习任务；</p>
+<p>主要分为两类：</p>
+<ol>
+<li><p>基本学习器之间存在强依赖关系，必须串行执行的序列化方法——Boosting</p>
+</li>
+<li><p>基本学习器之间不存在强依赖关系，可同时生成的并行化方法——Bagging，随机森林</p>
+</li>
+</ol>
+<h2 id="Boosting"><a href="#Boosting" class="headerlink" title="Boosting"></a>Boosting</h2><h3 id="1-介绍-Boosting"><a href="#1-介绍-Boosting" class="headerlink" title="1. 介绍 Boosting"></a>1. 介绍 Boosting</h3><p>Boosting 通过改变训练样本的权重，学习多个分类器，并将这些分类器进行线性组合。</p>
+<p>Boosting 主要关注两个问题：</p>
+<ol>
+<li><p>每一轮如何改变训练数据的权重</p>
+<p><strong>提高</strong>在前一轮被<strong>错误</strong>分类的样本的权重，<strong>降低</strong>在前一轮被<strong>正确</strong>分类的样本的权重</p>
+</li>
+<li><p>如何将多个弱分类器组合成一个强分类器</p>
+<ul>
+<li>AdaBoost 通过<strong>加权多数表决</strong></li>
+<li>提升树是在每一步将模型进行叠加</li>
+</ul>
+</li>
+</ol>
+<h3 id="2-介绍-Boosting-的代表算法：AdaBoost"><a href="#2-介绍-Boosting-的代表算法：AdaBoost" class="headerlink" title="2. 介绍 Boosting 的代表算法：AdaBoost"></a>2. 介绍 Boosting 的代表算法：AdaBoost</h3><p>训练数据的过程：将训练数据集中的每个样本赋予一个权值，开始的时候，权重都初始化为相等值；1）首先，在整个数据集上训练一个弱分类器，并计算错误率；2）在同一个数据集上再次训练一个弱分类器，在训练的过程中，权值重新调整，其中在上一次分类中分对的样本权值将会降低，分错的样本权值将会提高。3）重复上述过程，串行的生成多个分类器，为了从所有弱分类器中得到多个分类结果，为每个分类器分配一个权值alpha，这些alpha值是基于每个弱分类器的错误率计算的。</p>
+<h4 id="优缺点"><a href="#优缺点" class="headerlink" title="优缺点"></a>优缺点</h4><ul>
+<li>优点：泛化错误率低，易编码，可以应该在大部分分类器上，无参数可调</li>
+<li>缺点：对离群数据点敏感</li>
+</ul>
+<h3 id="3-介绍-GBDT"><a href="#3-介绍-GBDT" class="headerlink" title="3. 介绍 GBDT"></a>3. 介绍 GBDT</h3><h4 id="3-1-回归树（DT：Decision-Tree）"><a href="#3-1-回归树（DT：Decision-Tree）" class="headerlink" title="3.1 回归树（DT：Decision Tree）"></a>3.1 回归树（DT：Decision Tree）</h4><p>GBDT中的树全部都是回归树（不是分类树），核心就是累加所有树的结果作为最终结果。</p>
+<p>GBDT调整之后可以用于分类问题，但是内部还是回归树。（回归树与分类树主要的区别在于特征选择，回归树用的是最小化均方误差，分类树用的是最小化 Gini 指数）</p>
+<h4 id="3-2-梯度迭代（GB：Gradient-Boosting）"><a href="#3-2-梯度迭代（GB：Gradient-Boosting）" class="headerlink" title="3.2 梯度迭代（GB：Gradient Boosting）"></a>3.2 梯度迭代（GB：Gradient Boosting）</h4><p>提升树（Boosting Tree）是一种加法模型，逐个学习每一个模型，每一次学习的数据是上一个模型的<strong>残差</strong>，GBDT的核心就是，每一棵树学习的是上一个模型的负向<strong>梯度</strong>。</p>
+<p>梯度 Gradient 体现在：无论前面一棵树的 cost funtion 是什么，是均方差还是方差，是要它以误差作为衡量标准，那么<strong>负向梯度</strong>就是它的全局最优方向。</p>
+<h4 id="3-3-缩减（Shrinkage）"><a href="#3-3-缩减（Shrinkage）" class="headerlink" title="3.3 缩减（Shrinkage）"></a>3.3 缩减（Shrinkage）</h4><p>Shrinkage 是 GBDT 算法的一个重要的演进分支，目前大部分源码都是基于这个版本的。</p>
+<p><strong>核心思想</strong>：Shrinkage 认为每次走一小步来逼近结果的效果，要比每次迈一大步很快逼近结果的方式更容易<strong>防止过拟合</strong>。也就是说，它不信任每次学习到的残差，它认为每棵树只学习到了真理的一小部分，累加的时候只累加一小部分，通过多学习几棵树来弥补不足。</p>
+<p><strong>具体做法</strong>：仍然以 gradient 作为学习目标，但是对于 gradient 学习出来的结果，只累加一小部分（step*梯度）逐步逼近目标，step 一般都比较小（0.01 ～ 0.001），导致各个树的 gradient 是渐变而不是陡变的。</p>
+<p><strong>本质上</strong>，Shrinkage 为每一棵树设置了一个 weight，累加时要乘以这个 weight，但和 gradient 没有关系。这个 weight 就是 step。跟 AdaBoost 一样，Shrinkage 能减少过拟合是经验证明的，目前还没有理论证明。</p>
+<h4 id="3-4-GBDT-适用范围"><a href="#3-4-GBDT-适用范围" class="headerlink" title="3.4 GBDT 适用范围"></a>3.4 GBDT 适用范围</h4><ul>
+<li>GBDT 可以用于回归问题（线性和非线性），相对 LR 仅能用于线性回归，GBDT 适用面更广</li>
+<li>GBDT 也可以用于二分类问题（设定阈值，大于为正，否则为负）和多分类问题</li>
+</ul>
+<h4 id="3-5-GBDT-相关问题"><a href="#3-5-GBDT-相关问题" class="headerlink" title="3.5 GBDT 相关问题"></a>3.5 GBDT 相关问题</h4><ol>
+<li><p>GBDT 相比于决策树有什么优点 </p>
+<p>泛化性能更好！GBDT 的最好的好处在于，每一步的 gradient 计算其实就是变相的增加了分类错误的权重，而已经分对的样本的 gradient 则都趋近于 0. 这样后面更加专注于那些分错的样本。</p>
+<ol start="2">
+<li>与传统 Boosting 的区别</li>
+</ol>
+<p>不是对样本进行权值改变，而是改变么一轮的回归目标（上一个模型的预测残差）</p>
+<ol start="3">
+<li>GBDT 的优缺点</li>
+</ol>
+<p><strong>优点</strong>：</p>
+<ol>
+<li>能够灵活处理各种类型的数据，不需要特征归一化（LR 需要）</li>
+<li>在相对较少的调参情况下，预测的准确率相对较高（相对 SVM）</li>
+<li>与传统决策树相比，每一步的 gradient 计算相当于沿着最优的防线过去学习，变相增大了分类错误样本的权重，使用更少特征来进行决策，防止过拟合</li>
+</ol>
+<p><strong>缺点</strong>：</p>
+<p>是一个串行过程，不能并行化，不适合线性模型</p>
+<ol start="4">
+<li>GBDT 如何防止过拟合</li>
+</ol>
+<p>限制树的棵树、设置学习率、设置每个叶子结点的最小节点数、增加惩罚想、基于 Bagging 思想进行抽样</p>
+</li>
+</ol>
+<h2 id="Bagging"><a href="#Bagging" class="headerlink" title="Bagging"></a>Bagging</h2><h3 id="1-介绍-Bagging"><a href="#1-介绍-Bagging" class="headerlink" title="1. 介绍 Bagging"></a>1. 介绍 Bagging</h3><p>Bagging (bootstrap aggregating)，套袋法，算法过程如下：</p>
+<ol>
+<li>假设训练集中共有 N 个样本，每次从中有放回的抽取 N 次，这样就得到一个有 N 个样本的数据集；然后我们这样抽取 S 次，就得到 S 个有 N 个样本的数据集（一般来说取出的样本包含了 63% 的原始数据，有 36% 的数据没有被采样到）</li>
+<li>对这 S 个数据集，训练 S 个模型</li>
+<li>最后的结果：<ul>
+<li>分类问题：对 S 个模型采用投票表决的方式</li>
+<li>回归问题：对 S 个模型的结果求均值</li>
+</ul>
+</li>
+</ol>
+<p>Bagging 的代表算法：随机森林</p>
+<h3 id="2-Bagging-的优点"><a href="#2-Bagging-的优点" class="headerlink" title="2.  Bagging 的优点"></a>2.  Bagging 的优点</h3><ol>
+<li>高效。Bagging 集成与直接训练集学习器的复杂度同阶</li>
+<li>Bagging 能不经修改的适用于分类、回归任务</li>
+<li>包外估计（out-of-bag estimate）。使用剩下来的 32% 的样本作为验证集</li>
+</ol>
+<h3 id="3-介绍-Bagging-的代表算法：随机森林"><a href="#3-介绍-Bagging-的代表算法：随机森林" class="headerlink" title="3. 介绍 Bagging 的代表算法：随机森林"></a>3. 介绍 Bagging 的代表算法：随机森林</h3><p>随机森林（Random Forest）是 Bagging 的一个变体。它是以<strong>决策树</strong>为基学习器构建 Bagging 集成的基础上，进一步在决策树的训练过程中引入<strong>随机属性</strong>选择。</p>
+<p>原来的决策树从所有属性中，选择最优属性。Random Forest 的每一颗决策树中的每一个节点，先从该节点的属性集中<strong>随机</strong>选择 K 个属性的子集，然后从这个属性子集中选择<strong>最优</strong>属性进行划分。 K 控制了随机性的引入程度，是一个重要的超参数。</p>
+<p>最后的预测结果：</p>
+<ul>
+<li>分类问题：简单投票法</li>
+<li>回归问题：简单平均法</li>
+</ul>
+<h3 id="4-随机森林的优缺点"><a href="#4-随机森林的优缺点" class="headerlink" title="4. 随机森林的优缺点"></a>4. 随机森林的优缺点</h3><h4 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h4><ol>
+<li>由于每次不再考虑全部的属性，而是一个属性子集，所有相比 Bagging 计算开销更小，训练效率更高</li>
+<li>由于增加了属性的扰动，随机森林中基学习器的性能降低，使得随机森林在起始时性能较差，但是随着基学习器的增多，随机森林通常会收敛于相比 Bagging 更低的泛化误差</li>
+<li>两个随机性的引入，使得随机森林不容易过拟合，具有很好的抗噪声能力</li>
+<li>对数据的适应能力强，可以处理离散和连续的值，不需要规范化</li>
+<li>可以得到变量的重要性，基于 oob 误分类率和基于 Gini 系数的变化</li>
+</ol>
+<h4 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h4><ol>
+<li>在噪声较大的时候容易过拟合</li>
+</ol>
+<h2 id="Boosting-与-Bagging"><a href="#Boosting-与-Bagging" class="headerlink" title="Boosting 与 Bagging"></a>Boosting 与 Bagging</h2><h3 id="1-Boosting-与-Bagging-的区别"><a href="#1-Boosting-与-Bagging-的区别" class="headerlink" title="1. Boosting 与 Bagging 的区别"></a>1. Boosting 与 Bagging 的区别</h3><p>区别主要在这 5 个方面：</p>
+<ol>
+<li><p>样本选择上</p>
+<ul>
+<li>Boosting：每一轮训练集不变，只是训练数据的权重发生变化，权值是根据上一轮的分类结果进行调整的</li>
+<li>Bagging：训练集是在原始数据集中有放回选取的，从原始数据集选出的各轮训练集之间是独立的</li>
+</ul>
+</li>
+<li><p>样本权重</p>
+<ul>
+<li>Boosting：根据错误率不断调整样本的权值，错误分类的样本的权重更大</li>
+<li>Bagging：每个样本的权值一样</li>
+</ul>
+</li>
+<li><p>预测函数</p>
+<ul>
+<li>Boosting：每个弱分类器都有相应的权重，对于分类误差小的分类器有更大的权重</li>
+<li>Bagging：所有若分类器权重相等</li>
+</ul>
+</li>
+<li><p>并行计算：</p>
+<ul>
+<li>Boosting：串行执行，因为后一个模型的样本权重需要前一轮模型的结果</li>
+</ul>
+</li>
+</ol>
+<h2 id="GBDT-与-随机森林"><a href="#GBDT-与-随机森林" class="headerlink" title="GBDT 与 随机森林"></a>GBDT 与 随机森林</h2><h4 id="相同点"><a href="#相同点" class="headerlink" title="相同点"></a>相同点</h4><ol>
+<li>GBDT 和 随机森林 都是有多棵树组成</li>
+<li>最终的结果都由多棵树共同决定</li>
+</ol>
+<h4 id="不同点"><a href="#不同点" class="headerlink" title="不同点"></a>不同点</h4><ol>
+<li>组成随机森林的树可以是分类树或者回归树；GBDT 只能是回归树</li>
+<li>组成随机森林的树可以并行生成（Bagging）；GBDT 只能串行生成（Boosting）</li>
+<li>对于最终的输出结果而言，随机森林使用多数投票或者简单平均；GBDT 通常是累加，或者加权累加</li>
+<li>随机森林对异常值不敏感；GBDT 对异常值非常敏感</li>
+<li>随机森林对训练集一视同仁权值一样；GBDT 是基于权值的弱分类器的集成</li>
+<li>随机森林通过减小<strong>方差</strong>提高性能；GBDT 通过减少<strong>偏差</strong>提高性能</li>
+</ol>
+<p>注：</p>
+<p>Bagging + 决策树 = 随机森林</p>
+<p>AdaBoost + 决策树 = 提升树</p>
+<p>Gradient Boosting + 决策树 = GBDT</p>
+<h3 id="从偏差方差去对boosting和bagging进行理解"><a href="#从偏差方差去对boosting和bagging进行理解" class="headerlink" title="从偏差方差去对boosting和bagging进行理解"></a>从偏差方差去对boosting和bagging进行理解</h3><p><a href="https://www.cnblogs.com/earendil/p/8872001.html" target="_blank" rel="noopener">https://www.cnblogs.com/earendil/p/8872001.html</a></p>
+<h3 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h3><p><a href="http://www.cnblogs.com/dudumiaomiao/p/6361777.html" target="_blank" rel="noopener">http://www.cnblogs.com/dudumiaomiao/p/6361777.html</a> （基本介绍和区别）</p>
+<p><a href="http://gitbook.cn/books/5a31eb9a7cdec87af6d848a0/index.html#undefined" target="_blank" rel="noopener">http://gitbook.cn/books/5a31eb9a7cdec87af6d848a0/index.html#undefined</a>  （RF，GBDT）</p>
+<p><a href="https://blog.csdn.net/qq_34896915/article/details/73771287" target="_blank" rel="noopener">https://blog.csdn.net/qq_34896915/article/details/73771287</a> （GBDT，XGBOOST）</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/机器学习/" rel="tag"># 机器学习</a>
+          
+            <a href="/tags/集成学习/" rel="tag"># 集成学习</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/06/27/朴素贝叶斯面试问题汇总/" rel="next" title="朴素贝叶斯面试整理">
+                <i class="fa fa-chevron-left"></i> 朴素贝叶斯面试整理
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/08/02/PCA 主成分分析/" rel="prev" title="PCA主成分分析面试整理">
+                PCA主成分分析面试整理 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">liuyinglxl</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Boosting"><span class="nav-number">1.</span> <span class="nav-text">Boosting</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-介绍-Boosting"><span class="nav-number">1.1.</span> <span class="nav-text">1. 介绍 Boosting</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-介绍-Boosting-的代表算法：AdaBoost"><span class="nav-number">1.2.</span> <span class="nav-text">2. 介绍 Boosting 的代表算法：AdaBoost</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#优缺点"><span class="nav-number">1.2.1.</span> <span class="nav-text">优缺点</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-介绍-GBDT"><span class="nav-number">1.3.</span> <span class="nav-text">3. 介绍 GBDT</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-1-回归树（DT：Decision-Tree）"><span class="nav-number">1.3.1.</span> <span class="nav-text">3.1 回归树（DT：Decision Tree）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-梯度迭代（GB：Gradient-Boosting）"><span class="nav-number">1.3.2.</span> <span class="nav-text">3.2 梯度迭代（GB：Gradient Boosting）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-3-缩减（Shrinkage）"><span class="nav-number">1.3.3.</span> <span class="nav-text">3.3 缩减（Shrinkage）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-4-GBDT-适用范围"><span class="nav-number">1.3.4.</span> <span class="nav-text">3.4 GBDT 适用范围</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-5-GBDT-相关问题"><span class="nav-number">1.3.5.</span> <span class="nav-text">3.5 GBDT 相关问题</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Bagging"><span class="nav-number">2.</span> <span class="nav-text">Bagging</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-介绍-Bagging"><span class="nav-number">2.1.</span> <span class="nav-text">1. 介绍 Bagging</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-Bagging-的优点"><span class="nav-number">2.2.</span> <span class="nav-text">2.  Bagging 的优点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-介绍-Bagging-的代表算法：随机森林"><span class="nav-number">2.3.</span> <span class="nav-text">3. 介绍 Bagging 的代表算法：随机森林</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-随机森林的优缺点"><span class="nav-number">2.4.</span> <span class="nav-text">4. 随机森林的优缺点</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#优点"><span class="nav-number">2.4.1.</span> <span class="nav-text">优点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#缺点"><span class="nav-number">2.4.2.</span> <span class="nav-text">缺点</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Boosting-与-Bagging"><span class="nav-number">3.</span> <span class="nav-text">Boosting 与 Bagging</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-Boosting-与-Bagging-的区别"><span class="nav-number">3.1.</span> <span class="nav-text">1. Boosting 与 Bagging 的区别</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#GBDT-与-随机森林"><span class="nav-number">4.</span> <span class="nav-text">GBDT 与 随机森林</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#相同点"><span class="nav-number">4.0.1.</span> <span class="nav-text">相同点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#不同点"><span class="nav-number">4.0.2.</span> <span class="nav-text">不同点</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#从偏差方差去对boosting和bagging进行理解"><span class="nav-number">4.1.</span> <span class="nav-text">从偏差方差去对boosting和bagging进行理解</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Reference"><span class="nav-number">4.2.</span> <span class="nav-text">Reference</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">liuyinglxl</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">博客全站共15.4k字</span>
+</div>
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("r11nU63EITwNHpdGQt54Qoe6-gzGzoHsz", "KWbrJg4hOLgLLHYuBotsLYgr");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+  
+     <!-- custom analytics part create by xiamo -->
+<script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+<script>AV.initialize("r11nU63EITwNHpdGQt54Qoe6-gzGzoHsz", "KWbrJg4hOLgLLHYuBotsLYgr");</script>
+<script>
+function showTime(Counter) {
+	var query = new AV.Query(Counter);
+	$(".leancloud_visitors").each(function() {
+		var url = $(this).attr("id").trim();
+		query.equalTo("url", url);
+		query.find({
+			success: function(results) {
+				if (results.length == 0) {
+					var content = $(document.getElementById(url)).text() + ': 0';
+					$(document.getElementById(url)).text(content);
+					return;
+				}
+				for (var i = 0; i < results.length; i++) {
+					var object = results[i];
+					var content = $(document.getElementById(url)).text() + ': ' + object.get('time');
+					$(document.getElementById(url)).text(content);
+				}
+			},
+			error: function(object, error) {
+				console.log("Error: " + error.code + " " + error.message);
+			}
+		});
+
+	});
+}
+
+function addCount(Counter) {
+	var Counter = AV.Object.extend("Counter");
+	url = $(".leancloud_visitors").attr('id').trim();
+	title = $(".leancloud_visitors").attr('data-flag-title').trim();
+	var query = new AV.Query(Counter);
+	query.equalTo("url", url);
+	query.find({
+		success: function(results) {
+			if (results.length > 0) {
+				var counter = results[0];
+				counter.fetchWhenSave(true);
+				counter.increment("time");
+				counter.save(null, {
+					success: function(counter) {
+						var content = $(document.getElementById(url)).text() + ': ' + counter.get('time');
+						$(document.getElementById(url)).text(content);
+					},
+					error: function(counter, error) {
+						console.log('Failed to save Visitor num, with error message: ' + error.message);
+					}
+				});
+			} else {
+				var newcounter = new Counter();
+				newcounter.set("title", title);
+				newcounter.set("url", url);
+				newcounter.set("time", 1);
+				newcounter.save(null, {
+					success: function(newcounter) {
+					    console.log("newcounter.get('time')="+newcounter.get('time'));
+						var content = $(document.getElementById(url)).text() + ': ' + newcounter.get('time');
+						$(document.getElementById(url)).text(content);
+					},
+					error: function(newcounter, error) {
+						console.log('Failed to create');
+					}
+				});
+			}
+		},
+		error: function(error) {
+			console.log('Error:' + error.code + " " + error.message);
+		}
+	});
+}
+$(function() {
+	var Counter = AV.Object.extend("Counter");
+	if ($('.leancloud_visitors').length == 1) {
+		addCount(Counter);
+	} else if ($('.post-title-link').length > 1) {
+		showTime(Counter);
+	}
+});
+</script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+</body>
+</html>
+<!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/src/clicklove.js"></script>

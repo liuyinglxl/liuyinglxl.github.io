@@ -1,0 +1,1108 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/fav128.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/fav32.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/fav16.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/fav.svg?v=5.1.4" color="#222">
+
+
+
+  <meta name="msapplication-config" content="/images/browserconfig.xml" />
+
+
+
+  <meta name="keywords" content="机器学习,SVM,支持向量机," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="口述 SVMSVM 叫做支持向量机，它是一种二分类模型。它的基本模型是定义在特征空间的间隔最大的线性分类器。 根据训练数据的不同，SVM 主要分为三种情况： 第一种情况就是，当训练数据线性可分的时候，我们是通过硬间隔最大化，来学习一个线性分类器，也就是线性可分的支持向量机。硬间隔就是说，硬性要求所有的样本点都满足和分类平面间的距离必须大于某个值，也就是说都要满足函数间隔 &amp;gt;= 1 的约束条件">
+<meta name="keywords" content="机器学习,SVM,支持向量机">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SVM支持向量机面试整理">
+<meta property="og:url" content="http://yoursite.com/2018/06/18/SVM面试问题汇总/index.html">
+<meta property="og:site_name" content="liuyinglxl">
+<meta property="og:description" content="口述 SVMSVM 叫做支持向量机，它是一种二分类模型。它的基本模型是定义在特征空间的间隔最大的线性分类器。 根据训练数据的不同，SVM 主要分为三种情况： 第一种情况就是，当训练数据线性可分的时候，我们是通过硬间隔最大化，来学习一个线性分类器，也就是线性可分的支持向量机。硬间隔就是说，硬性要求所有的样本点都满足和分类平面间的距离必须大于某个值，也就是说都要满足函数间隔 &amp;gt;= 1 的约束条件">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-10-11T08:01:50.570Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="SVM支持向量机面试整理">
+<meta name="twitter:description" content="口述 SVMSVM 叫做支持向量机，它是一种二分类模型。它的基本模型是定义在特征空间的间隔最大的线性分类器。 根据训练数据的不同，SVM 主要分为三种情况： 第一种情况就是，当训练数据线性可分的时候，我们是通过硬间隔最大化，来学习一个线性分类器，也就是线性可分的支持向量机。硬间隔就是说，硬性要求所有的样本点都满足和分类平面间的距离必须大于某个值，也就是说都要满足函数间隔 &amp;gt;= 1 的约束条件">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/06/18/SVM面试问题汇总/"/>
+
+
+
+
+
+  <title>SVM支持向量机面试整理 | liuyinglxl</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">liuyinglxl</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/18/SVM面试问题汇总/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="liuyinglxl">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="liuyinglxl">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">SVM支持向量机面试整理</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-18T14:38:15+08:00">
+                2018-06-18
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/机器学习/" itemprop="url" rel="index">
+                    <span itemprop="name">机器学习</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/06/18/SVM面试问题汇总/" class="leancloud_visitors" data-flag-title="SVM支持向量机面试整理">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="口述-SVM"><a href="#口述-SVM" class="headerlink" title="口述 SVM"></a>口述 SVM</h3><p>SVM 叫做支持向量机，它是一种二分类模型。它的基本模型是定义在特征空间的间隔最大的线性分类器。</p>
+<p>根据训练数据的不同，SVM 主要分为三种情况：</p>
+<p>第一种情况就是，当训练数据线性可分的时候，我们是通过硬间隔最大化，来学习一个线性分类器，也就是线性可分的支持向量机。硬间隔就是说，硬性要求所有的样本点都满足和分类平面间的距离必须大于某个值，也就是说都要满足函数间隔 &gt;= 1 的约束条件。（那什么是函数间隔呢？—— $y_i (w \cdot x_i + b)$，几何间隔？——$y_i (\frac w {||w||}\cdot x_i + \frac b {||w||})$）</p>
+<p>SVM 的第二种情况就是，当线性可分的数据中存在一些异常点的时候，也就是数据近似线性可分的时候，这个时候就是利用软间隔最大化，来学习一个线性分类器，也就是线性支持向量机。软间隔就是加入了一个松弛变量，也就是引入了容错性，让部分样本可以不满足上面的约束，也就是让每个样本点满足 函数间隔 &gt;= 1-松弛变量 就可以了，但是我们需要让不满足的样本尽可能的少，所以要为加上相应的惩罚，也就是损失函数要加上 这些松弛变量*C系数。 （其实化简之后最终的对偶问题，软间隔和硬间隔的区别在于，软间隔的拉格朗日系数 $0 \le \alpha_i$，硬间隔的是 $0 \le \alpha_i \le C$） </p>
+<p>SVM 还有一种情况就是，当训练数据不线性可分的时候，这个时候的解决办法就是将线性不可分的数据映射到线性可分的高维空间中，通过求解高维中的线性问题来求解原来的非线性问题。这里会用到核技巧，也就是在计算的过程中，不会去显式的定义映射函数，因为这个会特别麻烦，我们只是定义核函数，核函数满足 $K(x, z) = \phi(x) \cdot \phi(z)$</p>
+<p>SVM 求解过程：</p>
+<p>求解的目标就是，最大化几何间隔，我们是通过求解对偶问题来求解原问题的。因为对偶问题更加容易求解，而且可以后面比较方便引入核函数。然后使用 SMO 算法来求解出模型的参数值（SMO 算法是支持向量机学习的一种快速算法，其特点是不断将原来的问题分类为只有两个参数子问题，并对子问题进行求解，直到所有的变量都满足 KKT 条件为止。因为每个子问题都有解析解，所以每个子问题就能很快得到结果，所以 SMO 还是比较快的）。</p>
+<p>SVM 的目标求解目标是在每个样本都满足函数间隔 &gt;= 1的条件下，最大化函数间隔，这个目标函数也可以看作是<strong>合页损失函数</strong> $\min_{w, b} \sum _{i=1} ^N [1 - y_i(w \cdot x_i + b)]_+ + \lambda ||w||^2$ .</p>
+<p>SVM 特点：</p>
+<ol>
+<li>SVM 其实只考虑局部边界线附近的点（也就是支持向量）</li>
+<li>SVM 的损失函数自带 <strong>L2 正则</strong>，有防止过拟合的作用</li>
+</ol>
+<p>SVM 缺点：</p>
+<ol>
+<li><p>如果样本数量太大，SVM 计算会比较困难，因为 SVM 是借助二次规划来求解支持向量的</p>
+</li>
+<li><p>解决多分类问题比较麻烦</p>
+<p>SVM 解决多分类主要是两种方法：</p>
+<ol>
+<li>一是 one vs one：任意两类样本之间训练一个 SVM，所有 K 类的话就需要训练 K(K-1)/2 个SVM，在测试的时候，把对应的数据分别对每个 SVM 进行测试，然后统计属于每个类别的个数，最后给个数最多的那个类别</li>
+<li>而是 one vs rest：对 K 个类别，训练的时候依次将某个样本的数据归位一类，其他所有的数据归为一类，这样训练 K 个 SVM。预测的时候，对这 K 个SVM 都去计算 f(x) （也就是wx+b），最后选出这最大的 f 值对应的类别即是最后的类别</li>
+</ol>
+</li>
+</ol>
+<h3 id="1-介绍-SVM"><a href="#1-介绍-SVM" class="headerlink" title="1. 介绍 SVM"></a>1. 介绍 SVM</h3><p>SVM也叫支持向量机，是一种二分类模型。它的基本模型是定义在特征空间上的间隔最大的线性分类器。</p>
+<p>根据训练数据的不同，主要分为三种情况：</p>
+<ol>
+<li><p>当训练数据线性可分时，通过硬间隔最大化，学习一个线性分类器，即线性可分支持向量机；</p>
+</li>
+<li><p>当训练数据近似线性可分时，引入松弛变量，通过软间隔最大化，学习一个线性分类器，即线性支持向量机；</p>
+</li>
+<li><p>当训练数据线性不可分时，通过使用核技巧及软间隔最大化，学习非线性支持向量机。 </p>
+</li>
+</ol>
+<h3 id="2-SVM-为什么要采用间隔最大化"><a href="#2-SVM-为什么要采用间隔最大化" class="headerlink" title="2. SVM 为什么要采用间隔最大化"></a>2. SVM 为什么要采用间隔最大化</h3><p>当训练数据线性可分时，存在无穷个分离超平面可以将两类数据正确分开，如果利用间隔最大化求得最优分离超平面，这时，解时唯一的，并且此时分离超平面所产生的分类结果是最鲁棒的，对未知实例的泛化能力最强。</p>
+<h3 id="3-SVM-的损失函数是什么？"><a href="#3-SVM-的损失函数是什么？" class="headerlink" title="3. SVM 的损失函数是什么？"></a>3. SVM 的损失函数是什么？</h3><p>SVM 的损失函数等价于合页损失函数：</p>
+<p>$\min_{w, b} \sum _{i=1} ^N [1 - y_i(w \cdot x_i + b)]_+ + \lambda ||w||^2$ </p>
+<p>第一项为合页损失函数 $L(y(w \cdot x + b)) = [1 - y_i (w \cdot x_i + b)]<em>+$, 其中，$[z]</em>+$ 表示的是，当 z &gt; 0 时，为 z，否则为 0 . </p>
+<p>所以原式表示，当样本点被正确分类时，且函数间隔（置信度） $y_i(w \cdot x_i) + b &gt; 0$ 时的损失为 0，否则是 $1 - y_i(w \cdot x_i + b)$ </p>
+<p>SVM 损失函数的第二项为正则化项，是系数为 $\lambda$ 的 w 的 L2 范数</p>
+<h3 id="3-为什么要将求解SVM的原始问题转换为其对偶问题"><a href="#3-为什么要将求解SVM的原始问题转换为其对偶问题" class="headerlink" title="3. 为什么要将求解SVM的原始问题转换为其对偶问题"></a>3. 为什么要将求解SVM的原始问题转换为其对偶问题</h3><ol>
+<li>因为对偶问题更容易求解（因为以前新来的要分类的样本首先根据 w 和 b 做一次线性运算，以前的分类决策函数为 $f(x) = sign(w\cdot x + b)$，然后看求的结果是 &gt;0 还是 &lt;0，来判断是正例还是负例；现在只需要将新来的样本与支持向量做内积，现在的分类决策函数为 $f(x) = sign(\sum _{i=1}^N \alpha_i^<em> \cdot y_i \cdot (x \cdot x_i) + b^</em>)$，然后运算即可）；</li>
+<li>自然引入核函数，自然推广到非线性分类问题（因为对于非线性分类问题，是将线性SVM的对偶问题中x之间的内积替换为核函数K(xi, xj)）  </li>
+</ol>
+<h3 id="4-为什么引进核函数"><a href="#4-为什么引进核函数" class="headerlink" title="4. 为什么引进核函数"></a>4. 为什么引进核函数</h3><p>如果样本在原始空间线性不可分时，可将样本从原始空间映射到一个更高维的特征空间，使得样本在这个特征空间内线性可分。（也就是核技巧）</p>
+<p>引入映射之后的对偶函数为：</p>
+<p>$\max _ \lambda  -\frac 1 2 \sum_{i=1}^N \sum _{j=1}^N \lambda_i \lambda_j y_i y_j \phi^T(x_i) \phi(x_j) + \sum _{i=1}^N \lambda_i$</p>
+<p>$s.t.        \sum _{i=1}^N \lambda_i y_i = 0, 0 \le \lambda \le C, i=1,2,…,N$ </p>
+<p>由于特征空间的维度一般是高维的，甚至是无穷维的，所以直接计算上面的两个映射函数的内积比较困难的。</p>
+<p>（或者说，由于从输入空间到特征空间的这种映射会使得维度发生爆炸式的增长，因此上面的Fai(x)·Fai(z)的运算会非常大，计算很困难，所以通常会构造一个核函数来解决这个问题，从而避免了在特征空间的内积运算，只需要在输入空间内进行内积运算）</p>
+<p>而核函数 $K(x,z) = \phi(x) \cdot \phi(z)$，计算核函数 $K(x,z)$ 相对比较容易，可以直接在低维空间计算，而且不需要显式写出映射之后的结果，所以 SVM 引进了核函数。</p>
+<h3 id="5-SVM-如何做回归-——-SVR"><a href="#5-SVM-如何做回归-——-SVR" class="headerlink" title="5. SVM 如何做回归 —— SVR"></a>5. SVM 如何做回归 —— SVR</h3><p>给定数据集，希望学到一个 $f(x) = w \cdot x + b$ 这样的回归模型，使得 f(x) 和 y 之间尽量接近。</p>
+<p>传统的回归模型，通常是直接基于模型输出 f(x) 与真实输出 y 之间的差别来计算损失，当且仅当 f(x) 与 y 完全相同的时候，损失才为 0. </p>
+<p>但是 SVR 是能容忍 f(x) 与 y 之间最多有 $\epsilon$ 的偏差，当且仅当 f(x) 与 y 之间的差别大于 $\epsilon$ 时才计算损失。也就是中间有宽度为 $2\epsilon$ 宽度的间隔带，若样本落入这个间隔带，则被认为是预测正确的。</p>
+<p>同样，对于两侧的松弛带，跟前面的 SVM 一样，也会引入一个松弛变量，两个的松弛程度可以不同，所以两侧的松弛变量分为是 $\xi _i, \hat \xi <em>i$，所以 SVR 的目标为：<br>$$<br>\min</em>{w,b,\xi,\hat \xi _i} \frac 1 2||w||^2 + C \sum _{i=1} ^m (\xi _i + \hat \xi _i) \<br>s.t.f(x_i) - y_i \le \epsilon + \xi_i\<br>y_i - f(x_i) \le \epsilon + \hat \xi _i \<br>\epsilon_i \ge 0, \hat \xi_i \ge 0, i = 1,2,…,m.<br>$$<br>同样采用对偶算法，最后得到的 SVR 的对偶问题为：<br>$$<br>\max_{\alpha, \hat \alpha} \sum_{i=1}^m y_i(\hat\alpha_i - \alpha) - \epsilon(\hat\alpha_i + \alpha) - \frac 1 2 \sum <em>{i=1}^m \sum</em>{j=1}^m(\hat\alpha_i - \alpha_i)(\hat\alpha_j - \alpha_j)x_i^Tx_j\<br>s.t. \sum_{i=1}^m(\hat\alpha_i - \alpha_i) = 0\<br>0 \le \alpha_i, \hat\alpha_i \le C.<br>$$<br>最后，SVR 的解的形式为：$f(x) = \sum _{i=1}^m(\hat\alpha_i - \alpha_i)x_i^Tx+b$ .</p>
+<p>落在间隔带之外的点就是支持向量，由于 SVR 最后解的形式仍然有 x 与 x 之间的内积，所以仍然可以使用核函数。</p>
+<h3 id="6-SVM-与感知机的区别和联系"><a href="#6-SVM-与感知机的区别和联系" class="headerlink" title="6. SVM 与感知机的区别和联系"></a>6. SVM 与感知机的区别和联系</h3><h4 id="什么是感知机？"><a href="#什么是感知机？" class="headerlink" title="什么是感知机？"></a>什么是感知机？</h4><p>感知机是二类分类的线性分类模型，输出是 -1，+1。感知机 $f(x) = sign(w \cdot x + b)$，当 $f(x) \ge 0$ 时，为+1，&lt;0 时为 -1. </p>
+<p>损失函数时：误分类点到超平面的总距离</p>
+<p>误分类点，即 $y \cdot (w \cdot x + b) &lt; 0$，故所有误分类点到分离超平面的距离，也就是感知机的损失函数为：<br>$$<br>L(w, b) = - \sum_{x_i \in M} y_i(w \cdot x_i + b)<br>$$<br>M 是误分类点的集合。然后利用 SGD 进行求解。</p>
+<h3 id="7-SVM-与-感知机的区别和联系？"><a href="#7-SVM-与-感知机的区别和联系？" class="headerlink" title="7. SVM 与 感知机的区别和联系？"></a>7. SVM 与 感知机的区别和联系？</h3><p>感知机会因为采用不同的初值而得到不同的超平面，而且得到的超平面不一定是最优的。SVM 试图找到一个最优的超平面，这个最优，SVM 利用间隔最大化来衡量。主要区别是：</p>
+<ol>
+<li>感知机追求最大程度分类正确，最小化错误，比较容易造成过拟合；SVM 在追求正确分类的同时，还要求间隔最大，在一定程度上避免了过拟合；</li>
+<li>感知机的学习方法是梯度下降，SVM 的学习方法是对偶。</li>
+</ol>
+<h3 id="8-Linear-SVM-与-LR-的区别是什么？"><a href="#8-Linear-SVM-与-LR-的区别是什么？" class="headerlink" title="8. Linear SVM 与 LR 的区别是什么？"></a>8. Linear SVM 与 LR 的区别是什么？</h3><p>Linear SVM 就是书上讲的线性可分 SVM，不加 Kernel 的。</p>
+<ul>
+<li>Linear SVM 与 LR 都是线性分类模型</li>
+<li>Linear SVM 不直接依赖数据分布，分类平面不受一类点影响；LR 受所有数据点的影响，如果不同的类别之间数据不平衡，一般要先对数据做 balancing</li>
+<li>Linear SVM 依赖距离度量 </li>
+</ul>
+<p>###9. SVM 和 LR 对同一样本 A 进行训练，如果某类中增加一些数据点，那么原来的决策边界分别会怎么变</p>
+<p>假设在增加了一个 “+” 例点：</p>
+<p>对于 SVM，如果这个点在间隔之外，则原来的决策边界不受影响。</p>
+<p>如果这个数据点在间隔内部，或者在“-”的那一侧，那么这个点会成为新的支持向量。但是，决策边界不一定会发生变化，因为这个数据点也可能被容错项处理掉了。</p>
+<p>对于 LR，w 与 $x_{n+1}$ 之间的夹角会变小，也就是说 决策边界 会发生旋转，使其发现更加接近  $x_{n+1}$ 的方向。</p>
+<h3 id="10-常见的核函数"><a href="#10-常见的核函数" class="headerlink" title="10. 常见的核函数"></a>10. 常见的核函数</h3><ol>
+<li><p><strong>线性核函数</strong></p>
+<p>$k(x, z) = x \cdot z$</p>
+<p>主要用于线性可分的情况，特征空间和输入空间的维度是一样的，其参数少速度快，对于线性可分数据，其分类效果很理想，因此我们通常首先用线性核函数来做分类，如果效果不行再尝试其他</p>
+</li>
+<li><p><strong>多项式核函数</strong></p>
+<p>$k(x, z) = (a(x \cdot z) + c)^d$</p>
+<p>多项式核函数可以实现将低维的输入空间映射到高维的特征空间，但是多项式核函数参数多，当多项式的阶数比较高的时候，核矩阵的元素将趋近无穷，计算复杂度会大到无法计算</p>
+</li>
+<li><p><strong>高斯核函数（径向基函数RBF）</strong></p>
+<p>$k(x, z) = \exp(-\frac {||x - z ||^2} {2\sigma ^2})$</p>
+<p>高斯径向基函数是一种局部性强的函数，其可以将一个样本映射到一个更高维的空间内，该核函数是应用最广的一个，无论大样本还是小样本都有比较好的性能，而且其相对多项式核函数参数要少，因此大多数情况下在不知道用什么核函数的时候，<strong>优先使用高斯核函数</strong></p>
+<p><strong>变种：</strong></p>
+<ul>
+<li><p><strong>指数核函数</strong>：$k(x, z) = \exp(-\frac {||x - z ||} {2\sigma ^2})$</p>
+<p>仅仅将高斯核函数中向量之间的L2距离调整为L1距离，这样的改动会对参数的依赖性降低，但是适用范围相对窄</p>
+</li>
+<li><p><strong>拉普拉斯核函数</strong>：$k(x, z) = \exp(-\frac {||x - z ||} {\sigma})$</p>
+<p>完全等价于指数核，唯一的区别在于拉普拉斯核函数对参数的敏感性降低了</p>
+</li>
+</ul>
+</li>
+<li><p><strong>sigmoid核函数</strong></p>
+<p>$k(x, z) = \tanh (\alpha(x \cdot z) + c)$</p>
+<p>采用sigmoid核函数，支持向量机实现的就是一种多层神经网络</p>
+</li>
+</ol>
+<p>在选择核函数的时候，如果对数据分布有一定的先验知识，就利用先验知识来选择符合数据分布的核函数；如果不知道的话，就使用交叉验证的方法，来试用不同的核函数，误差最小的即为最好的核函数，或者也可以将多个核函数混合起来，形成混合核函数。</p>
+<p>吴恩达的课上，给出的<strong>选择核函数的方法</strong>：</p>
+<ol>
+<li>如果特征数量大到和样本数量差不多，则选择LR或者线性核函数的SVM或者无核的SVM</li>
+<li>如果特征数量小，样本的数量正常，则选用高斯核函数的SVM<br> . 如果特征数量小，而样本的数量很大，则需要手工添加一些特征，从而变成第一种情况     </li>
+</ol>
+<h3 id="11-SVM如何处理多分类的问题"><a href="#11-SVM如何处理多分类的问题" class="headerlink" title="11. SVM如何处理多分类的问题"></a>11. SVM如何处理多分类的问题</h3><p>一般有两种做法，一种是直接法，一种是间接法</p>
+<ul>
+<li><p>直接法：直接在目标函数上面进行修改，将多个分类面的参数求解合并到一个最优化问题中，通过求解该最优化问题“一次性”实现多分类。但是！这个问题看似简单，但是计算复杂度比较高，实现起来很困难，只适用于小型问题；</p>
+</li>
+<li><p>间接法，主要是通过组合多个二分类器来实现多分类器的构造，常见的有 one-vs-one 和 one-vs-rest（一对一 和 一对多）</p>
+<ol>
+<li><p><strong>one-vs-one，一对一法（OVO SVMs）</strong>：在任意两类样本之间设计一个SVM，因此 K 类就需要 <strong>K(K-1)/2</strong> 个 SVM。</p>
+<p>当对一个未知样本进行分类时，最后得票最多的类别即为未知样本的类别。</p>
+<p>libsvm 中的多分类就是这样实现的。</p>
+<ul>
+<li>例子</li>
+</ul>
+<p>假设有四类A, B, C, D四类。在训练的时候，选择 A and B; A and C; A and D; B and C; B and D; C and D，共 4*(4-1)/2=6 组数据作为训练集，得到 6 个训练结果，即 6 个二分类器。</p>
+<p>在测试的时候，把对应的测试数据分类对这6个二分类器进行测试，然后采取投票的形式，最后得到分类结果：</p>
+<p>计数器 a = b= c = d = 0：</p>
+<p>对 (A, B) 分类器：若属于A，则a+=1；else：b+=1；</p>
+<p>对 (A, C) 分类器：若属于A，则a+=1；else：c+=1；</p>
+<p>……</p>
+<p>最后的分类结果即为：Max(a, b, c, d) 对应的类别。</p>
+<ul>
+<li>评价：当类别很多的时候，model 的个数 n*(n-1)/2 个，代价还是比较大</li>
+</ul>
+</li>
+<li><p><strong>one-vs-rest，一对多法（OVR SVMs）</strong>：训练时依次将某个类别的样本归为一类，其他剩余的归为一类，这样 K 个类别的样本就构造出 <strong>K</strong> 个二分类SVM。</p>
+<p>当对一个未知样本进行分类时，具有最大分类函数值的类别即为未知样本的类别。</p>
+<ul>
+<li>例子</li>
+</ul>
+<p>假设有四类A, B, C, D四类。在训练的时候抽取：</p>
+<ol>
+<li>A 为正类，BCD共同为负类</li>
+<li>B为正类，ACD共同为负类</li>
+<li>C为正类，ABD共同为负类</li>
+<li>D为正类，ABC共同为负类</li>
+</ol>
+<p>使用这四个训练集分别进行训练，得到4个二分类SVM。</p>
+<p>在测试的时候，那对应的测试数据分别利用这4个二分类器进行测试，最后每个测试都有一个结果：f1(x), f2(x), f3(x), f4(x). </p>
+<p>最后的分类结果即为：Max( f1(x), f2(x), f3(x), f4(x) ) 对应的类别。</p>
+<ul>
+<li>评价：</li>
+</ul>
+<p>这种方法有种缺陷：因为训练集是 1:M，这种情况下存在 biased，因而不是很实用。可以在抽取数据集的时候，从完成的负集中抽取1/3作为训练负集。</p>
+</li>
+</ol>
+</li>
+</ul>
+<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><p><a href="https://applenob.github.io/svm.html#3.2-%E8%BD%AF%E9%97%B4%E9%9A%94%E6%9C%80%E5%A4%A7%E5%8C%96" target="_blank" rel="noopener">https://applenob.github.io/svm.html#3.2-%E8%BD%AF%E9%97%B4%E9%9A%94%E6%9C%80%E5%A4%A7%E5%8C%96</a> （关于推导）</p>
+<p><a href="https://blog.csdn.net/szlcw1/article/details/52259668" target="_blank" rel="noopener">https://blog.csdn.net/szlcw1/article/details/52259668</a> （关于整体的介绍）</p>
+<p><a href="https://www.cnblogs.com/CheeseZH/p/5265959.html" target="_blank" rel="noopener">https://www.cnblogs.com/CheeseZH/p/5265959.html</a> （关于SVM多分类）</p>
+<p><a href="https://blog.csdn.net/batuwuhanpei/article/details/52354822" target="_blank" rel="noopener">https://blog.csdn.net/batuwuhanpei/article/details/52354822</a> （关于常用核函数）</p>
+<p><a href="https://blog.csdn.net/wsj998689aa/article/details/47027365" target="_blank" rel="noopener">https://blog.csdn.net/wsj998689aa/article/details/47027365</a> （关于其他补充核函数）</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/机器学习/" rel="tag"># 机器学习</a>
+          
+            <a href="/tags/SVM/" rel="tag"># SVM</a>
+          
+            <a href="/tags/支持向量机/" rel="tag"># 支持向量机</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/06/11/特征工程/" rel="next" title="特征工程">
+                <i class="fa fa-chevron-left"></i> 特征工程
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/06/27/朴素贝叶斯面试问题汇总/" rel="prev" title="朴素贝叶斯面试整理">
+                朴素贝叶斯面试整理 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">liuyinglxl</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#口述-SVM"><span class="nav-number">1.</span> <span class="nav-text">口述 SVM</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-介绍-SVM"><span class="nav-number">2.</span> <span class="nav-text">1. 介绍 SVM</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-SVM-为什么要采用间隔最大化"><span class="nav-number">3.</span> <span class="nav-text">2. SVM 为什么要采用间隔最大化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-SVM-的损失函数是什么？"><span class="nav-number">4.</span> <span class="nav-text">3. SVM 的损失函数是什么？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-为什么要将求解SVM的原始问题转换为其对偶问题"><span class="nav-number">5.</span> <span class="nav-text">3. 为什么要将求解SVM的原始问题转换为其对偶问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-为什么引进核函数"><span class="nav-number">6.</span> <span class="nav-text">4. 为什么引进核函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-SVM-如何做回归-——-SVR"><span class="nav-number">7.</span> <span class="nav-text">5. SVM 如何做回归 —— SVR</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-SVM-与感知机的区别和联系"><span class="nav-number">8.</span> <span class="nav-text">6. SVM 与感知机的区别和联系</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#什么是感知机？"><span class="nav-number">8.1.</span> <span class="nav-text">什么是感知机？</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-SVM-与-感知机的区别和联系？"><span class="nav-number">9.</span> <span class="nav-text">7. SVM 与 感知机的区别和联系？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-Linear-SVM-与-LR-的区别是什么？"><span class="nav-number">10.</span> <span class="nav-text">8. Linear SVM 与 LR 的区别是什么？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#10-常见的核函数"><span class="nav-number">11.</span> <span class="nav-text">10. 常见的核函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#11-SVM如何处理多分类的问题"><span class="nav-number">12.</span> <span class="nav-text">11. SVM如何处理多分类的问题</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Reference"><span class="nav-number"></span> <span class="nav-text">Reference</span></a></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">liuyinglxl</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">博客全站共15.4k字</span>
+</div>
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("r11nU63EITwNHpdGQt54Qoe6-gzGzoHsz", "KWbrJg4hOLgLLHYuBotsLYgr");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+  
+     <!-- custom analytics part create by xiamo -->
+<script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+<script>AV.initialize("r11nU63EITwNHpdGQt54Qoe6-gzGzoHsz", "KWbrJg4hOLgLLHYuBotsLYgr");</script>
+<script>
+function showTime(Counter) {
+	var query = new AV.Query(Counter);
+	$(".leancloud_visitors").each(function() {
+		var url = $(this).attr("id").trim();
+		query.equalTo("url", url);
+		query.find({
+			success: function(results) {
+				if (results.length == 0) {
+					var content = $(document.getElementById(url)).text() + ': 0';
+					$(document.getElementById(url)).text(content);
+					return;
+				}
+				for (var i = 0; i < results.length; i++) {
+					var object = results[i];
+					var content = $(document.getElementById(url)).text() + ': ' + object.get('time');
+					$(document.getElementById(url)).text(content);
+				}
+			},
+			error: function(object, error) {
+				console.log("Error: " + error.code + " " + error.message);
+			}
+		});
+
+	});
+}
+
+function addCount(Counter) {
+	var Counter = AV.Object.extend("Counter");
+	url = $(".leancloud_visitors").attr('id').trim();
+	title = $(".leancloud_visitors").attr('data-flag-title').trim();
+	var query = new AV.Query(Counter);
+	query.equalTo("url", url);
+	query.find({
+		success: function(results) {
+			if (results.length > 0) {
+				var counter = results[0];
+				counter.fetchWhenSave(true);
+				counter.increment("time");
+				counter.save(null, {
+					success: function(counter) {
+						var content = $(document.getElementById(url)).text() + ': ' + counter.get('time');
+						$(document.getElementById(url)).text(content);
+					},
+					error: function(counter, error) {
+						console.log('Failed to save Visitor num, with error message: ' + error.message);
+					}
+				});
+			} else {
+				var newcounter = new Counter();
+				newcounter.set("title", title);
+				newcounter.set("url", url);
+				newcounter.set("time", 1);
+				newcounter.save(null, {
+					success: function(newcounter) {
+					    console.log("newcounter.get('time')="+newcounter.get('time'));
+						var content = $(document.getElementById(url)).text() + ': ' + newcounter.get('time');
+						$(document.getElementById(url)).text(content);
+					},
+					error: function(newcounter, error) {
+						console.log('Failed to create');
+					}
+				});
+			}
+		},
+		error: function(error) {
+			console.log('Error:' + error.code + " " + error.message);
+		}
+	});
+}
+$(function() {
+	var Counter = AV.Object.extend("Counter");
+	if ($('.leancloud_visitors').length == 1) {
+		addCount(Counter);
+	} else if ($('.post-title-link').length > 1) {
+		showTime(Counter);
+	}
+});
+</script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+</body>
+</html>
+<!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/src/clicklove.js"></script>
