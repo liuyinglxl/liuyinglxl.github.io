@@ -1,0 +1,880 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/fav128.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/fav32.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/fav16.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/fav.svg?v=5.1.4" color="#222">
+
+
+
+  <meta name="msapplication-config" content="/images/browserconfig.xml" />
+
+
+
+  <meta name="keywords" content="pandas,数据处理,python," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="pandas 读取 csv 文件123import pandas as pdtest_df = pd.read_csv(&amp;quot;./test.csv&amp;quot;)  # 将文件csv文件全部读取test_df = pd.read_csv(names=[&amp;apos;a_from_lng&amp;apos;,&amp;apos;a_from_lat&amp;apos;,&amp;apos;b_from_lng&amp;apos;,&amp;ap">
+<meta name="keywords" content="pandas,数据处理,python">
+<meta property="og:type" content="article">
+<meta property="og:title" content="pandas学习笔记">
+<meta property="og:url" content="http://yoursite.com/2018/11/20/pandas学习笔记/index.html">
+<meta property="og:site_name" content="liuyinglxl">
+<meta property="og:description" content="pandas 读取 csv 文件123import pandas as pdtest_df = pd.read_csv(&amp;quot;./test.csv&amp;quot;)  # 将文件csv文件全部读取test_df = pd.read_csv(names=[&amp;apos;a_from_lng&amp;apos;,&amp;apos;a_from_lat&amp;apos;,&amp;apos;b_from_lng&amp;apos;,&amp;ap">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-11-20T03:35:49.442Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="pandas学习笔记">
+<meta name="twitter:description" content="pandas 读取 csv 文件123import pandas as pdtest_df = pd.read_csv(&amp;quot;./test.csv&amp;quot;)  # 将文件csv文件全部读取test_df = pd.read_csv(names=[&amp;apos;a_from_lng&amp;apos;,&amp;apos;a_from_lat&amp;apos;,&amp;apos;b_from_lng&amp;apos;,&amp;ap">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/11/20/pandas学习笔记/"/>
+
+
+
+
+
+  <title>pandas学习笔记 | liuyinglxl</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">liuyinglxl</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/11/20/pandas学习笔记/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="liuyinglxl">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="liuyinglxl">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">pandas学习笔记</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-11-20T11:35:43+08:00">
+                2018-11-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/python/" itemprop="url" rel="index">
+                    <span itemprop="name">python</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+        
+          
+             <span id="/2018/11/20/pandas学习笔记/" class="leancloud_visitors" data-flag-title="pandas学习笔记">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="pandas-读取-csv-文件"><a href="#pandas-读取-csv-文件" class="headerlink" title="pandas 读取 csv 文件"></a>pandas 读取 csv 文件</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">import pandas as pd</span><br><span class="line">test_df = pd.read_csv(&quot;./test.csv&quot;)  # 将文件csv文件全部读取</span><br><span class="line">test_df = pd.read_csv(names=[&apos;a_from_lng&apos;,&apos;a_from_lat&apos;,&apos;b_from_lng&apos;,&apos;b_from_lat&apos;,],skiprows=10)  # 读取这四列数据，并跳过前面10行</span><br></pre></td></tr></table></figure>
+<h3 id="查看pandas的列名以及列数"><a href="#查看pandas的列名以及列数" class="headerlink" title="查看pandas的列名以及列数"></a>查看pandas的列名以及列数</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">test_df.columns  # 列名</span><br><span class="line">test_df.columns.size  # 列数</span><br><span class="line">test_df.shape[1]  # 列数</span><br></pre></td></tr></table></figure>
+<h3 id="pandas-查看某一列的全部数据或部分数据"><a href="#pandas-查看某一列的全部数据或部分数据" class="headerlink" title="pandas 查看某一列的全部数据或部分数据"></a>pandas 查看某一列的全部数据或部分数据</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">test_df[&apos;a_from_lng&apos;]  # 查看该列全部数据</span><br><span class="line">test_df[&apos;a_from_lng&apos;].head()  # 查看该列前面10条数据</span><br><span class="line">test_df[&apos;a_from_lng&apos;].head(100)  # 查看该列前面100条数据</span><br><span class="line">test_df[&apos;a_from_lng&apos;].tail()  # 查看该列最后10条数据</span><br><span class="line">test_df[&apos;a_from_lng&apos;].tail(100)  # 该看该列最后100条数据</span><br></pre></td></tr></table></figure>
+<h3 id="查看所有列或者制定列的统计信息"><a href="#查看所有列或者制定列的统计信息" class="headerlink" title="查看所有列或者制定列的统计信息"></a>查看所有列或者制定列的统计信息</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">test_df.describe()  # 所有列</span><br><span class="line">test_df[&apos;a_from_lng&apos;].describe()  # 指定列</span><br></pre></td></tr></table></figure>
+<h3 id="利用前面几列的信息生成新的列"><a href="#利用前面几列的信息生成新的列" class="headerlink" title="利用前面几列的信息生成新的列"></a>利用前面几列的信息生成新的列</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">def distance(x1, y1, x2, y2):</span><br><span class="line">	return np.sqrt((x1-x2)**2+(y1-y2)**2)</span><br><span class="line">test_df[&apos;start_distance_gap&apos;] = map(lambda x1, y1, x2, y2: distance(x1, y1, x2, y2), \</span><br><span class="line">	test_df[&apos;a_from_lng&apos;], test_df[&apos;a_from_lat&apos;], test_df[&apos;b_from_lng&apos;], test_df[&apos;b_from_lat&apos;])</span><br></pre></td></tr></table></figure>
+<h3 id="pandas-处理时间特征"><a href="#pandas-处理时间特征" class="headerlink" title="pandas 处理时间特征"></a>pandas 处理时间特征</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># 增加小时和分钟特征</span><br><span class="line">a_setup_time = pd.DatetimeIndex(test_df[&apos;a_setup_time&apos;])</span><br><span class="line">test_df[&quot;a_setup_hour&quot;] = pd.Index(a_setup_time).hour</span><br><span class="line">test_df[&quot;a_setup_minute&quot;] = pd.Index(a_setup_time).minute</span><br></pre></td></tr></table></figure>
+<h3 id="pandas-删除无用特征，删除列"><a href="#pandas-删除无用特征，删除列" class="headerlink" title="pandas 删除无用特征，删除列"></a>pandas 删除无用特征，删除列</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">test_df.drop(&apos;b_time&apos;, axis=1, inplace=True)</span><br></pre></td></tr></table></figure>
+<h3 id="pandas-将csv文件保存到本地"><a href="#pandas-将csv文件保存到本地" class="headerlink" title="pandas 将csv文件保存到本地"></a>pandas 将csv文件保存到本地</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">test_df.to_csv(&apos;./feature.csv&apos;)</span><br><span class="line"># 将特征文件保存，只保存第0，1，2，3列，并且不保存header（列名）</span><br><span class="line">test_df.to_csv(&apos;./feature.csv&apos;, columns=[0, 1, 2, 3], header=False)</span><br></pre></td></tr></table></figure>
+<h3 id="pandas将一个list加入到df中"><a href="#pandas将一个list加入到df中" class="headerlink" title="pandas将一个list加入到df中"></a>pandas将一个list加入到df中</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">useful_order_count = [balabala...]</span><br><span class="line">test_df[&quot;useful&quot;] = pd.Series(useful_order_count)  # 在dataframe中增加新列useful，这个数据之前是一个list</span><br></pre></td></tr></table></figure>
+<h3 id="DataFrame-转换成-array-或-list"><a href="#DataFrame-转换成-array-或-list" class="headerlink" title="DataFrame 转换成 array 或 list"></a>DataFrame 转换成 array 或 list</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">test_np = np.array(test_df)  # np.ndarray()</span><br><span class="line">test_list = test_np.tolist()  # list</span><br></pre></td></tr></table></figure>
+<h3 id="Series有多少不重复数据，重复数据有多少"><a href="#Series有多少不重复数据，重复数据有多少" class="headerlink" title="Series有多少不重复数据，重复数据有多少"></a>Series有多少不重复数据，重复数据有多少</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">test_df[&apos;id&apos;].value_counts()</span><br></pre></td></tr></table></figure>
+<p>输出结果是每个值都对应了多少数量</p>
+<h3 id="查看某一列有多少不重复的数据"><a href="#查看某一列有多少不重复的数据" class="headerlink" title="查看某一列有多少不重复的数据"></a>查看某一列有多少不重复的数据</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">tmp =  test_df.drop_duplicates(subset=[&apos;poi&apos;])</span><br><span class="line">print len(tmp)</span><br></pre></td></tr></table></figure>
+<h3 id="查看DataFrame中有缺失值的列"><a href="#查看DataFrame中有缺失值的列" class="headerlink" title="查看DataFrame中有缺失值的列"></a>查看DataFrame中有缺失值的列</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">na_count = test_df.isnull().sum().sort_values(ascending=False) # 找出test_df中有缺失值的列，并按照缺失的数量按照降序打印出来</span><br><span class="line">na_count = na_count[na_count&gt;0]  # 只查看缺失的</span><br><span class="line">na_rate = na_count / len(test_df)</span><br><span class="line">na_data = pd.concat([na_count,na_rate],axis=1,keys=[&apos;count&apos;,&apos;ratio&apos;])</span><br></pre></td></tr></table></figure>
+<h3 id="pandas-获得行名"><a href="#pandas-获得行名" class="headerlink" title="pandas 获得行名"></a>pandas 获得行名</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">test_df.index</span><br></pre></td></tr></table></figure>
+<h3 id="pandas-显示所有列的信息"><a href="#pandas-显示所有列的信息" class="headerlink" title="pandas 显示所有列的信息"></a>pandas 显示所有列的信息</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pd.options.display.max_columns = None</span><br></pre></td></tr></table></figure>
+<h3 id="将str转换成时间"><a href="#将str转换成时间" class="headerlink" title="将str转换成时间"></a>将str转换成时间</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">total_data_useful[&apos;Timestamp&apos;] = pd.to_datetime(total_data_useful[&apos;Timestamp&apos;])</span><br></pre></td></tr></table></figure>
+<h3 id="dataframe-拼接"><a href="#dataframe-拼接" class="headerlink" title="dataframe 拼接"></a>dataframe 拼接</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">total_data = pd.concat([data1, data2, data3, data4, data5, data6])  # 按列拼接</span><br><span class="line">total_data = pd.concat([data1, data2, data3, data4, data5, data6], axis=1) # 按行拼接</span><br></pre></td></tr></table></figure>
+<h3 id="查看缺失数据"><a href="#查看缺失数据" class="headerlink" title="查看缺失数据"></a>查看缺失数据</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">total= data_df.isnull().sum().sort_values(ascending=False)</span><br><span class="line">percent = (data_df.isnull().sum()/data_df.isnull().count()).sort_values(ascending=False)</span><br><span class="line">missing_data = pd.concat([total, percent], axis=1, keys=[&apos;Total&apos;,&apos;Percent&apos;])</span><br><span class="line">missing_data</span><br></pre></td></tr></table></figure>
+<h3 id="对某一列进行归一化"><a href="#对某一列进行归一化" class="headerlink" title="对某一列进行归一化"></a>对某一列进行归一化</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">col_name = &apos;Total_Flow&apos;</span><br><span class="line">tmp = (data_df[col_name] - data_df[col_name].mean()) / data_df[col_name].std()</span><br><span class="line">data_df = data_df.drop([col_name], axis=1)</span><br><span class="line">data_df[col_name] = tmp</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/pandas/" rel="tag"># pandas</a>
+          
+            <a href="/tags/数据处理/" rel="tag"># 数据处理</a>
+          
+            <a href="/tags/python/" rel="tag"># python</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/10/16/python版本树的遍历/" rel="next" title="python版本树的遍历——递归与非递归实现">
+                <i class="fa fa-chevron-left"></i> python版本树的遍历——递归与非递归实现
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">liuyinglxl</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">13</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">19</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#pandas-读取-csv-文件"><span class="nav-number">1.</span> <span class="nav-text">pandas 读取 csv 文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查看pandas的列名以及列数"><span class="nav-number">2.</span> <span class="nav-text">查看pandas的列名以及列数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#pandas-查看某一列的全部数据或部分数据"><span class="nav-number">3.</span> <span class="nav-text">pandas 查看某一列的全部数据或部分数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查看所有列或者制定列的统计信息"><span class="nav-number">4.</span> <span class="nav-text">查看所有列或者制定列的统计信息</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#利用前面几列的信息生成新的列"><span class="nav-number">5.</span> <span class="nav-text">利用前面几列的信息生成新的列</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#pandas-处理时间特征"><span class="nav-number">6.</span> <span class="nav-text">pandas 处理时间特征</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#pandas-删除无用特征，删除列"><span class="nav-number">7.</span> <span class="nav-text">pandas 删除无用特征，删除列</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#pandas-将csv文件保存到本地"><span class="nav-number">8.</span> <span class="nav-text">pandas 将csv文件保存到本地</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#pandas将一个list加入到df中"><span class="nav-number">9.</span> <span class="nav-text">pandas将一个list加入到df中</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DataFrame-转换成-array-或-list"><span class="nav-number">10.</span> <span class="nav-text">DataFrame 转换成 array 或 list</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Series有多少不重复数据，重复数据有多少"><span class="nav-number">11.</span> <span class="nav-text">Series有多少不重复数据，重复数据有多少</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查看某一列有多少不重复的数据"><span class="nav-number">12.</span> <span class="nav-text">查看某一列有多少不重复的数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查看DataFrame中有缺失值的列"><span class="nav-number">13.</span> <span class="nav-text">查看DataFrame中有缺失值的列</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#pandas-获得行名"><span class="nav-number">14.</span> <span class="nav-text">pandas 获得行名</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#pandas-显示所有列的信息"><span class="nav-number">15.</span> <span class="nav-text">pandas 显示所有列的信息</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#将str转换成时间"><span class="nav-number">16.</span> <span class="nav-text">将str转换成时间</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#dataframe-拼接"><span class="nav-number">17.</span> <span class="nav-text">dataframe 拼接</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查看缺失数据"><span class="nav-number">18.</span> <span class="nav-text">查看缺失数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#对某一列进行归一化"><span class="nav-number">19.</span> <span class="nav-text">对某一列进行归一化</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">liuyinglxl</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">博客全站共28.4k字</span>
+</div>
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("r11nU63EITwNHpdGQt54Qoe6-gzGzoHsz", "KWbrJg4hOLgLLHYuBotsLYgr");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+
+  
+
+  
+
+</body>
+</html>
+<!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/src/clicklove.js"></script>
